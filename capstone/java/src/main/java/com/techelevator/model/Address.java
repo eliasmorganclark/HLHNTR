@@ -1,5 +1,7 @@
 package com.techelevator.model;
 
+import org.springframework.security.core.parameters.P;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -22,9 +24,9 @@ public class Address {
 
     public Address(Long houseNumber, String streetName, String city, String state, Long zip) {
         this.houseNumber = houseNumber;
-        this.streetName = streetName;
-        this.city = city;
-        this.state = state;
+        this.streetName = streetName.toUpperCase();
+        this.city = city.toUpperCase();
+        this.state = state.toUpperCase();
         this.zip = zip;
     }
 
@@ -41,7 +43,7 @@ public class Address {
     }
 
     public void setStreetName(String streetName) {
-        this.streetName = streetName;
+        this.streetName = streetName.toUpperCase();
     }
 
     public String getCity() {
@@ -49,7 +51,7 @@ public class Address {
     }
 
     public void setCity(String city) {
-        this.city = city;
+        this.city = city.toUpperCase();
     }
 
     public String getState() {
@@ -57,7 +59,7 @@ public class Address {
     }
 
     public void setState(String state) {
-        this.state = state;
+        this.state = state.toUpperCase();
     }
 
     public Long getZip() {

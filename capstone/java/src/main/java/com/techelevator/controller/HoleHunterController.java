@@ -1,5 +1,6 @@
 package com.techelevator.controller;
 
+import com.techelevator.dao.PotholeDao;
 import com.techelevator.model.Address;
 import com.techelevator.model.Pothole;
 import com.techelevator.model.Report;
@@ -9,6 +10,12 @@ import javax.validation.Valid;
 
 @RestController
 public class HoleHunterController {
+
+    PotholeDao potholeDao;
+
+    public HoleHunterController(PotholeDao potholeDao) {
+        this.potholeDao = potholeDao;
+    }
 
     @RequestMapping(path = "/testObject", method = RequestMethod.GET)
     public Report getPothole() {
@@ -20,7 +27,6 @@ public class HoleHunterController {
 
     @RequestMapping(path = "/newReport", method = RequestMethod.POST)
     public Report reportPothole(@RequestBody @Valid Report report) {
-        System.out.println(report);
-        return report;
+        return potholeDao.create(report);
     }
 }
