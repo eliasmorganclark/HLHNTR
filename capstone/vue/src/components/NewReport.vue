@@ -16,7 +16,7 @@
     <input v-model="report.zip" id="zip-code" type="text" />
 
     <input type="submit" value="Submit Report" />
-    <button v-on:click.prevent="clearForm" value="Clear Form" />
+    <input type="button" v-on:click.prevent="clearForm" value="Clear Form" />
   </form>
 </template>
 

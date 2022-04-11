@@ -5,7 +5,7 @@ import Login from "../views/Login.vue";
 import Logout from "../views/Logout.vue";
 import Register from "../views/Register.vue";
 import store from "../store/index";
-import NewReport from "@/views/NewReportView.vue";
+import NewReportView from "@/views/NewReportView.vue";
 
 Vue.use(Router);
 
@@ -57,7 +57,10 @@ const router = new Router({
     {
       path: "/newreport",
       name: "NewReportView",
-      component: NewReport,
+      component: NewReportView,
+      meta: {
+        requiresAuth: false,
+      },
     },
   ],
 });
