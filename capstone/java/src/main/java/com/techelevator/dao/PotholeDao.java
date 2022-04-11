@@ -7,5 +7,5 @@ public interface PotholeDao {
 
     Report create(Report report);
 
-    Report getReport();
+    Report getReport(Long reportId);
 }
