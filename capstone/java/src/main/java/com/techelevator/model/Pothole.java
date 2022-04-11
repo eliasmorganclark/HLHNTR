@@ -9,6 +9,7 @@ public class Pothole {
     String repairStatus; //not-repaired, inspected, scheduled for repair, repaired
     String severity; //tbd
 
+    @Valid
     Address address;
 
     public Pothole() {

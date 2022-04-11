@@ -7,6 +7,7 @@ import com.techelevator.model.Report;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 public class HoleHunterController {
@@ -28,5 +29,10 @@ public class HoleHunterController {
     @RequestMapping(path = "/newReport", method = RequestMethod.POST)
     public Report reportPothole(@RequestBody @Valid Report report) {
         return potholeDao.create(report);
+    }
+
+    @RequestMapping(path = "/getReport", method = RequestMethod.GET)
+    public Report reportPothole(@RequestParam Long reportId) {
+        return potholeDao.getReport(reportId);
     }
 }

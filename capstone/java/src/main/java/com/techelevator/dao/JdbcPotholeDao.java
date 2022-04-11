@@ -1,6 +1,7 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Address;
+import com.techelevator.model.Pothole;
 import com.techelevator.model.Report;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -53,6 +54,61 @@ public class JdbcPotholeDao implements PotholeDao{
 
     @Override
     public Report getReport(Long reportId) {
-        return null;
+        //get report and pothole in report
+
+        String sql = "SELECT report_id, pothole_id, user_id FROM report WHERE report_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, reportId);
+        Report report = null;
+        if(results.next()) {
+            report = mapRowToReport(results);
+            sql = "SELECT pothole_id, house_number, street_name, city, state, zip, verified, repair_status, severity FROM pothole where pothole_id  = ?;";
+            results = jdbcTemplate.queryForRowSet(sql, report.getPothole().getPotholeId());
+            if(results.next()) {
+                report.setPothole(mapRowToPothole(results));
+            }
+        }
+
+        return report;
+
     }
+
+    private Report mapRowToReport(SqlRowSet rowSet){
+
+        Report report = new Report();
+        Pothole pothole = new Pothole();
+
+        pothole.setPotholeId(rowSet.getLong("pothole_id"));
+        report.setReportId(rowSet.getLong("report_id"));
+        report.setReportingUser(rowSet.getLong("user_id"));
+        report.setPothole(pothole);
+
+        return report;
+    }
+
+    private Pothole mapRowToPothole(SqlRowSet rowSet){
+
+        Pothole pothole = new Pothole();
+
+        pothole.setPotholeId(rowSet.getLong("pothole_id"));
+        pothole.setAddress(mapRowToAddress(rowSet));
+        pothole.setVerified(rowSet.getBoolean("verified"));
+        pothole.setRepairStatus(rowSet.getString("repair_status"));
+        pothole.setSeverity(rowSet.getString("severity"));
+
+        return pothole;
+    }
+
+    private Address mapRowToAddress(SqlRowSet rowSet){
+
+        Address address = new Address();
+
+        address.setHouseNumber(rowSet.getLong("house_number"));
+        address.setStreetName(rowSet.getString("street_name"));
+        address.setCity(rowSet.getString("city"));
+        address.setState(rowSet.getString("state"));
+        address.setZip(rowSet.getLong("zip"));
+
+        return address;
+    }
+
 }
