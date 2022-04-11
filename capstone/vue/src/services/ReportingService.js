@@ -5,9 +5,7 @@ const http = axios.create({
 });
 
 export default {
-  // Do not know the endpoint for this report yet
-  // Consult backend team
-  add(report) {
-    return http.post("/newreport", report);
+  add(report, config) {
+    return http.post("/newreport", report, config);
   },
 };
