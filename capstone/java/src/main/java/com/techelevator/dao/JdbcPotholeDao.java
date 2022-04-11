@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class JdbcPotholeDao implements PotholeDao{
@@ -45,8 +47,6 @@ public class JdbcPotholeDao implements PotholeDao{
         sql = "insert into report (pothole_id, user_id) values (?,?) returning report_id;";
         Long reportId = jdbcTemplate.queryForObject(sql,Long.class, potholeId, report.getReportingUser());
 
-        System.out.println("pothole id: " + potholeId);
-        System.out.println("report id: " + reportId);
         report.setReportId(reportId);
         report.getPothole().setPotholeId(potholeId);
         return report;
@@ -67,8 +67,29 @@ public class JdbcPotholeDao implements PotholeDao{
                 report.setPothole(mapRowToPothole(results));
             }
         }
-
         return report;
+
+    }
+
+    @Override
+    public List<Report> getAllReports() {
+        //get report and pothole in report
+        List<Report> reports = new ArrayList<>();
+
+        String sql = "SELECT report_id, pothole_id, user_id FROM report;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        Report report = null;
+
+        while(results.next()) {
+            report = mapRowToReport(results);
+            sql = "SELECT pothole_id, house_number, street_name, city, state, zip, verified, repair_status, severity FROM pothole where pothole_id  = ?;";
+            SqlRowSet potholeResults = jdbcTemplate.queryForRowSet(sql, report.getPothole().getPotholeId());
+            if(potholeResults.next()) {
+                report.setPothole(mapRowToPothole(potholeResults));
+            }
+            reports.add(report);
+        }
+        return reports;
 
     }
 
