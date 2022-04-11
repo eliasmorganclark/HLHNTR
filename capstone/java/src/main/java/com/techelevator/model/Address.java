@@ -7,7 +7,7 @@ import javax.validation.constraints.Positive;
 public class Address {
 
     @Positive
-    int houseNumber;
+    Long houseNumber;
     @NotBlank
     String streetName;
     @NotBlank
@@ -15,12 +15,12 @@ public class Address {
     @NotBlank
     String state;
     @Positive
-    int zip;
+    Long zip;
 
     public Address() {
     }
 
-    public Address(int houseNumber, String streetName, String city, String state, int zip) {
+    public Address(Long houseNumber, String streetName, String city, String state, Long zip) {
         this.houseNumber = houseNumber;
         this.streetName = streetName;
         this.city = city;
@@ -28,11 +28,11 @@ public class Address {
         this.zip = zip;
     }
 
-    public int getHouseNumber() {
+    public Long getHouseNumber() {
         return houseNumber;
     }
 
-    public void setHouseNumber(int houseNumber) {
+    public void setHouseNumber(Long houseNumber) {
         this.houseNumber = houseNumber;
     }
 
@@ -60,11 +60,11 @@ public class Address {
         this.state = state;
     }
 
-    public int getZip() {
+    public Long getZip() {
         return zip;
     }
 
-    public void setZip(int zip) {
+    public void setZip(Long zip) {
         this.zip = zip;
     }
 
