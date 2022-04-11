@@ -28,11 +28,19 @@ export default {
   data() {
     return {
       report: {
-        houseNumber: "",
-        streetName: "",
-        city: "",
-        state: "",
-        zip: "",
+        reportingUser: "",
+        pothole: {
+          verified: false,
+          repairStatus: "not repaired",
+          severity: "bad",
+          address: {
+            houseNumber: "",
+            streetName: "",
+            city: "",
+            state: "",
+            zip: "",
+          },
+        },
       },
     };
   },
