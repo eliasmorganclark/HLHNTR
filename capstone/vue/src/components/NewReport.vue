@@ -60,40 +60,33 @@ export default {
     };
   },
   methods: {
-    
     saveReport() {
-      if (this.isAddressFilledIn) {
-        const config = {
-          headers: { Authorization: `Bearer ${this.$store.state.token}` },
-        };
-        this.report.reportingUser = this.$store.state.user.id;
-        reportingService.add(this.report, config).then((response) => {
-          if (response.status == 400) {
-            this.clearForm();
-            this.$router.push({ name: "home" });
-          }
-        });
-      } else {
-        alert("Idiot! Fill out the entire form before you submit");
-      }
+      const config = {
+        headers: { Authorization: `Bearer ${this.$store.state.token}` },
+      };
+      this.report.reportingUser = this.$store.state.user.id;
+      reportingService.add(this.report, config).then((response) => {
+        if (response.status == 201) {
+          this.clearForm();
+          this.$router.push({ name: "home" });
+        }
+      }).catch(e => {alert(e)});
     },
     clearForm() {
       this.report.pothole.address = {};
     },
   },
   computed: {
-isAddressFilledIn() {
-      for (const field of this.report.pothole.address) {
-        if (field === "") {
+    isAddressFilledIn() {
+      Object.values(this.report.pothole.address).forEach((element) => {
+        console.log(element);
+        if (element == "") {
           return false;
         }
-      }
+      });
       return true;
-      
-      // TODO: Validate input strings
-      // return for (this.report.pothole.address
     },
-  }
+  },
 };
 </script>
 

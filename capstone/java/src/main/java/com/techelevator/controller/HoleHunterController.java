@@ -4,6 +4,7 @@ import com.techelevator.dao.PotholeDao;
 import com.techelevator.model.Address;
 import com.techelevator.model.Pothole;
 import com.techelevator.model.Report;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,7 +20,8 @@ public class HoleHunterController {
     public HoleHunterController(PotholeDao potholeDao) {
         this.potholeDao = potholeDao;
     }
-
+    
+    @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/newReport", method = RequestMethod.POST)
     public Report reportPothole(@RequestBody @Valid Report report)  {
         return potholeDao.create(report);
