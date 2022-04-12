@@ -100,7 +100,7 @@ The following is an example of extending this class for writing your own DAO int
 ```
 package com.techelevator.dao;
 
-import com.techelevator.model.User;
+import com.techelevator.model.userSecurity.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
