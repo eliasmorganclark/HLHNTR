@@ -27,7 +27,7 @@
     <input type="button" v-on:click.prevent="clearForm" value="Clear Form" />
   </form>
 
-  <!-- <address-form v-bind="address"></address-form> -->
+  <!-- <address-form v-model="report.pothole.address"></address-form> -->
 </template>
 
 <script>
@@ -36,7 +36,7 @@ import reportingService from "@/services/ReportingService.js";
 
 export default {
   name: "new-report",
-  prop: ["address"],
+  // prop goes here for communication with AddressForm???
   // components: {
   //   AddressForm,
   // },
