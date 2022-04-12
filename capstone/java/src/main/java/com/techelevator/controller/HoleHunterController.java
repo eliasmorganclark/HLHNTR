@@ -20,7 +20,7 @@ public class HoleHunterController {
     public HoleHunterController(PotholeDao potholeDao) {
         this.potholeDao = potholeDao;
     }
-    
+
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/newReport", method = RequestMethod.POST)
     public Report reportPothole(@RequestBody @Valid Report report)  {

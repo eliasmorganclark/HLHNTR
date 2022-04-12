@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       report: {
-        reportingUser: "",
+        reportingUser: 1,
         pothole: {
           verified: false,
           repairStatus: "not repaired",
@@ -64,7 +64,9 @@ export default {
       const config = {
         headers: { Authorization: `Bearer ${this.$store.state.token}` },
       };
+      if (this.$store.user) {
       this.report.reportingUser = this.$store.state.user.id;
+      }
       reportingService.add(this.report, config).then((response) => {
         if (response.status == 201) {
           this.clearForm();
