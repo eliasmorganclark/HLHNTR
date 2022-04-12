@@ -4,6 +4,7 @@ import com.techelevator.dao.PotholeDao;
 import com.techelevator.model.Address;
 import com.techelevator.model.Pothole;
 import com.techelevator.model.Report;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -11,6 +12,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class HoleHunterController {
 
     PotholeDao potholeDao;
@@ -19,8 +21,9 @@ public class HoleHunterController {
         this.potholeDao = potholeDao;
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/newReport", method = RequestMethod.POST)
-    public Report reportPothole(@RequestBody @Valid Report report) {
+    public Report reportPothole(@RequestBody @Valid Report report)  {
         return potholeDao.create(report);
     }
 
@@ -42,4 +45,5 @@ public class HoleHunterController {
         Report report = new Report(pothole);
         return report;
     }
+
 }

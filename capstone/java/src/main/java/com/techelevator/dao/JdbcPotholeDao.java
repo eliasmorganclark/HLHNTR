@@ -92,6 +92,13 @@ public class JdbcPotholeDao implements PotholeDao{
         return reports;
 
     }
+//
+//    @Override
+//    public long getUserIdByUsername(String username) {
+//        String sql = "SELECT user_id FROM users WHERE username = ?;";
+//        Long results = jdbcTemplate.queryForObject(sql, Long.class, username);
+//        return results;
+//    }
 
     private Report mapRowToReport(SqlRowSet rowSet){
 
