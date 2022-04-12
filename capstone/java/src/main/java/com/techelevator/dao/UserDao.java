@@ -1,6 +1,6 @@
 package com.techelevator.dao;
 
-import com.techelevator.model.User;
+import com.techelevator.model.userSecurity.User;
 
 import java.util.List;
 
