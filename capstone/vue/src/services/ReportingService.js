@@ -6,6 +6,6 @@ const http = axios.create({
 
 export default {
   add(report, config) {
-    return http.post("/newreport", report, config);
+    return http.post("/newReport", report, config);
   },
 };

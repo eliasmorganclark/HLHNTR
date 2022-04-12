@@ -11,6 +11,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class HoleHunterController {
 
     PotholeDao potholeDao;
@@ -20,7 +21,7 @@ public class HoleHunterController {
     }
 
     @RequestMapping(path = "/newReport", method = RequestMethod.POST)
-    public Report reportPothole(@RequestBody @Valid Report report) {
+    public Report reportPothole(@RequestBody @Valid Report report)  {
         return potholeDao.create(report);
     }
 
@@ -42,4 +43,5 @@ public class HoleHunterController {
         Report report = new Report(pothole);
         return report;
     }
+
 }
