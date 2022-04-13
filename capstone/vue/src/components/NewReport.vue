@@ -78,13 +78,14 @@ export default {
       reportingService.add(this.report, config).then((response) => {
         if (response.status == 201) {
           alert('Report number: ' + response.data.pothole.potholeId + ' successfully entered. Thanks for reporting a pothole.');
-          this.clearForm();
-          if(this.report.reportingUser != 1){
+          
+          if(!this.$store.user){
             this.$router.push({ name: "home" });
           }
           else{
             alert("Ask anonymous user to register or allow to report another pothole");
             }
+          this.clearForm();
         }
       }).catch(() => {alert("Invalid address, please try again.")});
     },
