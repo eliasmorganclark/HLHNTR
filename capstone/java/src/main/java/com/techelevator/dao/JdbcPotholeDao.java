@@ -48,7 +48,7 @@ public class JdbcPotholeDao implements PotholeDao{
         Long reportId = jdbcTemplate.queryForObject(sql,Long.class, potholeId, report.getReportingUser());
 
         report.setReportId(reportId);
-        report.getPothole().setPotholeId(potholeId);
+        report.getPothole().setHazardId(potholeId);
         return report;
     }
 
@@ -62,7 +62,7 @@ public class JdbcPotholeDao implements PotholeDao{
         if(results.next()) {
             report = mapRowToReport(results);
             sql = "SELECT pothole_id, house_number, street_name, city, state, zip, verified, repair_status, severity FROM pothole where pothole_id  = ?;";
-            results = jdbcTemplate.queryForRowSet(sql, report.getPothole().getPotholeId());
+            results = jdbcTemplate.queryForRowSet(sql, report.getPothole().getHazardId());
             if(results.next()) {
                 report.setPothole(mapRowToPothole(results));
             }
@@ -83,7 +83,7 @@ public class JdbcPotholeDao implements PotholeDao{
         while(results.next()) {
             report = mapRowToReport(results);
             sql = "SELECT pothole_id, house_number, street_name, city, state, zip, verified, repair_status, severity FROM pothole where pothole_id  = ?;";
-            SqlRowSet potholeResults = jdbcTemplate.queryForRowSet(sql, report.getPothole().getPotholeId());
+            SqlRowSet potholeResults = jdbcTemplate.queryForRowSet(sql, report.getPothole().getHazardId());
             if(potholeResults.next()) {
                 report.setPothole(mapRowToPothole(potholeResults));
             }
@@ -105,7 +105,7 @@ public class JdbcPotholeDao implements PotholeDao{
         Report report = new Report();
         Pothole pothole = new Pothole();
 
-        pothole.setPotholeId(rowSet.getLong("pothole_id"));
+        pothole.setHazardId(rowSet.getLong("pothole_id"));
         report.setReportId(rowSet.getLong("report_id"));
         report.setReportingUser(rowSet.getLong("user_id"));
         report.setPothole(pothole);
@@ -117,10 +117,10 @@ public class JdbcPotholeDao implements PotholeDao{
 
         Pothole pothole = new Pothole();
 
-        pothole.setPotholeId(rowSet.getLong("pothole_id"));
+        pothole.setHazardId(rowSet.getLong("pothole_id"));
         pothole.setAddress(mapRowToAddress(rowSet));
         pothole.setVerified(rowSet.getBoolean("verified"));
-        pothole.setRepairStatus(rowSet.getString("repair_status"));
+        // pothole.setRepairStatus(rowSet.getString("repair_status"));
         pothole.setSeverity(rowSet.getString("severity"));
 
         return pothole;
