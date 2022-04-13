@@ -1,31 +1,39 @@
 <template>
-  <form v-on:submit.prevent="saveReport">
-    <label for="house-number">House Number</label>
-    <input
-      v-model="report.pothole.address.houseNumber"
-      id="houser-number"
-      type="text"
-    />
+  <div class="new-report-container">
+    <div class="new-report-title-container">
+      <h1 class="new-report-title-text">Report a pothole</h1>
+      <h2 class="new-report-title-text">Please enter the address of the pothole below:</h2>
+    </div>
+    <div class="new-report-form-container">
+      <form class="new-report-form" v-on:submit.prevent="saveReport">
+        <label for="house-number">House Number</label>
+        <input
+          v-model="report.pothole.address.houseNumber"
+          id="houser-number"
+          type="text"
+        />
 
-    <label for="street-name">Street Name</label>
-    <input
-      v-model="report.pothole.address.streetName"
-      id="street-name"
-      type="text"
-    />
+        <label for="street-name">Street Name</label>
+        <input
+          v-model="report.pothole.address.streetName"
+          id="street-name"
+          type="text"
+        />
 
-    <label for="city">City</label>
-    <input v-model="report.pothole.address.city" id="city" type="text" />
+        <label for="city">City</label>
+        <input v-model="report.pothole.address.city" id="city" type="text" />
 
-    <label for="state">State</label>
-    <input v-model="report.pothole.address.state" id="state" type="text" />
+        <label for="state">State</label>
+        <input v-model="report.pothole.address.state" id="state" type="text" />
 
-    <label for="zip-code">Zip Code</label>
-    <input v-model="report.pothole.address.zip" id="zip-code" type="text" />
-
-    <input type="submit" value="Submit Report" />
-    <input type="button" v-on:click.prevent="clearForm" value="Clear Form" />
-  </form>
+        <label for="zip-code">Zip Code</label>
+        <input v-model="report.pothole.address.zip" id="zip-code" type="text" />
+        <br>
+        <input type="submit" value="Submit Report" />
+        <input type="button" v-on:click.prevent="clearForm" value="Clear Form" />
+      </form>
+    </div>
+  </div>
 
   <!-- <address-form v-model="report.pothole.address"></address-form> -->
 </template>
@@ -69,10 +77,16 @@ export default {
       }
       reportingService.add(this.report, config).then((response) => {
         if (response.status == 201) {
+          alert('Report number: ' + response.data.pothole.potholeId + ' successfully entered. Thanks for reporting a pothole.');
           this.clearForm();
-          this.$router.push({ name: "home" });
+          if(this.report.reportingUser != 1){
+            this.$router.push({ name: "home" });
+          }
+          else{
+            alert("Ask anonymous user to register or allow to report another pothole");
+            }
         }
-      }).catch(e => {alert(e)});
+      }).catch(() => {alert("Invalid address, please try again.")});
     },
     clearForm() {
       this.report.pothole.address = {};
