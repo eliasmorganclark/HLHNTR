@@ -77,7 +77,7 @@ export default {
       }
       reportingService.add(this.report, config).then((response) => {
         if (response.status == 201) {
-          alert('Report number: ' + response.data.pothole.potholeId + ' successfully entered. Thanks for reporting a pothole.');
+          alert('Pothole number: ' + response.data.pothole.potholeId + ' successfully entered. Thanks for reporting a pothole.');
           
           if(!this.$store.user){
             this.$router.push({ name: "home" });
