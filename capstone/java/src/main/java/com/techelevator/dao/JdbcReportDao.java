@@ -37,10 +37,10 @@ public class JdbcReportDao implements ReportDao {
         }
 
         else{
-            sql = "insert into pothole (house_number, street_name, city, state, zip, verified, repair_status, severity) values (?,?,?,?,?,?,?,?) RETURNING hazard_id;";
+            sql = "insert into pothole (house_number, street_name, city, state, zip, latitude, longitude, verified, repair_status, severity) values (?,?,?,?,?,?,?,?,?,?) RETURNING hazard_id;";
             hazardId = jdbcTemplate.queryForObject(sql, Long.class, reportAddress.getHouseNumber(),
                     reportAddress.getStreetName(), reportAddress.getCity(), reportAddress.getState(),
-                    reportAddress.getZip(), pothole.isVerified(), pothole.getRepairStatus(), pothole.getSeverity());
+                    reportAddress.getZip(),reportAddress.getCoordinates().getLat(),reportAddress.getCoordinates().getLng(), pothole.isVerified(), pothole.getRepairStatus(), pothole.getSeverity());
         }
 
         sql = "insert into report (pothole_id, user_id) values (?,?) returning report_id;";
@@ -73,10 +73,10 @@ public class JdbcReportDao implements ReportDao {
 
         //Pothole/drain does not exist
         if (hazardId == -100L) {
-            sql = "insert into drain (house_number, street_name, city, state, zip, verified, repair_status, is_clogged) values (?,?,?,?,?,?,?,?) RETURNING hazard_id;";
+            sql = "insert into drain (house_number, street_name, city, state, zip, latitude, longitude, verified, repair_status, is_clogged) values (?,?,?,?,?,?,?,?,?,?) RETURNING hazard_id;";
             hazardId = jdbcTemplate.queryForObject(sql, Long.class, reportAddress.getHouseNumber(),
                     reportAddress.getStreetName(), reportAddress.getCity(), reportAddress.getState(),
-                    reportAddress.getZip(), drain.isVerified(), drain.getRepairStatus(), drain.isClogged());
+                    reportAddress.getZip(),reportAddress.getCoordinates().getLat(),reportAddress.getCoordinates().getLng(),drain.isVerified(),drain.getRepairStatus(),drain.isClogged());
 
         }
 
@@ -128,7 +128,7 @@ public class JdbcReportDao implements ReportDao {
         while(results.next()) {
             if (results.getObject("pothole_id") != null){
             report = mapRowToReportPothole(results);
-            sql = "SELECT hazard_id, house_number, street_name, city, state, zip, verified, repair_status, severity FROM pothole where hazard_id  = ?;";
+            sql = "SELECT hazard_id, house_number, street_name, city, state, zip, latitude, longitude, verified, repair_status, severity FROM pothole where hazard_id  = ?;";
             SqlRowSet potholeResults = jdbcTemplate.queryForRowSet(sql, report.getPothole().getHazardId());
             if(potholeResults.next()) {
                 report.setPothole(mapRowToPothole(potholeResults));
@@ -136,7 +136,7 @@ public class JdbcReportDao implements ReportDao {
             reports.add(report);
         } else {
                 report = mapRowToReportDrain(results);
-                sql = "SELECT hazard_id, house_number, street_name, city, state, zip, verified, repair_status, is_clogged FROM drain where hazard_id  = ?;";
+                sql = "SELECT hazard_id, house_number, street_name, city, state, zip, latitude, longitude, verified, repair_status, is_clogged FROM drain where hazard_id  = ?;";
                 SqlRowSet drainResults = jdbcTemplate.queryForRowSet(sql, report.getDrain().getHazardId());
                 if(drainResults.next()) {
                     report.setDrain(mapRowToDrain(drainResults));
@@ -256,13 +256,16 @@ public class JdbcReportDao implements ReportDao {
     private Address mapRowToAddress(SqlRowSet rowSet){
 
         Address address = new Address();
+        Coordinates coordinates = new Coordinates();
 
         address.setHouseNumber(rowSet.getLong("house_number"));
         address.setStreetName(rowSet.getString("street_name"));
         address.setCity(rowSet.getString("city"));
         address.setState(rowSet.getString("state"));
         address.setZip(rowSet.getLong("zip"));
-
+        coordinates.setLat(rowSet.getDouble("latitude"));
+        coordinates.setLng(rowSet.getDouble("longitude"));
+        address.setCoordinates(coordinates);
         return address;
     }
 

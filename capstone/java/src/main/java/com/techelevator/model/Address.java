@@ -1,9 +1,6 @@
 package com.techelevator.model;
 
-import org.springframework.security.core.parameters.P;
-
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 public class Address {
@@ -18,6 +15,9 @@ public class Address {
     String state;
     @Positive
     Long zip;
+
+    Coordinates coordinates;
+
 
     public Address() {
     }
@@ -70,14 +70,19 @@ public class Address {
         this.zip = zip;
     }
 
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    //hard-coded OH for state
     @Override
     public String toString() {
-        return "Address{" +
-                "houseNumber=" + houseNumber +
-                ", streetName='" + streetName + '\'' +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
-                ", zip=" + zip +
-                '}';
+        String fixedStreetName = streetName.replace(' ','+');
+
+        return houseNumber + "+" + fixedStreetName + "%2C" + city + "%2COH+" + zip;
     }
 }

@@ -2,6 +2,8 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.ReportDao;
 import com.techelevator.model.*;
+import com.techelevator.model.Coordinates;
+import com.techelevator.service.GeocodingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,7 @@ import java.util.List;
 public class HoleHunterController {
 
     ReportDao reportDao;
+    GeocodingService geocodingService = new GeocodingService();
 
     public HoleHunterController(ReportDao reportDao) {
         this.reportDao = reportDao;
@@ -21,12 +24,14 @@ public class HoleHunterController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/newPotholeReport", method = RequestMethod.POST)
     public Report reportPothole(@RequestBody @Valid Pothole pothole)  {
+        pothole.getAddress().setCoordinates(geocodingService.getGeocodingResultAsCoordinates(pothole.getAddress()));
         return reportDao.create(pothole,pothole.getReportingUser());
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/newDrainReport", method = RequestMethod.POST)
     public Report reportDrain(@RequestBody @Valid Drain drain)  {
+        drain.getAddress().setCoordinates(geocodingService.getGeocodingResultAsCoordinates(drain.getAddress()));
         return reportDao.create(drain,drain.getReportingUser());
     }
 
