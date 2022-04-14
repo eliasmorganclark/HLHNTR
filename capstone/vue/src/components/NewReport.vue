@@ -7,6 +7,7 @@
       </h2>
     </div>
     <div class="new-report-form-container">
+
       <form class="new-report-form" v-on:submit.prevent="saveNewReport">
         <label for="hazard-type">Hazard Type</label>
         <select v-model="hazardType" name="hazard-type" id="hazard-type">
@@ -14,6 +15,7 @@
           <option value="POTHOLE">Pothole</option>
           <option value="DRAIN">Drain</option>
         </select>
+
 
         <label for="house-number">House Number</label>
         <input

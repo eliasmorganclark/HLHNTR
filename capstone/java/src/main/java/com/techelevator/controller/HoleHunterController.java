@@ -32,14 +32,35 @@ public class HoleHunterController {
 
 
     @RequestMapping(path = "/getReport", method = RequestMethod.GET)
-    public Report reportPothole(@RequestParam Long reportId) {
+    public Report getReportById(@RequestParam Long reportId) {
         return reportDao.getReport(reportId);
     }
 
     @RequestMapping(path = "/getAllReports", method = RequestMethod.GET)
-    public List<Report> reportPothole() {
+    public List<Report> getAllReports() {
         return reportDao.getAllReports();
     }
+
+    @RequestMapping(path = "/getPothole", method = RequestMethod.GET)
+    public Pothole getPotholeById(@RequestParam Long hazardId) {
+        return reportDao.getPothole(hazardId);
+    }
+
+    @RequestMapping(path = "/getDrain", method = RequestMethod.GET)
+    public Drain getDrainById(@RequestParam Long hazardId) {
+        return reportDao.getDrain(hazardId);
+    }
+
+    @RequestMapping(path = "/getAllPotholes", method = RequestMethod.GET)
+    public List<Pothole> getAllPotholes() {
+        return reportDao.getAllPotholes();
+    }
+
+    @RequestMapping(path = "/getAllDrains", method = RequestMethod.GET)
+    public List<Drain> getAllDrains() {
+        return reportDao.getAllDrains();
+    }
+
 
     //test endpoints
     @RequestMapping(path = "/testReportObject", method = RequestMethod.GET)
@@ -65,5 +86,8 @@ public class HoleHunterController {
 
         return drain;
     }
+
+
+
 
 }
