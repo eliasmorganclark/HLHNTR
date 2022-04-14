@@ -1,50 +1,69 @@
 package com.techelevator.controller;
 
-import com.techelevator.dao.PotholeDao;
-import com.techelevator.model.Address;
-import com.techelevator.model.Pothole;
-import com.techelevator.model.RepairStatus;
-import com.techelevator.model.Report;
+import com.techelevator.dao.ReportDao;
+import com.techelevator.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.List;
 
 @RestController
 @CrossOrigin
 public class HoleHunterController {
 
-    PotholeDao potholeDao;
+    ReportDao reportDao;
 
-    public HoleHunterController(PotholeDao potholeDao) {
-        this.potholeDao = potholeDao;
+    public HoleHunterController(ReportDao reportDao) {
+        this.reportDao = reportDao;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(path = "/newReport", method = RequestMethod.POST)
-    public Report reportPothole(@RequestBody @Valid Report report)  {
-        return potholeDao.create(report);
+    @RequestMapping(path = "/newPotholeReport", method = RequestMethod.POST)
+    public Report reportPothole(@RequestBody @Valid Pothole pothole)  {
+        return reportDao.create(pothole,pothole.getReportingUser());
     }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(path = "/newDrainReport", method = RequestMethod.POST)
+    public Report reportDrain(@RequestBody @Valid Drain drain)  {
+        return reportDao.create(drain,drain.getReportingUser());
+    }
+
 
     @RequestMapping(path = "/getReport", method = RequestMethod.GET)
     public Report reportPothole(@RequestParam Long reportId) {
-        return potholeDao.getReport(reportId);
+        return reportDao.getReport(reportId);
     }
 
     @RequestMapping(path = "/getAllReports", method = RequestMethod.GET)
     public List<Report> reportPothole() {
-        return potholeDao.getAllReports();
+        return reportDao.getAllReports();
     }
 
     //test endpoints
-    @RequestMapping(path = "/testObject", method = RequestMethod.GET)
-    public Report getPothole() {
+    @RequestMapping(path = "/testReportObject", method = RequestMethod.GET)
+    public Report getReportJSON() {
         Address address = new Address(1234L, "hole circle", "akron", "oh", 44444L);
-        Pothole pothole = new Pothole(1001L, false, "Not repaired", address, RepairStatus.BROKEN);
+        Pothole pothole = new Pothole(1001L, false, "Not repaired", address, "broken");
         Report report = new Report(pothole);
         return report;
+    }
+
+    @RequestMapping(path = "/testPotholeObject", method = RequestMethod.GET)
+    public Pothole getPotholeJSON() {
+        Address address = new Address(1234L, "hole circle", "akron", "oh", 44444L);
+        Pothole pothole = new Pothole(1001L, false, "Not repaired", address, "broken");
+
+        return pothole;
+    }
+
+    @RequestMapping(path = "/testDrainObject", method = RequestMethod.GET)
+    public Drain getDrainJSON() {
+        Address address = new Address(1234L, "hole circle", "akron", "oh", 44444L);
+        Drain drain = new Drain(1001L, false, address,"Not repaired", true);
+
+        return drain;
     }
 
 }
