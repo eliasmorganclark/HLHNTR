@@ -7,7 +7,7 @@
       </h2>
     </div>
     <div class="new-report-form-container">
-      <form class="new-report-form" v-on:submit.prevent="saveNewPotholeReport">
+      <form class="new-report-form" v-on:submit.prevent="saveNewDrainReport">
         <label for="house-number">House Number</label>
         <input
           v-model="hazard.address.houseNumber"

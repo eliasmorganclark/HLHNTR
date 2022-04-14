@@ -148,6 +148,52 @@ public class JdbcReportDao implements ReportDao {
         return reports;
 
     }
+
+    @Override
+    public List<Pothole> getAllPotholes() {
+        List<Pothole> potholes = new ArrayList<>();
+        String sql = "SELECT * FROM pothole";
+        SqlRowSet results =  jdbcTemplate.queryForRowSet(sql);
+        while (results.next()){
+            potholes.add(mapRowToPothole(results));
+        }
+        return potholes;
+    }
+
+    @Override
+    public Pothole getPothole(Long hazardId) {
+
+        String sql = "SELECT * FROM pothole WHERE hazard_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, hazardId);
+        if (results.next()) {
+            return mapRowToPothole(results);
+
+        }
+        return null;
+    }
+
+    @Override
+    public List<Drain> getAllDrains() {
+        List<Drain> drains = new ArrayList<>();
+
+        String sql = "SELECT * FROM drain";
+        SqlRowSet results =  jdbcTemplate.queryForRowSet(sql);
+        while (results.next()) {
+            drains.add(mapRowToDrain(results));
+        }
+        return drains;
+    }
+
+    @Override
+    public Drain getDrain(Long hazardId) {
+        String sql = "SELECT * FROM drain WHERE hazard_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, hazardId);
+        if (results.next()) {
+            return mapRowToDrain(results);
+
+        }
+        return null;
+    }
 //
 //    @Override
 //    public long getUserIdByUsername(String username) {
@@ -185,6 +231,7 @@ public class JdbcReportDao implements ReportDao {
 
         Pothole pothole = new Pothole();
 
+        pothole.setHazardType(HazardType.POTHOLE);
         pothole.setHazardId(rowSet.getLong("hazard_id"));
         pothole.setAddress(mapRowToAddress(rowSet));
         pothole.setVerified(rowSet.getBoolean("verified"));
@@ -196,7 +243,7 @@ public class JdbcReportDao implements ReportDao {
     private Drain mapRowToDrain(SqlRowSet rowSet){
 
         Drain drain = new Drain();
-
+        drain.setHazardType(HazardType.DRAIN);
         drain.setHazardId(rowSet.getLong("hazard_id"));
         drain.setAddress(mapRowToAddress(rowSet));
         drain.setVerified(rowSet.getBoolean("verified"));
