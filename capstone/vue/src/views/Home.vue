@@ -2,15 +2,17 @@
   <div class="home">
     <h1>Home</h1>
     <p>Map placeholder</p>
-    <view-data />
+    <Map />
   </div>
 </template>
 
 <script>
-import ViewData from '../components/ViewData.vue';
+import Map from '../components/Map.vue';
+
 export default {
-  components: { ViewData },
-  name: "home"
+  components: { Map },
+
+     name: "home"
 
 };
 </script>

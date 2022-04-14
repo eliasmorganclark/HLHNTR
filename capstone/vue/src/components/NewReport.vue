@@ -76,6 +76,7 @@ export default {
         },
         repairStatus: "pending",
         reportingUser: 1,
+        severity:''
       },
     };
   },
