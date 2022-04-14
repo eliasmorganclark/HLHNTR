@@ -1,36 +1,42 @@
 <template>
   <div class="new-report-container">
     <div class="new-report-title-container">
-      <h1 class="new-report-title-text">Report a pothole</h1>
+      <h1 class="new-report-title-text">Report a Hazard</h1>
       <h2 class="new-report-title-text">
-        Please enter the address of the pothole below:
+        Please enter the address of the hazard below:
       </h2>
     </div>
     <div class="new-report-form-container">
-      <form class="new-report-form" v-on:submit.prevent="saveNewPotholeReport">
+      <form class="new-report-form" v-on:submit.prevent="saveNewReport">
+        <label for="hazard-type">Hazard Type</label>
+        <select v-model="hazardType" name="hazard-type" id="hazard-type">
+          <option value="">------</option>
+          <option value="POTHOLE">Pothole</option>
+          <option value="DRAIN">Drain</option>
+        </select>
+
         <label for="house-number">House Number</label>
         <input
-          v-model="hazard.address.houseNumber"
+          v-model.trim="hazard.address.houseNumber"
           id="houser-number"
           type="text"
         />
 
         <label for="street-name">Street Name</label>
         <input
-          v-model="hazard.address.streetName"
+          v-model.trim="hazard.address.streetName"
           id="street-name"
           type="text"
         />
 
         <label for="city">City</label>
-        <input v-model="hazard.address.city" id="city" type="text" />
+        <input v-model.trim="hazard.address.city" id="city" type="text" />
 
         <label for="state">State</label>
-        <input v-model="hazard.address.state" id="state" type="text" />
+        <input v-model.trim="hazard.address.state" id="state" type="text" />
 
         <label for="zip-code">Zip Code</label>
-        <input v-model="hazard.address.zip" id="zip-code" type="text" />
-        <br />
+        <input v-model.trim="hazard.address.zip" id="zip-code" type="text" />
         <input type="submit" value="Submit Report" />
         <input
           type="button"
@@ -56,6 +62,7 @@ export default {
   // },
   data() {
     return {
+      hazardType: "",
       hazard: {
         verified: false,
         address: {
@@ -71,6 +78,19 @@ export default {
     };
   },
   methods: {
+    saveNewReport() {
+      switch (this.hazardType) {
+        case "":
+          alert("Hazard Type required in dropdown menu");
+          break;
+        case "POTHOLE":
+          this.saveNewPotholeReport();
+          break;
+        case "DRAIN":
+          this.saveNewDrainReport();
+          break;
+      }
+    },
     saveNewPotholeReport() {
       const config = {
         headers: { Authorization: `Bearer ${this.$store.state.token}` },
