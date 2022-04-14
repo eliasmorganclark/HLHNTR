@@ -96,15 +96,23 @@ public class JdbcReportDao implements ReportDao {
         String sql = "SELECT report_id, pothole_id, drain_id, user_id FROM report WHERE report_id = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, reportId);
         Report report = null;
-        if(results.next()) {
-            report = mapRowToReport(results);
-            sql = "SELECT pothole_id, house_number, street_name, city, state, zip, verified, repair_status, severity FROM pothole where pothole_id  = ?;";
-            results = jdbcTemplate.queryForRowSet(sql, report.getPothole().getHazardId());
-            if(results.next()) {
-                report.setPothole(mapRowToPothole(results));
+        if (results.getObject("pothole_id") != null){
+            report = mapRowToReportPothole(results);
+            sql = "SELECT hazard_id, house_number, street_name, city, state, zip, verified, repair_status, severity FROM pothole where hazard_id  = ?;";
+            SqlRowSet potholeResults = jdbcTemplate.queryForRowSet(sql, report.getPothole().getHazardId());
+            if(potholeResults.next()) {
+                report.setPothole(mapRowToPothole(potholeResults));
             }
-        }
-        return report;
+
+        } else {
+            report = mapRowToReportDrain(results);
+            sql = "SELECT hazard_id, house_number, street_name, city, state, zip, verified, repair_status, is_clogged FROM drain where hazard_id  = ?;";
+            SqlRowSet drainResults = jdbcTemplate.queryForRowSet(sql, report.getDrain().getHazardId());
+            if(drainResults.next()) {
+                report.setDrain(mapRowToDrain(drainResults));
+            }
+
+        }return report;
 
     }
 
@@ -113,19 +121,30 @@ public class JdbcReportDao implements ReportDao {
         //get report and pothole in report
         List<Report> reports = new ArrayList<>();
 
-        String sql = "SELECT report_id, pothole_id, user_id FROM report;";
+        String sql = "SELECT report_id, pothole_id, drain_id, user_id FROM report;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         Report report = null;
 
         while(results.next()) {
-            report = mapRowToReport(results);
-            sql = "SELECT pothole_id, house_number, street_name, city, state, zip, verified, repair_status, severity FROM pothole where pothole_id  = ?;";
+            if (results.getObject("pothole_id") != null){
+            report = mapRowToReportPothole(results);
+            sql = "SELECT hazard_id, house_number, street_name, city, state, zip, verified, repair_status, severity FROM pothole where hazard_id  = ?;";
             SqlRowSet potholeResults = jdbcTemplate.queryForRowSet(sql, report.getPothole().getHazardId());
             if(potholeResults.next()) {
                 report.setPothole(mapRowToPothole(potholeResults));
             }
             reports.add(report);
-        }
+        } else {
+                report = mapRowToReportDrain(results);
+                sql = "SELECT hazard_id, house_number, street_name, city, state, zip, verified, repair_status, is_clogged FROM drain where hazard_id  = ?;";
+                SqlRowSet drainResults = jdbcTemplate.queryForRowSet(sql, report.getDrain().getHazardId());
+                if(drainResults.next()) {
+                    report.setDrain(mapRowToDrain(drainResults));
+                }
+                reports.add(report);
+            }
+
+            }
         return reports;
 
     }
@@ -137,7 +156,7 @@ public class JdbcReportDao implements ReportDao {
 //        return results;
 //    }
 
-    private Report mapRowToReport(SqlRowSet rowSet){
+    private Report mapRowToReportPothole(SqlRowSet rowSet){
 
         Report report = new Report();
         Pothole pothole = new Pothole();
@@ -149,18 +168,42 @@ public class JdbcReportDao implements ReportDao {
 
         return report;
     }
+    private Report mapRowToReportDrain(SqlRowSet rowSet){
+
+        Report report = new Report();
+        Drain drain = new Drain();
+
+        drain.setHazardId(rowSet.getLong("drain_id"));
+        report.setReportId(rowSet.getLong("report_id"));
+        report.setReportingUser(rowSet.getLong("user_id"));
+        report.setDrain(drain);
+
+        return report;
+    }
 
     private Pothole mapRowToPothole(SqlRowSet rowSet){
 
         Pothole pothole = new Pothole();
 
-        pothole.setHazardId(rowSet.getLong("pothole_id"));
+        pothole.setHazardId(rowSet.getLong("hazard_id"));
         pothole.setAddress(mapRowToAddress(rowSet));
         pothole.setVerified(rowSet.getBoolean("verified"));
-        // pothole.setRepairStatus(rowSet.getString("repair_status"));
+        pothole.setRepairStatus(rowSet.getString("repair_status"));
         pothole.setSeverity(rowSet.getString("severity"));
 
         return pothole;
+    }
+    private Drain mapRowToDrain(SqlRowSet rowSet){
+
+        Drain drain = new Drain();
+
+        drain.setHazardId(rowSet.getLong("hazard_id"));
+        drain.setAddress(mapRowToAddress(rowSet));
+        drain.setVerified(rowSet.getBoolean("verified"));
+        drain.setRepairStatus(rowSet.getString("repair_status"));
+        drain.setClogged(rowSet.getBoolean("is_clogged"));
+
+        return drain;
     }
 
     private Address mapRowToAddress(SqlRowSet rowSet){
