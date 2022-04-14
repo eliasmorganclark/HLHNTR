@@ -21,13 +21,13 @@ public class HoleHunterController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/newPotholeReport", method = RequestMethod.POST)
     public Report reportPothole(@RequestBody @Valid Pothole pothole)  {
-        return reportDao.create(pothole,1L);
+        return reportDao.create(pothole,pothole.getReportingUser());
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/newDrainReport", method = RequestMethod.POST)
     public Report reportDrain(@RequestBody @Valid Drain drain)  {
-        return reportDao.create(drain,1L);
+        return reportDao.create(drain,drain.getReportingUser());
     }
 
 
@@ -40,10 +40,6 @@ public class HoleHunterController {
     public List<Report> reportPothole() {
         return reportDao.getAllReports();
     }
-
-
-
-
 
     //test endpoints
     @RequestMapping(path = "/testReportObject", method = RequestMethod.GET)

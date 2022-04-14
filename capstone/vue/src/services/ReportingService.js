@@ -5,7 +5,11 @@ const http = axios.create({
 });
 
 export default {
-  add(report, config) {
-    return http.post("/newReport", report, config);
+  addNewPotholeReport(hazard, config) {
+    return http.post("/newPotholeReport", hazard, config);
+  },
+
+  addNewDrainReport(hazard, config) {
+    return http.post("/newDrainReport", hazard, config);
   },
 };
