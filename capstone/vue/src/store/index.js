@@ -20,6 +20,9 @@ export default new Vuex.Store({
   state: {
     token: currentToken || "",
     user: currentUser || {},
+    reports: [],
+    potholes: [],
+    drains: []
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -38,5 +41,14 @@ export default new Vuex.Store({
       state.user = {};
       axios.defaults.headers.common = {};
     },
+    LOAD_REPORTS(state, reports) {
+      state.reports = reports;
+    },
+    LOAD_POTHOLES(state, potholes) {
+      state.potholes = potholes;
+    },
+    LOAD_DRAINS(state, drains) {
+      state.drains = drains;
+    }
   },
 });
