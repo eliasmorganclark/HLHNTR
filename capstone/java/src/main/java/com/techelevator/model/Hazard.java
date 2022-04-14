@@ -8,12 +8,12 @@ public abstract class Hazard {
     @Valid
     private Address address;
     private HazardType hazardType;
-    private RepairStatus repairStatus;
+    private String repairStatus;
 
     public Hazard () {}
 
     // Remove enums from constructor, set manually?
-    public Hazard(Long hazardId, boolean verified, Address address, HazardType hazardType, RepairStatus repairStatus) {
+    public Hazard(Long hazardId, boolean verified, Address address, HazardType hazardType, String repairStatus) {
         this.hazardId = hazardId;
         this.verified = verified;
         this.address = address;
@@ -51,6 +51,14 @@ public abstract class Hazard {
 
     public void setHazardType(HazardType hazardType) {
         this.hazardType = hazardType;
+    }
+
+    public String getRepairStatus() {
+        return repairStatus;
+    }
+
+    public void setRepairStatus(String repairStatus) {
+        this.repairStatus = repairStatus;
     }
 
     @Override

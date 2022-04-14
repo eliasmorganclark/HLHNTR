@@ -59,7 +59,6 @@ CREATE TABLE drain (
 	zip int NOT NULL,
 	verified BOOLEAN NOT NULL,
 	repair_status varchar (50),
-	severity varchar (50),
 	is_clogged BOOLEAN,
 	CONSTRAINT PK_drain PRIMARY KEY (hazard_id)
 

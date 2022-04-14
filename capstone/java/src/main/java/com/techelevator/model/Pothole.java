@@ -8,7 +8,7 @@ public class Pothole extends Hazard {
     public Pothole() {
     }
 
-    public Pothole(Long hazardId, boolean verified, String severity, Address address, RepairStatus repairStatus) {
+    public Pothole(Long hazardId, boolean verified, String severity, Address address, String repairStatus) {
         super(hazardId, verified, address, HazardType.POTHOLE, repairStatus);
         this.severity = severity;
     }

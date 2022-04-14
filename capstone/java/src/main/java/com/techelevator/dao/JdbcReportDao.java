@@ -1,62 +1,99 @@
 package com.techelevator.dao;
 
-import com.techelevator.model.Address;
-import com.techelevator.model.Pothole;
-import com.techelevator.model.Report;
+import com.techelevator.model.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
-import javax.sql.DataSource;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class JdbcPotholeDao implements PotholeDao{
+public class JdbcReportDao implements ReportDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcPotholeDao(JdbcTemplate jdbcTemplate) {
+    public JdbcReportDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public Report create(Report report) {
+    public Report create(Pothole pothole, Long reportingUser) {
         //first we need to create a pothole in the DB **if it doesn't already exist**
             //after pothole is created, create new report with this new pothole_id
         //if pothole exists already, create a new report with existing pothole_id
-        Long potholeId=-100L;
+        Long hazardId=-100L;
         //first check DB for matching address in an existing pothole
-        Address reportAddress = report.getPothole().getAddress();
+        Address reportAddress = pothole.getAddress();
+        Report report = new Report(reportingUser,pothole);
 
-        String sql = "SELECT pothole_id FROM pothole WHERE house_number = ? AND street_name = ? AND city = ? AND state = ? AND zip = ?;";
+        //sql statement if report contains a potholeif(report.getPothole()!=null) {
+        String sql = "SELECT hazard_id FROM pothole WHERE house_number = ? AND street_name = ? AND city = ? AND state = ? AND zip = ?;";
+
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, reportAddress.getHouseNumber(),
                 reportAddress.getStreetName(),reportAddress.getCity(), reportAddress.getState(), reportAddress.getZip());
         if(results.next()){
-            potholeId = results.getLong("pothole_id");
+            hazardId = results.getLong("hazard_id");
         }
 
-        //Pothole does not exist
-        if(potholeId==-100L){
-            sql = "insert into pothole (house_number, street_name, city, state, zip, verified) values (?,?,?,?,?,?) RETURNING pothole_id;";
-            potholeId = jdbcTemplate.queryForObject(sql,Long.class, reportAddress.getHouseNumber(),
-                    reportAddress.getStreetName(),reportAddress.getCity(), reportAddress.getState(),
-                    reportAddress.getZip(), report.getPothole().isVerified());
+        else{
+            sql = "insert into pothole (house_number, street_name, city, state, zip, verified, repair_status, severity) values (?,?,?,?,?,?,?,?) RETURNING hazard_id;";
+            hazardId = jdbcTemplate.queryForObject(sql, Long.class, reportAddress.getHouseNumber(),
+                    reportAddress.getStreetName(), reportAddress.getCity(), reportAddress.getState(),
+                    reportAddress.getZip(), pothole.isVerified(), pothole.getRepairStatus(), pothole.getSeverity());
         }
 
         sql = "insert into report (pothole_id, user_id) values (?,?) returning report_id;";
-        Long reportId = jdbcTemplate.queryForObject(sql,Long.class, potholeId, report.getReportingUser());
+        Long reportId = jdbcTemplate.queryForObject(sql,Long.class, hazardId, reportingUser);
 
         report.setReportId(reportId);
-        report.getPothole().setHazardId(potholeId);
+        report.getPothole().setHazardId(hazardId);
         return report;
     }
+
+    @Override
+    public Report create(Drain drain, Long reportingUser) {
+        //first we need to create a pothole in the DB **if it doesn't already exist**
+        //after pothole is created, create new report with this new pothole_id
+        //if pothole exists already, create a new report with existing pothole_id
+        Long hazardId=-100L;
+        //first check DB for matching address in an existing pothole
+        Address reportAddress = drain.getAddress();
+        Report report = new Report(reportingUser,drain);
+
+
+        //sql statement if report contains a pothole
+        String sql = "SELECT hazard_id FROM drain WHERE house_number = ? AND street_name = ? AND city = ? AND state = ? AND zip = ?;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, reportAddress.getHouseNumber(),
+                reportAddress.getStreetName(),reportAddress.getCity(), reportAddress.getState(), reportAddress.getZip());
+        if(results.next()){
+            hazardId = results.getLong("hazard_id");
+        }
+
+        //Pothole/drain does not exist
+        if (hazardId == -100L) {
+            sql = "insert into drain (house_number, street_name, city, state, zip, verified, repair_status, is_clogged) values (?,?,?,?,?,?,?,?) RETURNING hazard_id;";
+            hazardId = jdbcTemplate.queryForObject(sql, Long.class, reportAddress.getHouseNumber(),
+                    reportAddress.getStreetName(), reportAddress.getCity(), reportAddress.getState(),
+                    reportAddress.getZip(), drain.isVerified(), drain.getRepairStatus(), drain.isClogged());
+
+        }
+
+        sql = "insert into report (drain_id, user_id) values (?,?) returning report_id;";
+        Long reportId = jdbcTemplate.queryForObject(sql,Long.class, hazardId, reportingUser);
+
+        report.setReportId(reportId);
+        report.getDrain().setHazardId(hazardId);
+        return report;
+    }
+
 
     @Override
     public Report getReport(Long reportId) {
         //get report and pothole in report
 
-        String sql = "SELECT report_id, pothole_id, user_id FROM report WHERE report_id = ?;";
+        String sql = "SELECT report_id, pothole_id, drain_id, user_id FROM report WHERE report_id = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, reportId);
         Report report = null;
         if(results.next()) {

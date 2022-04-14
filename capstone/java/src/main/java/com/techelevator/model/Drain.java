@@ -5,7 +5,7 @@ public class Drain extends Hazard {
 
     public Drain() {}
 
-    public Drain(Long hazardId, boolean verified, Address address, HazardType hazardType, RepairStatus repairStatus, boolean isClogged) {
+    public Drain(Long hazardId, boolean verified, Address address, String repairStatus, boolean isClogged) {
         super(hazardId, verified, address, HazardType.DRAIN, repairStatus);
         this.isClogged = isClogged;
     }
