@@ -8,7 +8,7 @@
         >Logout</router-link
       >
       <router-link v-bind:to="{ name: 'NewReportView' }"
-        >Report Pothole</router-link
+        >Report Hazard</router-link
       >
     </div>
     <router-view />
