@@ -12,4 +12,6 @@ public interface PotholeDao {
     Report getReport(Long reportId);
 
     List<Report> getAllReports();
+
+//    long getUserIdByUsername(String username);
 }
