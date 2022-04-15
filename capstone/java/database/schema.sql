@@ -49,6 +49,10 @@ CREATE TABLE pothole (
 	verified BOOLEAN NOT NULL,
 	repair_status varchar (50),
 	severity varchar (50),
+	first_reported_timestamp TIMESTAMP NOT NULL,
+	inspected_timestamp TIMESTAMP,
+	scheduled_repair_timestamp TIMESTAMP,
+	repaired_timestamp TIMESTAMP,
 	CONSTRAINT PK_pothole PRIMARY KEY (hazard_id)
 
 );
@@ -64,6 +68,10 @@ CREATE TABLE drain (
 	verified BOOLEAN NOT NULL,
 	repair_status varchar (50),
 	is_clogged BOOLEAN,
+	first_reported_timestamp TIMESTAMP NOT NULL,
+    inspected_timestamp TIMESTAMP,
+    scheduled_repair_timestamp TIMESTAMP,
+    repaired_timestamp TIMESTAMP,
 	CONSTRAINT PK_drain PRIMARY KEY (hazard_id)
 
 );
@@ -75,6 +83,7 @@ CREATE TABLE report (
 	pothole_id int,
 	drain_id int,
 	user_id int NOT NULL,
+	reported_timestamp TIMESTAMP NOT NULL,
 	CONSTRAINT PK_report PRIMARY KEY (report_id),
     CONSTRAINT FK_pothole_id FOREIGN KEY (pothole_id) REFERENCES pothole(hazard_id),
     CONSTRAINT FK_user_id FOREIGN KEY (user_id) REFERENCES users (user_id),
