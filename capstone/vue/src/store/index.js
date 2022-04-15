@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+// import { all } from "core-js/fn/promise";
 
 Vue.use(Vuex);
 
@@ -51,4 +52,19 @@ export default new Vuex.Store({
       state.drains = drains;
     }
   },
+  getters:{
+    getAllHazards (state){
+      const allHazards = [];
+      state.drains.forEach( (drain) => {
+        drain.iconPath = 'https://i.ibb.co/27qGbDF/stormdrain.png'; 
+        allHazards.push(drain);
+      });
+      state.potholes.forEach( (pothole) => {
+        pothole.iconPath = 'https://i.ibb.co/KN20TXv/pothole.png';
+        allHazards.push(pothole);
+      });
+      return allHazards;
+    }
+  }
 });
+
