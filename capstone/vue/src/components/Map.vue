@@ -78,11 +78,14 @@ methods:{
     },
     showMarkerInfoWindow(hazard, id) {
             this.markerInfoWindowPos = hazard.address.coordinates;
-            const infoWindowText = hazard.hazardType + ' at ' + hazard.address.houseNumber +
+
+            const infoWindowHazardText = hazard.hazardType + ' at ' + hazard.address.houseNumber +
                   ' ' + hazard.address.streetName + ' in ' + hazard.address.city;
-            //TODO link to detail about a hazard
-            const infoWindowLink = '<a href="/newreport">New Report</a>'
-            this.markerInfoOptions.content = infoWindowText + ' ' + infoWindowLink;
+            const infoWindowTimestampText = 'Reported on ' + this.makeDatePretty(hazard.firstReportedTimestamp);
+            const infoWindowLink = '<a href="/newreport">New Report</a>';
+            const infoWindowText = '<p>'+infoWindowHazardText+'</p>'+'<p>'+infoWindowTimestampText+'</p>'+'<p>'+infoWindowLink+'</p>';
+
+            this.markerInfoOptions.content = infoWindowText;
 
             if (this.currentMarkerId == id) {
               this.markerInfoWinOpen = !this.markerInfoWinOpen;
@@ -91,7 +94,12 @@ methods:{
               this.markerInfoWinOpen = true;
               this.currentMarkerId = id;
             }
-          }
+          },
+    makeDatePretty(timestamp){
+      const date = timestamp.substring(0,10);
+      const time = timestamp.substring(11,16);
+      return date + ' at ' + time;
+    }
 
 },
 created(){
