@@ -2,6 +2,7 @@ package com.techelevator.model;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.time.LocalDateTime;
 
 public class Report {
 
@@ -11,6 +12,8 @@ public class Report {
 
     private Pothole pothole = null;
     private Drain drain = null;
+
+    private LocalDateTime reportedDT;
 
 
     public Report() {
@@ -83,6 +86,13 @@ public class Report {
         this.drain = drain;
     }
 
+    public LocalDateTime getReportedDT() {
+        return reportedDT;
+    }
+
+    public void setReportedDT(LocalDateTime reportedDT) {
+        this.reportedDT = reportedDT;
+    }
 
     @Override
     public String toString() {

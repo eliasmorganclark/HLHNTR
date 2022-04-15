@@ -78,9 +78,11 @@ methods:{
     },
     showMarkerInfoWindow(hazard, id) {
             this.markerInfoWindowPos = hazard.address.coordinates;
-            this.markerInfoOptions.content = 
-                  hazard.hazardType + ' at ' + hazard.address.houseNumber +
+            const infoWindowText = hazard.hazardType + ' at ' + hazard.address.houseNumber +
                   ' ' + hazard.address.streetName + ' in ' + hazard.address.city;
+            //TODO link to detail about a hazard
+            const infoWindowLink = '<a href="/newreport">New Report</a>'
+            this.markerInfoOptions.content = infoWindowText + ' ' + infoWindowLink;
 
             if (this.currentMarkerId == id) {
               this.markerInfoWinOpen = !this.markerInfoWinOpen;
