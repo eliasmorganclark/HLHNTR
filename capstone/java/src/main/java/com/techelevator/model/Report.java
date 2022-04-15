@@ -1,7 +1,8 @@
 package com.techelevator.model;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class Report {
@@ -13,20 +14,22 @@ public class Report {
     private Pothole pothole = null;
     private Drain drain = null;
 
-    private LocalDateTime reportedDT;
+    private Timestamp reportedTimestamp;
 
 
     public Report() {
     }
 
-    public Report(Long reportingUser, Pothole pothole) {
+    public Report(Long reportingUser, Pothole pothole, Timestamp reportedTimestamp) {
         this.reportingUser = reportingUser;
         this.pothole = pothole;
+        this.reportedTimestamp = reportedTimestamp;
     }
 
-    public Report(Long reportingUser, Drain drain) {
+    public Report(Long reportingUser, Drain drain , Timestamp reportedTimestamp) {
         this.reportingUser = reportingUser;
         this.drain = drain;
+        this.reportedTimestamp = reportedTimestamp;
     }
 
     public Report(Pothole pothole) {
@@ -86,12 +89,12 @@ public class Report {
         this.drain = drain;
     }
 
-    public LocalDateTime getReportedDT() {
-        return reportedDT;
+    public Timestamp getReportedTimestamp() {
+        return reportedTimestamp;
     }
 
-    public void setReportedDT(LocalDateTime reportedDT) {
-        this.reportedDT = reportedDT;
+    public void setReportedTimestamp(Timestamp reportedTimestamp) {
+        this.reportedTimestamp = reportedTimestamp;
     }
 
     @Override

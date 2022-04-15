@@ -1,6 +1,7 @@
 package com.techelevator.model;
 
 import javax.validation.Valid;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public abstract class Hazard {
@@ -12,11 +13,11 @@ public abstract class Hazard {
     private String repairStatus;
     private Long reportingUser;
 
-    private LocalDateTime reportedDT;
+    private Timestamp firstReportedTimestamp;
 
-    private LocalDateTime inspectedDT;
-    private LocalDateTime scheduledRepairDT;
-    private LocalDateTime repairedDT;
+    private Timestamp inspectedTimestamp;
+    private Timestamp scheduledRepairTimestamp;
+    private Timestamp repairedTimestamp;
 
     public Hazard () {}
 
@@ -76,36 +77,36 @@ public abstract class Hazard {
         this.reportingUser = reportingUser;
     }
 
-    public LocalDateTime getReportedDT() {
-        return reportedDT;
+    public Timestamp getFirstReportedTimestamp() {
+        return firstReportedTimestamp;
     }
 
-    public void setReportedDT(LocalDateTime reportedDT) {
-        this.reportedDT = reportedDT;
+    public void setFirstReportedTimestamp(Timestamp firstReportedTimestamp) {
+        this.firstReportedTimestamp = firstReportedTimestamp;
     }
 
-    public LocalDateTime getInspectedDT() {
-        return inspectedDT;
+    public Timestamp getInspectedTimestamp() {
+        return inspectedTimestamp;
     }
 
-    public void setInspectedDT(LocalDateTime inspectedDT) {
-        this.inspectedDT = inspectedDT;
+    public void setInspectedTimestamp(Timestamp inspectedTimestamp) {
+        this.inspectedTimestamp = inspectedTimestamp;
     }
 
-    public LocalDateTime getScheduledRepairDT() {
-        return scheduledRepairDT;
+    public Timestamp getScheduledRepairTimestamp() {
+        return scheduledRepairTimestamp;
     }
 
-    public void setScheduledRepairDT(LocalDateTime scheduledRepairDT) {
-        this.scheduledRepairDT = scheduledRepairDT;
+    public void setScheduledRepairTimestamp(Timestamp scheduledRepairTimestamp) {
+        this.scheduledRepairTimestamp = scheduledRepairTimestamp;
     }
 
-    public LocalDateTime getRepairedDT() {
-        return repairedDT;
+    public Timestamp getRepairedTimestamp() {
+        return repairedTimestamp;
     }
 
-    public void setRepairedDT(LocalDateTime repairedDT) {
-        this.repairedDT = repairedDT;
+    public void setRepairedTimestamp(Timestamp repairedTimestamp) {
+        this.repairedTimestamp = repairedTimestamp;
     }
 
     @Override
