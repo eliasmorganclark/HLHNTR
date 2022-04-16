@@ -60,6 +60,16 @@ public class HoleHunterController {
         return reportDao.getDrain(hazardId);
     }
 
+    @RequestMapping(path = "/hazard/{hazardId}", method = RequestMethod.GET)
+    public Hazard getHazard(@PathVariable Long hazardId) {
+        return reportDao.getHazard(hazardId);
+    }
+
+    @RequestMapping(path = "/getAllHazards", method = RequestMethod.GET)
+    public List<Hazard> getAllHazards() {
+        return reportDao.getAllHazards();
+    }
+
     @RequestMapping(path = "/getAllPotholes", method = RequestMethod.GET)
     public List<Pothole> getAllPotholes() {
         return reportDao.getAllPotholes();
@@ -69,6 +79,20 @@ public class HoleHunterController {
     public List<Drain> getAllDrains() {
         return reportDao.getAllDrains();
     }
+
+    @RequestMapping(path = "/drain", method = RequestMethod.PUT)
+    public Drain updateDrain(@RequestBody @Valid Drain drain) {
+        return reportDao.updateDrain(drain);
+    }
+
+    @RequestMapping(path = "/pothole", method = RequestMethod.PUT)
+    public Pothole updatePothole(@RequestBody @Valid Pothole pothole) {
+        return reportDao.updatePothole(pothole);
+    }
+
+
+
+
 
 
 
@@ -97,6 +121,8 @@ public class HoleHunterController {
 
         return drain;
     }
+
+
 
 
 

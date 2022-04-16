@@ -4,7 +4,7 @@ import javax.validation.Valid;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-public abstract class Hazard {
+public abstract class Hazard implements Comparable<Hazard>{
     private Long hazardId;
     private boolean verified;
     @Valid
@@ -27,6 +27,10 @@ public abstract class Hazard {
         this.address = address;
         this.hazardType = hazardType;
         this.repairStatus = repairStatus;
+    }
+
+    public int compareTo(Hazard hazard){
+        return (int) (this.hazardId - hazard.hazardId);
     }
 
     public Long getHazardId() {
