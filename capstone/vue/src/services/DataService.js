@@ -17,6 +17,10 @@ export default {
     return http.get(`/getAllReports/${hazardId}`);
   },
 
+  getAllHazards() {
+    return http.get("/getAllHazards");
+  },
+
   getAllPotholes() {
     return http.get("/getAllPotholes");
   },

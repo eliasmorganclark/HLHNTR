@@ -4,11 +4,10 @@
     <p>Map placeholder</p> -->
     <div id="sidebar">
       <h2>HELP SAVE NORTHEAST OHIO</h2>
-      <p>LIST HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!</p>
-      <hazard-list></hazard-list>
+      <hazard-list @map-hazards="updateMap"></hazard-list>
     </div>
     <div id="mapbox">
-      <Map />
+      <Map v-bind:filteredHazards="mapHazards" />
     </div>
   </div>
 </template>
@@ -19,8 +18,17 @@ import HazardList from "@/components/HazardList.vue";
 
 export default {
   components: { Map, HazardList },
-
   name: "home",
+  data() {
+    return {
+      mapHazards: null,
+    };
+  },
+  methods: {
+    updateMap(hazards) {
+      this.mapHazards = hazards;
+    },
+  },
 };
 </script>
 
