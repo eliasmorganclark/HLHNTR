@@ -1,8 +1,14 @@
 <template>
   <div class="hazard-list-container">
     <!-- Control Buttons -->
+    <h2>Hazard Filter List</h2>
     <label for="hazard-filter">Hazard Filter</label>
-    <select v-model="filter.hazardType" name="hazard-filter" id="hazard-filter">
+    <select
+      v-model="filter.hazardType"
+      name="hazard-filter"
+      id="hazard-filter"
+      @change="$emit('map-hazards', filteredHazards)"
+    >
       <option value="">All</option>
       <option value="POTHOLE">Potholes</option>
       <option value="DRAIN">Drains</option>
@@ -22,6 +28,7 @@ import dataService from "@/services/DataService.js";
 
 export default {
   name: "hazard-list",
+  emits: ["map-hazards"],
   data() {
     return {
       filter: {
