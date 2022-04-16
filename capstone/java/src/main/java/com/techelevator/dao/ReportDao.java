@@ -2,6 +2,7 @@ package com.techelevator.dao;
 
 
 import com.techelevator.model.Drain;
+import com.techelevator.model.Hazard;
 import com.techelevator.model.Pothole;
 import com.techelevator.model.Report;
 
@@ -19,6 +20,8 @@ public interface ReportDao {
 
     List<Report> getReportsByHazardId(Long hazardID);
 
+    List<Hazard> getAllHazards();
+
     List<Pothole> getAllPotholes();
 
     Pothole getPothole(Long hazardId);
@@ -26,6 +29,12 @@ public interface ReportDao {
     List<Drain> getAllDrains();
 
     Drain getDrain(Long hazardId);
+
+    Drain updateDrain(Drain drain);
+
+    Pothole updatePothole(Pothole pothole);
+
+    Hazard getHazard(Long hazardId);
 
 //    long getUserIdByUsername(String username);
 }

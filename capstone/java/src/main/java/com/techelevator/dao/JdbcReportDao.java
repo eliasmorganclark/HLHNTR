@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -202,6 +203,15 @@ public class JdbcReportDao implements ReportDao {
     }
 
     @Override
+    public List<Hazard> getAllHazards() {
+        List<Hazard> allHazards = new ArrayList<>();
+        allHazards.addAll(getAllPotholes());
+        allHazards.addAll(getAllDrains());
+        Collections.sort(allHazards);
+        return allHazards;
+    }
+
+    @Override
     public List<Pothole> getAllPotholes() {
         List<Pothole> potholes = new ArrayList<>();
         String sql = "SELECT * FROM pothole ORDER BY state, city, street_name, house_number;";
@@ -243,6 +253,57 @@ public class JdbcReportDao implements ReportDao {
         if (results.next()) {
             return mapRowToDrain(results);
 
+        }
+        return null;
+    }
+
+    @Override
+    public Drain updateDrain(Drain drain) {
+
+        String sql = "UPDATE drain SET house_number = ?, street_name = ?, city = ?, state = ?, zip = ?, latitude = ?, longitude = ?, verified = ?, " +
+                "repair_status = ?, is_clogged =?, first_reported_timestamp = ?, inspected_timestamp = ?, scheduled_repair_timestamp = ?, repaired_timestamp = ? WHERE hazard_id = ?;";
+        int rowsUpdated = jdbcTemplate.update(sql, drain.getAddress().getHouseNumber(),
+                drain.getAddress().getStreetName(), drain.getAddress().getCity(), drain.getAddress().getState(),
+                drain.getAddress().getZip(),drain.getAddress().getCoordinates().getLat(),drain.getAddress().getCoordinates().getLng(),
+                drain.isVerified(),drain.getRepairStatus(),drain.isClogged(), drain.getFirstReportedTimestamp(),
+                drain.getInspectedTimestamp(), drain.getScheduledRepairTimestamp(), drain.getRepairedTimestamp(),
+                drain.getHazardId());
+        if(rowsUpdated == 1){
+            return drain;
+        }
+        else{
+            return null;
+        }
+    }
+
+    @Override
+    public Pothole updatePothole(Pothole pothole) {
+        String sql = "UPDATE pothole SET house_number = ?, street_name = ?, city = ?, state = ?, zip = ?, latitude = ?, longitude = ?, verified = ?, " +
+                "repair_status = ?, severity = ?, first_reported_timestamp = ?, inspected_timestamp = ?, scheduled_repair_timestamp = ?, repaired_timestamp = ? WHERE hazard_id = ?;";
+        int rowsUpdated = jdbcTemplate.update(sql, pothole.getAddress().getHouseNumber(),
+                pothole.getAddress().getStreetName(), pothole.getAddress().getCity(), pothole.getAddress().getState(),
+                pothole.getAddress().getZip(),pothole.getAddress().getCoordinates().getLat(),pothole.getAddress().getCoordinates().getLng(),
+                pothole.isVerified(),pothole.getRepairStatus(),pothole.getSeverity(), pothole.getFirstReportedTimestamp(),
+                pothole.getInspectedTimestamp(), pothole.getScheduledRepairTimestamp(), pothole.getRepairedTimestamp(),
+                pothole.getHazardId());
+        if(rowsUpdated == 1){
+            return pothole;
+        }
+        else{
+            return null;
+        }
+    }
+
+    @Override
+    public Hazard getHazard(Long hazardId) {
+        Hazard drain = getDrain(hazardId);
+        Hazard pothole = getPothole(hazardId);
+
+        if(drain == null){
+            return pothole;
+        }
+        if(pothole == null){
+            return drain;
         }
         return null;
     }
