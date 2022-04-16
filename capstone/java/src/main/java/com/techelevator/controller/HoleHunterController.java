@@ -35,9 +35,8 @@ public class HoleHunterController {
         return reportDao.create(drain,drain.getReportingUser());
     }
 
-
-    @RequestMapping(path = "/getReport", method = RequestMethod.GET)
-    public Report getReportById(@RequestParam Long reportId) {
+    @RequestMapping(path = "/report/{reportId}", method = RequestMethod.GET)
+    public Report getReportById(@PathVariable Long reportId) {
         return reportDao.getReport(reportId);
     }
 
@@ -46,13 +45,18 @@ public class HoleHunterController {
         return reportDao.getAllReports();
     }
 
-    @RequestMapping(path = "/getPothole", method = RequestMethod.GET)
-    public Pothole getPotholeById(@RequestParam Long hazardId) {
+    @RequestMapping(path = "/getAllReports/{hazardId}", method = RequestMethod.GET)
+    public List<Report> getAllReportsById(@PathVariable Long hazardId) {
+        return reportDao.getReportsByHazardId(hazardId);
+    }
+
+    @RequestMapping(path = "/pothole/{hazardId}", method = RequestMethod.GET)
+    public Pothole getPotholeById(@PathVariable Long hazardId) {
         return reportDao.getPothole(hazardId);
     }
 
-    @RequestMapping(path = "/getDrain", method = RequestMethod.GET)
-    public Drain getDrainById(@RequestParam Long hazardId) {
+    @RequestMapping(path = "/drain/{hazardId}", method = RequestMethod.GET)
+    public Drain getDrainById(@PathVariable Long hazardId) {
         return reportDao.getDrain(hazardId);
     }
 
@@ -65,6 +69,8 @@ public class HoleHunterController {
     public List<Drain> getAllDrains() {
         return reportDao.getAllDrains();
     }
+
+
 
 
     //test endpoints
