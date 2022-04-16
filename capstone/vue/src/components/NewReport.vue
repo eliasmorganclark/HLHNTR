@@ -8,12 +8,24 @@
     </div>
     <div class="new-report-form-container">
       <form class="new-report-form" v-on:submit.prevent="saveNewReport">
-        <label for="hazard-type">Hazard Type</label>
-        <select v-model="hazardType" name="hazard-type" id="hazard-type">
-          <option value="">------</option>
-          <option value="POTHOLE">Pothole</option>
-          <option value="DRAIN">Drain</option>
-        </select>
+        <div class="hazard-type-container">
+          <label for="hazard-type">Hazard Type</label>
+          <select v-model="hazardType" name="hazard-type" id="hazard-type">
+            <option value="">------</option>
+            <option value="POTHOLE">Pothole</option>
+            <option value="DRAIN">Drain</option>
+          </select>
+        </div>
+
+        <div v-if="hazardType == 'POTHOLE'" class="severity-container">
+          <label for="severity">Severity</label>
+          <select v-model="hazard.severity" name="severity" id="severity">
+            <option value="">---</option>
+            <option value="LOW">LOW</option>
+            <option value="MODERATE">MODERATE</option>
+            <option value="HIGH">HIGH</option>
+          </select>
+        </div>
 
         <label for="house-number">House Number</label>
         <input
@@ -29,11 +41,27 @@
           type="text"
         />
 
+        <label for="street-type">Street Type</label>
+        <select v-model="streetType" name="street-type" id="street-type">
+          <!-- <option
+            v-for="streetType in streetTypes"
+            :key="streetType.standardAbbr"
+            value="streetType.standardAbbr"
+          >
+            {{ streetType.standardAbbr }}
+          </option> -->
+          <option value="">---</option>
+          <option value="AVE">AVE</option>
+          <option value="ST">ST</option>
+          <option value="BLVD">BLVD</option>
+        </select>
+
         <label for="city">City</label>
         <input v-model.trim="hazard.address.city" id="city" type="text" />
 
         <label for="state">State</label>
         <select id="state" name="state" v-model="hazard.address.state">
+          <option value="OH">Ohio</option>
           <option value="AL">Alabama</option>
           <option value="AK">Alaska</option>
           <option value="AZ">Arizona</option>
@@ -68,7 +96,6 @@
           <option value="NY">New York</option>
           <option value="NC">North Carolina</option>
           <option value="ND">North Dakota</option>
-          <option value="OH">Ohio</option>
           <option value="OK">Oklahoma</option>
           <option value="OR">Oregon</option>
           <option value="PA">Pennsylvania</option>
@@ -114,7 +141,9 @@ export default {
   // },
   data() {
     return {
+      streetTypes: {},
       hazardType: "",
+      streetType: "",
       hazard: {
         verified: false,
         address: {
@@ -145,6 +174,8 @@ export default {
       }
     },
     saveNewPotholeReport() {
+      this.hazard.address.streetName += " " + this.streetType;
+      console.log(this.hazard);
       const config = {
         headers: { Authorization: `Bearer ${this.$store.state.token}` },
       };
@@ -176,6 +207,7 @@ export default {
         });
     },
     saveNewDrainReport() {
+      this.hazard.address.streetName += " " + this.streetType;
       const config = {
         headers: { Authorization: `Bearer ${this.$store.state.token}` },
       };
@@ -220,6 +252,9 @@ export default {
       });
       return true;
     },
+  },
+  created() {
+    this.streetTypes = require("street-types");
   },
 };
 </script>
