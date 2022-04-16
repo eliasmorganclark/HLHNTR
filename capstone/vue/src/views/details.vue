@@ -1,6 +1,6 @@
 <template>
 <div>
-  <hazard-details v-if='dataLoaded' v-bind:hazard="this.$store.getters.getAllHazards[0]" /> 
+  <hazard-details v-if='dataLoaded' v-bind:hazard="this.$store.getters.getAllHazards[1]" /> 
 </div>
 </template>
 
