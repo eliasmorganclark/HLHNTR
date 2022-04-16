@@ -42,11 +42,7 @@
         />
 
         <label for="street-type">Street Type</label>
-        <select
-          v-model="hazard.address.streetType"
-          name="street-type"
-          id="street-type"
-        >
+        <select v-model="streetType" name="street-type" id="street-type">
           <!-- <option
             v-for="streetType in streetTypes"
             :key="streetType.standardAbbr"
@@ -65,6 +61,7 @@
 
         <label for="state">State</label>
         <select id="state" name="state" v-model="hazard.address.state">
+          <option value="OH">Ohio</option>
           <option value="AL">Alabama</option>
           <option value="AK">Alaska</option>
           <option value="AZ">Arizona</option>
@@ -99,7 +96,6 @@
           <option value="NY">New York</option>
           <option value="NC">North Carolina</option>
           <option value="ND">North Dakota</option>
-          <option value="OH">Ohio</option>
           <option value="OK">Oklahoma</option>
           <option value="OR">Oregon</option>
           <option value="PA">Pennsylvania</option>
