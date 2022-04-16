@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -202,6 +203,15 @@ public class JdbcReportDao implements ReportDao {
     }
 
     @Override
+    public List<Hazard> getAllHazards() {
+        List<Hazard> allHazards = new ArrayList<>();
+        allHazards.addAll(getAllPotholes());
+        allHazards.addAll(getAllDrains());
+        Collections.sort(allHazards);
+        return allHazards;
+    }
+
+    @Override
     public List<Pothole> getAllPotholes() {
         List<Pothole> potholes = new ArrayList<>();
         String sql = "SELECT * FROM pothole ORDER BY state, city, street_name, house_number;";
@@ -282,6 +292,20 @@ public class JdbcReportDao implements ReportDao {
         else{
             return null;
         }
+    }
+
+    @Override
+    public Hazard getHazard(Long hazardId) {
+        Hazard drain = getDrain(hazardId);
+        Hazard pothole = getPothole(hazardId);
+
+        if(drain == null){
+            return pothole;
+        }
+        if(pothole == null){
+            return drain;
+        }
+        return null;
     }
 //
 //    @Override
