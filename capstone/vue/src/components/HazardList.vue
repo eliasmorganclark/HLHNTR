@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     displayAllHazards() {
-      this.filteredList = this.$store.getters.getAllHazards();
+      this.filteredList = this.$store.getters.getAllHazards;
       // Target function looks like this
       //this.filteredList = this.$store.getters.getfilteredHazards(filter function here);
     },
