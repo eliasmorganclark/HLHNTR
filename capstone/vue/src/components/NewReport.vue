@@ -29,6 +29,18 @@
           type="text"
         />
 
+        <label for="street-type">Street Type</label>
+        <select
+          v-model="hazard.address.streetType"
+          name="street-type"
+          id="street-type"
+        >
+          <option value="">---</option>
+          <option value="AVE">AVE</option>
+          <option value="ST">ST</option>
+          <option value="BLVD">BLVD</option>
+        </select>
+
         <label for="city">City</label>
         <input v-model.trim="hazard.address.city" id="city" type="text" />
 
@@ -120,6 +132,7 @@ export default {
         address: {
           houseNumber: "",
           streetName: "",
+          streetType: "",
           city: "",
           state: "",
           zip: "",
