@@ -38,14 +38,10 @@ export default {
       //this.filteredList = this.$store.getters.getfilteredHazards(filter function here);
     },
     displayAllPotholes() {
-      this.filteredList = this.$store.getters.getAllHazards.filter(
-        (element) => element.hazardType == "POTHOLE"
-      );
+      this.filteredList = this.$store.state.potholes;
     },
     displayAllDrains() {
-      this.filteredList = this.$store.getters.getAllHazards.filter(
-        (element) => element.hazardType == "DRAIN"
-      );
+      this.filteredList = this.$store.state.drains;
     },
     displayHazards(value) {
       switch (value) {

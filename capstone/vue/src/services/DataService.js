@@ -4,35 +4,32 @@ const http = axios.create({
   baseURL: "http://localhost:8080",
 });
 
-
 export default {
   getAllReports() {
     return http.get("/getAllReports");
   },
 
-  getReport(reportId){
+  getReport(reportId) {
     return http.get(`/report/${reportId}`);
   },
 
-  getReportsForHazard(hazardId){
+  getReportsForHazard(hazardId) {
     return http.get(`/getAllReports/${hazardId}`);
   },
 
-  getAllPotholes(){
+  getAllPotholes() {
     return http.get("/getAllPotholes");
   },
-  
-  getPothole(hazardId){
+
+  getPothole(hazardId) {
     return http.get(`/pothole/${hazardId}`);
   },
 
-  getAllDrains(){
+  getAllDrains() {
     return http.get("/getAllDrains");
   },
 
-  getDrain(hazardId){
+  getDrain(hazardId) {
     return http.get(`/drain/${hazardId}`);
-  }
-
-  
+  },
 };

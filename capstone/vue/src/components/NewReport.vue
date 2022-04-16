@@ -175,6 +175,7 @@ export default {
     },
     saveNewPotholeReport() {
       this.hazard.address.streetName += " " + this.streetType;
+      console.log(this.hazard);
       const config = {
         headers: { Authorization: `Bearer ${this.$store.state.token}` },
       };
