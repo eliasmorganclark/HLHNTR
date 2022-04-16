@@ -70,8 +70,15 @@ public class HoleHunterController {
         return reportDao.getAllDrains();
     }
 
+    @RequestMapping(path = "/drain", method = RequestMethod.PUT)
+    public Drain updateDrain(@RequestBody @Valid Drain drain) {
+        return reportDao.updateDrain(drain);
+    }
 
-
+    @RequestMapping(path = "/pothole", method = RequestMethod.PUT)
+    public Pothole updatePothole(@RequestBody @Valid Pothole pothole) {
+        return reportDao.updatePothole(pothole);
+    }
 
     //test endpoints
     @RequestMapping(path = "/testReportObject", method = RequestMethod.GET)

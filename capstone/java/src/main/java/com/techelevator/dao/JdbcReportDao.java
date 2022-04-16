@@ -246,6 +246,43 @@ public class JdbcReportDao implements ReportDao {
         }
         return null;
     }
+
+    @Override
+    public Drain updateDrain(Drain drain) {
+
+        String sql = "UPDATE drain SET house_number = ?, street_name = ?, city = ?, state = ?, zip = ?, latitude = ?, longitude = ?, verified = ?, " +
+                "repair_status = ?, is_clogged =?, first_reported_timestamp = ?, inspected_timestamp = ?, scheduled_repair_timestamp = ?, repaired_timestamp = ? WHERE hazard_id = ?;";
+        int rowsUpdated = jdbcTemplate.update(sql, drain.getAddress().getHouseNumber(),
+                drain.getAddress().getStreetName(), drain.getAddress().getCity(), drain.getAddress().getState(),
+                drain.getAddress().getZip(),drain.getAddress().getCoordinates().getLat(),drain.getAddress().getCoordinates().getLng(),
+                drain.isVerified(),drain.getRepairStatus(),drain.isClogged(), drain.getFirstReportedTimestamp(),
+                drain.getInspectedTimestamp(), drain.getScheduledRepairTimestamp(), drain.getRepairedTimestamp(),
+                drain.getHazardId());
+        if(rowsUpdated == 1){
+            return drain;
+        }
+        else{
+            return null;
+        }
+    }
+
+    @Override
+    public Pothole updatePothole(Pothole pothole) {
+        String sql = "UPDATE pothole SET house_number = ?, street_name = ?, city = ?, state = ?, zip = ?, latitude = ?, longitude = ?, verified = ?, " +
+                "repair_status = ?, severity = ?, first_reported_timestamp = ?, inspected_timestamp = ?, scheduled_repair_timestamp = ?, repaired_timestamp = ? WHERE hazard_id = ?;";
+        int rowsUpdated = jdbcTemplate.update(sql, pothole.getAddress().getHouseNumber(),
+                pothole.getAddress().getStreetName(), pothole.getAddress().getCity(), pothole.getAddress().getState(),
+                pothole.getAddress().getZip(),pothole.getAddress().getCoordinates().getLat(),pothole.getAddress().getCoordinates().getLng(),
+                pothole.isVerified(),pothole.getRepairStatus(),pothole.getSeverity(), pothole.getFirstReportedTimestamp(),
+                pothole.getInspectedTimestamp(), pothole.getScheduledRepairTimestamp(), pothole.getRepairedTimestamp(),
+                pothole.getHazardId());
+        if(rowsUpdated == 1){
+            return pothole;
+        }
+        else{
+            return null;
+        }
+    }
 //
 //    @Override
 //    public long getUserIdByUsername(String username) {

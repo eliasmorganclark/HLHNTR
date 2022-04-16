@@ -27,5 +27,9 @@ public interface ReportDao {
 
     Drain getDrain(Long hazardId);
 
+    Drain updateDrain(Drain drain);
+
+    Pothole updatePothole(Pothole pothole);
+
 //    long getUserIdByUsername(String username);
 }
