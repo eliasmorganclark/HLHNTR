@@ -157,16 +157,19 @@ export default new Vuex.Store({
           (element) => element.hazardType == filter.hazardType
         );
       }
+
       if (filter.reportingUser != null) {
         filteredHazards = filteredHazards.filter(
           (element) => element.reportingUser == filter.reportingUser
         );
       }
+
       if (filter.clogged != null) {
         filteredHazards = filteredHazards.filter(
           (element) => element.clogged == filter.clogged
         );
       }
+
       if (filter.severity != null) {
         filteredHazards = filteredHazards.filter(
           (element) => element.severity == filter.severity

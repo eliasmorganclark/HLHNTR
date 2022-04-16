@@ -33,19 +33,15 @@ export default {
   },
   methods: {
     displayAllHazards() {
-      this.filteredList = this.$store.getters.getAllHazards();
+      this.filteredList = this.$store.getters.getAllHazards;
       // Target function looks like this
       //this.filteredList = this.$store.getters.getfilteredHazards(filter function here);
     },
     displayAllPotholes() {
-      this.filteredList = this.$store.getters.getAllHazards.filter(
-        (element) => element.hazardType == "POTHOLE"
-      );
+      this.filteredList = this.$store.state.potholes;
     },
     displayAllDrains() {
-      this.filteredList = this.$store.getters.getAllHazards.filter(
-        (element) => element.hazardType == "DRAIN"
-      );
+      this.filteredList = this.$store.state.drains;
     },
     displayHazards(value) {
       switch (value) {
