@@ -78,11 +78,11 @@ methods:{
     },
     showMarkerInfoWindow(hazard, id) {
             this.markerInfoWindowPos = hazard.address.coordinates;
-
+          
             const infoWindowHazardText = hazard.hazardType + ' at ' + hazard.address.houseNumber +
                   ' ' + hazard.address.streetName + ' in ' + hazard.address.city;
-            const infoWindowTimestampText = 'Reported on ' + this.makeDatePretty(hazard.firstReportedTimestamp);
-            const infoWindowLink = '<a href="/newreport">New Report</a>';
+            const infoWindowTimestampText = 'First reported on ' + this.makeDatePretty(hazard.firstReportedTimestamp);
+            const infoWindowLink = '<a href="/newreport">See more details</a>';
             const infoWindowText = '<p>'+infoWindowHazardText+'</p>'+'<p>'+infoWindowTimestampText+'</p>'+'<p>'+infoWindowLink+'</p>';
 
             this.markerInfoOptions.content = infoWindowText;

@@ -17,6 +17,8 @@ public interface ReportDao {
 
     List<Report> getAllReports();
 
+    List<Report> getReportsByHazardId(Long hazardID);
+
     List<Pothole> getAllPotholes();
 
     Pothole getPothole(Long hazardId);
