@@ -43,17 +43,17 @@
 
         <label for="street-type">Street Type</label>
         <select v-model="streetType" name="street-type" id="street-type">
-          <!-- <option
+          <option
             v-for="streetType in streetTypes"
             :key="streetType.standardAbbr"
             value="streetType.standardAbbr"
           >
             {{ streetType.standardAbbr }}
-          </option> -->
-          <option value="">---</option>
+          </option>
+          <!-- <option value="">---</option>
           <option value="AVE">AVE</option>
           <option value="ST">ST</option>
-          <option value="BLVD">BLVD</option>
+          <option value="BLVD">BLVD</option> -->
         </select>
 
         <label for="city">City</label>
