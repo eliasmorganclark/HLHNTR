@@ -47,6 +47,13 @@
           name="street-type"
           id="street-type"
         >
+          <!-- <option
+            v-for="streetType in streetTypes"
+            :key="streetType.standardAbbr"
+            value="streetType.standardAbbr"
+          >
+            {{ streetType.standardAbbr }}
+          </option> -->
           <option value="">---</option>
           <option value="AVE">AVE</option>
           <option value="ST">ST</option>
@@ -138,13 +145,14 @@ export default {
   // },
   data() {
     return {
+      streetTypes: {},
       hazardType: "",
+      streetType: "",
       hazard: {
         verified: false,
         address: {
           houseNumber: "",
           streetName: "",
-          streetType: "",
           city: "",
           state: "",
           zip: "",
@@ -170,6 +178,7 @@ export default {
       }
     },
     saveNewPotholeReport() {
+      this.hazard.address.streetName += " " + this.streetType;
       const config = {
         headers: { Authorization: `Bearer ${this.$store.state.token}` },
       };
@@ -201,6 +210,7 @@ export default {
         });
     },
     saveNewDrainReport() {
+      this.hazard.address.streetName += " " + this.streetType;
       const config = {
         headers: { Authorization: `Bearer ${this.$store.state.token}` },
       };
@@ -245,6 +255,9 @@ export default {
       });
       return true;
     },
+  },
+  created() {
+    this.streetTypes = require("street-types");
   },
 };
 </script>
