@@ -8,12 +8,24 @@
     </div>
     <div class="new-report-form-container">
       <form class="new-report-form" v-on:submit.prevent="saveNewReport">
-        <label for="hazard-type">Hazard Type</label>
-        <select v-model="hazardType" name="hazard-type" id="hazard-type">
-          <option value="">------</option>
-          <option value="POTHOLE">Pothole</option>
-          <option value="DRAIN">Drain</option>
-        </select>
+        <div class="hazard-type-container">
+          <label for="hazard-type">Hazard Type</label>
+          <select v-model="hazardType" name="hazard-type" id="hazard-type">
+            <option value="">------</option>
+            <option value="POTHOLE">Pothole</option>
+            <option value="DRAIN">Drain</option>
+          </select>
+        </div>
+
+        <div v-if="hazardType == 'POTHOLE'" class="severity-container">
+          <label for="severity">Severity</label>
+          <select v-model="hazard.severity" name="severity" id="severity">
+            <option value="">---</option>
+            <option value="LOW">LOW</option>
+            <option value="MODERATE">MODERATE</option>
+            <option value="HIGH">HIGH</option>
+          </select>
+        </div>
 
         <label for="house-number">House Number</label>
         <input
