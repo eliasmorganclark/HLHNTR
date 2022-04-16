@@ -167,6 +167,41 @@ public class JdbcReportDao implements ReportDao {
     }
 
     @Override
+    public List<Report> getReportsByHazardId(Long hazardID) {
+        List<Report> reports = new ArrayList<>();
+
+        String sql = "SELECT report_id, pothole_id, drain_id, user_id, reported_timestamp FROM report WHERE pothole_id = ? OR drain_id = ? ORDER BY report;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, hazardID, hazardID);
+        Report report = null;
+
+        while(results.next()) {
+            if (results.getObject("pothole_id") != null){
+                report = mapRowToReportPothole(results);
+                sql = "SELECT hazard_id, house_number, street_name, city, state, zip, latitude, longitude, verified, " +
+                        "repair_status, severity, first_reported_timestamp, inspected_timestamp, scheduled_repair_timestamp, " +
+                        "repaired_timestamp FROM pothole where hazard_id  = ?;";
+                SqlRowSet potholeResults = jdbcTemplate.queryForRowSet(sql, report.getPothole().getHazardId());
+                if(potholeResults.next()) {
+                    report.setPothole(mapRowToPothole(potholeResults));
+                }
+                reports.add(report);
+            } else {
+                report = mapRowToReportDrain(results);
+                sql = "SELECT hazard_id, house_number, street_name, city, state, zip, latitude, longitude, verified, " +
+                        "repair_status, is_clogged, first_reported_timestamp, inspected_timestamp, " +
+                        "scheduled_repair_timestamp, repaired_timestamp  FROM drain where hazard_id  = ?;";
+                SqlRowSet drainResults = jdbcTemplate.queryForRowSet(sql, report.getDrain().getHazardId());
+                if(drainResults.next()) {
+                    report.setDrain(mapRowToDrain(drainResults));
+                }
+                reports.add(report);
+            }
+
+        }
+        return reports;
+    }
+
+    @Override
     public List<Pothole> getAllPotholes() {
         List<Pothole> potholes = new ArrayList<>();
         String sql = "SELECT * FROM pothole ORDER BY state, city, street_name, house_number;";
