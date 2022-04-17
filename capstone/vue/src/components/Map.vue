@@ -2,7 +2,7 @@
   <div>
     <GmapMap
       :center="initialMapCenter"
-      :zoom="12"
+      :zoom="20"
       :options="{
         zoomControl: true,
         mapTypeControl: true,
@@ -13,6 +13,7 @@
         disableDefaultUi: false,
       }"
       @center_changed="updateCenter"
+      @dblclick="showDropPin = true"
       style="width:100%;  height: 800px;"
     >
       <gmap-info-window
@@ -30,7 +31,7 @@
         :clickable="true"
         @click="showMarkerInfoWindow(hazard, hazard.hazardId)"
       />
-      <div v-if="dropPin">
+      <div class = "dropped-pin-container" v-if="showDropPin">
         <GmapMarker
           :position="currentMapCenter"
           :clickable="true"
@@ -48,14 +49,19 @@
 
 <script>
 import dataService from "@/services/DataService.js";
+// eslint-disable-next-line no-unused-vars
+import geocodingService from "@/services/GeocodingService.js";
 export default {
   name: "Map",
+  emits: ["dropped-pin-hazard"],
   data() {
     return {
       hazards: [],
       initialMapCenter: { lat: 41.4993, lng: -81.6944 },
       currentMapCenter: { lat: 0, lng: 0},
       droppedPinLoc: {lat: 0, lng: 0},
+      showDropPin: false,
+      droppedPinAddress:{},
       markerInfoWindowPos: null,
       markerInfoWinOpen: false,
       currentMarkerId: null,
@@ -81,6 +87,7 @@ export default {
       }
     },
   },
+  created(){window.emitDropPinPothole =this.emitDropPinPothole;},
   mounted() {
     this.geolocate();
     this.displayAllHazards();
@@ -101,7 +108,7 @@ export default {
       });
     },
     updateCenter(latLng) {
-      if(!this.dropPin){
+      if(!this.showDropPin){
         this.currentMapCenter = {
             lat: latLng.lat(),
             lng: latLng.lng()
@@ -147,38 +154,28 @@ export default {
       }
     },
     droppedPinMarkerInfoWindow(show) {
-      if(show){this.markerInfoWindowPos = this.droppedPinLoc;
-
-      const infoWindowHazardText ="";
-      const infoWindowTimestampText ="";
-      const infoWindowLink = '<input type="button" value="Drop a pin on the map"/>'
-      const infoWindowText =
-        "<p>" +
-        infoWindowHazardText +
-        "</p>" +
-        "<p>" +
-        infoWindowTimestampText +
-        "</p>" +
-        "<p>" +
-        infoWindowLink +
-        "</p>";
-
-      this.markerInfoOptions.content = infoWindowText;
-
-      
-        this.markerInfoWinOpen = true;}
-        else{
-          this.markerInfoWinOpen = false;
-        }
-      
-      
+      if(show){
+        this.markerInfoWindowPos = this.droppedPinLoc;
+        const potholeReportButton = '<input type="button" value="Report a Pothole Here" onclick="emitDropPinPothole()"/>'
+        const drainReportButton = '<input type="button" value="Report a Drain Here" onclick="emitDropPinDrain()"/>'
+        const infoWindowText = potholeReportButton + '<br>' + drainReportButton;
+        this.markerInfoOptions.content = infoWindowText;
+        this.markerInfoWinOpen = true;
+      }
+      else{
+        this.markerInfoWinOpen = false;
+      }
     },
-
     makeDatePretty(timestamp) {
       const date = timestamp.substring(0, 10);
       const time = timestamp.substring(11, 16);
       return date + " at " + time;
     },
+    emitDropPinPothole(){
+      this.droppedPinAddress = geocodingService.getFormattedAddress(this.droppedPinLoc);
+      console.log(this.droppedPinAddress);
+      // this.$emit("dropped-pin-hazard",this.droppedPinHazard);
+    }
   },
   
 };
