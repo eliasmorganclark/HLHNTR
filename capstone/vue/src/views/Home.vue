@@ -1,13 +1,18 @@
 <template>
   <div class="home">
-    <!-- <h1>Home</h1>
-    <p>Map placeholder</p> -->
-    <div id="sidebar">
-      <h2>HELP SAVE NORTHEAST OHIO</h2>
-      <hazard-list @map-hazards="updateMap"></hazard-list>
+    <div class="sidebar-map-container">
+      <!-- <h1>Home</h1>
+      <p>Map placeholder</p> -->
+      <div id="sidebar">
+        <h2>HELP SAVE NORTHEAST OHIO</h2>
+        <hazard-list @map-hazards="updateMap"></hazard-list>
+      </div>
+      <div id="mapbox">
+        <Map v-bind:filteredHazards="mapHazards" />
+      </div>
     </div>
-    <div id="mapbox">
-      <Map v-bind:filteredHazards="mapHazards" />
+    <div class="report-hazard-container">
+      <new-report/>
     </div>
   </div>
 </template>
@@ -15,9 +20,10 @@
 <script>
 import Map from "../components/Map.vue";
 import HazardList from "@/components/HazardList.vue";
+import NewReport from '../components/NewReport.vue';
 
 export default {
-  components: { Map, HazardList },
+  components: { Map, HazardList, NewReport },
   name: "home",
   data() {
     return {
@@ -35,7 +41,7 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,400;0,900;1,100;1,400;1,900&display=swap");
 
-.home {
+.sidebar-map-container {
   font-family: "Kanit", sans-serif;
   display: flex;
   flex-direction: row;

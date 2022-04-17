@@ -1,7 +1,7 @@
 <template>
   <div>
     <GmapMap
-      :center="mapCenter"
+      :center="initialMapCenter"
       :zoom="12"
       :options="{
         zoomControl: true,
@@ -12,6 +12,7 @@
         fullscreenControl: true,
         disableDefaultUi: false,
       }"
+      @center_changed="updateCenter"
       style="width:100%;  height: 800px;"
     >
       <gmap-info-window
@@ -29,6 +30,7 @@
         :clickable="true"
         @click="showMarkerInfoWindow(hazard, hazard.hazardId)"
       />
+      
     </GmapMap>
   </div>
 </template>
@@ -40,7 +42,8 @@ export default {
   data() {
     return {
       hazards: [],
-      mapCenter: { lat: 41.4993, lng: -81.6944 },
+      initialMapCenter: { lat: 41.4993, lng: -81.6944 },
+      currentMapCenter: { lat: 0, lng: 0},
       markerInfoWindowPos: null,
       markerInfoWinOpen: false,
       currentMarkerId: null,
@@ -83,6 +86,12 @@ export default {
         };
       });
     },
+    updateCenter(latLng) {
+      this.currentMapCenter = {
+          lat: latLng.lat(),
+          lng: latLng.lng()
+      }
+    },
     showMarkerInfoWindow(hazard, id) {
       this.markerInfoWindowPos = hazard.address.coordinates;
 
@@ -124,9 +133,7 @@ export default {
       return date + " at " + time;
     },
   },
-  created() {
-    this.reloadData();
-  },
+  
 };
 </script>
 
