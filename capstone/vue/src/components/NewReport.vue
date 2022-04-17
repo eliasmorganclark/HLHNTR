@@ -124,6 +124,13 @@
         />
       </form>
     </div>
+    <div class = "new-report-map-button-container">
+      <input
+          type="button"
+          v-on:click.prevent="$emit('drop-pin',true)"
+          value="Drop a pin on the map"
+        />
+    </div>
   </div>
 
   <!-- <address-form v-model="report.pothole.address"></address-form> -->
@@ -139,6 +146,7 @@ export default {
   // components: {
   //   AddressForm,
   // },
+  emits: ["drop-pin"],
   data() {
     return {
       streetTypes: {},
