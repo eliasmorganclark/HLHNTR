@@ -6,10 +6,10 @@ const http = axios.create({
 
 export default {
   addNewPotholeReport(hazard, config) {
-    return http.post("/newPotholeReport", hazard, config);
+    return http.post("/pothole", hazard, config);
   },
 
   addNewDrainReport(hazard, config) {
-    return http.post("/newDrainReport", hazard, config);
+    return http.post("/drain", hazard, config);
   },
 };

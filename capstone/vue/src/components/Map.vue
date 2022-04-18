@@ -1,17 +1,21 @@
 <template>
   <div>
     <GmapMap
-      :center="mapCenter"
-      :zoom="12"
+      :center="initialMapCenter"
+      :zoom="10"
       :options="{
         zoomControl: true,
         mapTypeControl: true,
-        scaleControl: false,
+        scaleControl: true,
         streetViewControl: false,
         rotateControl: false,
         fullscreenControl: true,
         disableDefaultUi: false,
+        gestureHandling: 'greedy',
+        disableDoubleClickZoom: true
       }"
+      @center_changed="updateCenter"
+      @dblclick="dropPin"
       style="width:100%;  height: 800px;"
     >
       <gmap-info-window
@@ -29,18 +33,37 @@
         :clickable="true"
         @click="showMarkerInfoWindow(hazard, hazard.hazardId)"
       />
+      <div class = "drop-pin-container" v-if="showDropPin">
+        <GmapMarker
+          :position="droppedPinLoc"
+          :clickable="true"
+          :draggable="true"
+          @mouseover="updateDropPinLocation"
+          @dragstart="dropPinMarkerInfoWindow(false)"
+          @dragend="updateDropPinLocation"
+          @click="dropPinMarkerInfoWindow(true)"
+        />
+      </div>
+      
     </GmapMap>
   </div>
 </template>
 
 <script>
 import dataService from "@/services/DataService.js";
+// eslint-disable-next-line no-unused-vars
+import geocodingService from "@/services/GeocodingService.js";
 export default {
   name: "Map",
+  emits: ["drop-pin-hazard"],
   data() {
     return {
       hazards: [],
-      mapCenter: { lat: 41.4993, lng: -81.6944 },
+      initialMapCenter: { lat: 41.4993, lng: -81.6944 },
+      currentMapCenter: { lat: 0, lng: 0},
+      droppedPinLoc: {lat: 0, lng: 0},
+      showDropPin: false,
+      droppedPinAddress:{},
       markerInfoWindowPos: null,
       markerInfoWinOpen: false,
       currentMarkerId: null,
@@ -54,7 +77,8 @@ export default {
     };
   },
   props: {
-    filteredHazards: Object,
+    filteredHazards: Array,
+    // dropPin: Boolean
   },
   computed: {
     hazardsToDisplay() {
@@ -65,6 +89,10 @@ export default {
       }
     },
   },
+  created(){
+    window.getAddressAtPin=this.getAddressAtPin;
+    window.dropPin=this.dropPin;
+    },
   mounted() {
     this.geolocate();
     this.displayAllHazards();
@@ -76,12 +104,21 @@ export default {
         .then((response) => (this.hazards = response.data));
     },
     geolocate() {
+      this.currentMapCenter = this.initialMapCenter;
       navigator.geolocation.getCurrentPosition((position) => {
         this.mapCenter = {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
       });
+    },
+    updateCenter(latLng) {
+      if(!this.showDropPin){
+        this.currentMapCenter = {
+            lat: latLng.lat(),
+            lng: latLng.lng()
+        }
+      }
     },
     showMarkerInfoWindow(hazard, id) {
       this.markerInfoWindowPos = hazard.address.coordinates;
@@ -118,16 +155,91 @@ export default {
         this.currentMarkerId = id;
       }
     },
+    dropPin(event){
+      if(this.showDropPin){
+        this.showDropPin = false;
+      }
+      else{
+        this.droppedPinLoc = {
+              lat: event.latLng.lat(),
+              lng: event.latLng.lng()
+              };
+        this.showDropPin = true;
+      }
+    },
+    updateDropPinLocation(event){
+      this.droppedPinLoc = event.latLng.toJSON();
+    },
+    dropPinMarkerInfoWindow(show) {
+      if(show){
+        this.markerInfoWindowPos = this.droppedPinLoc;
+
+        const potholeReportFunction = "getAddressAtPin('POTHOLE')";
+        const drainReportFunction = "getAddressAtPin('DRAIN')";
+
+        const potholeReportButton = `<input type="button" value="Report a Pothole Here" onclick="${potholeReportFunction}"/>`
+        const drainReportButton = `<input type="button" value="Report a Drain Here" onclick="${drainReportFunction}"/>`
+        const infoWindowText = potholeReportButton + '<br>' + drainReportButton;
+        this.markerInfoOptions.content = infoWindowText;
+        this.markerInfoWinOpen = true;
+      }
+      else{
+        this.markerInfoWinOpen = false;
+      }
+    },
+    getAddressAtPin(hazardType){
+      this.droppedPinAddress = null;
+      geocodingService.reverseGeocode(this.droppedPinLoc).then(response=>{
+        this.droppedPinAddress = response.data.results[0].formatted_address;
+
+        const splitAddress = this.droppedPinAddress.split(',');
+        const number = splitAddress[0].split(" ",1)[0];
+        const street = splitAddress[0].replace(number,'').trim();
+        const city = splitAddress[1].trim();
+        const state = splitAddress[2].trim().split(" ")[0];
+        const zip = splitAddress[2].trim().split(" ")[1]
+
+        const emitOutput = {
+          hazardType:hazardType,
+          address:{
+            houseNumber: number,
+            streetName: street,
+            city: city,
+            state: state,
+            zip: zip,
+          }
+        }
+        this.$emit('drop-pin-hazard',emitOutput);
+      }).catch((error) =>{
+        console.log(error);
+        alert('no address found');
+      })
+
+    },
     makeDatePretty(timestamp) {
       const date = timestamp.substring(0, 10);
       const time = timestamp.substring(11, 16);
       return date + " at " + time;
-    },
+    }
   },
-  created() {
-    this.reloadData();
-  },
+  
 };
 </script>
 
 <style></style>
+
+// hazardType: "",
+//       streetType: "",
+//       hazard: {
+//         verified: false,
+//         address: {
+//           houseNumber: "",
+//           streetName: "",
+//           city: "",
+//           state: "",
+//           zip: "",
+//         },
+//         repairStatus: "pending",
+//         reportingUser: 1,
+//         severity: "",
+//       },
