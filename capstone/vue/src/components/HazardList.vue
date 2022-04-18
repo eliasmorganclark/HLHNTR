@@ -36,6 +36,15 @@ import dataService from "@/services/DataService.js";
 export default {
   name: "hazard-list",
   emits: ["map-hazards"],
+  props:{
+    refreshData:Number
+  },
+  watch:{
+    // eslint-disable-next-line no-unused-vars
+    refreshData(oldNumber, newNumber){
+      this.displayAllHazards();
+    }
+  },
   data() {
     return {
       filter: {

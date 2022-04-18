@@ -98,6 +98,7 @@ public class HoleHunterController {
         //Update drain
     @RequestMapping(path = "/drain", method = RequestMethod.PUT)
     public Drain updateDrain(@RequestBody @Valid Drain drain) {
+        System.out.println("update drain:" + drain);
         return reportDao.updateDrain(drain);
     }
 

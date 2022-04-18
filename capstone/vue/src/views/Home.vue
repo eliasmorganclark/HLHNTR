@@ -5,14 +5,14 @@
       <p>Map placeholder</p> -->
       <div id="sidebar">
         <h2>HELP SAVE NORTHEAST OHIO</h2>
-        <hazard-list @map-hazards="updateMap"></hazard-list>
+        <hazard-list v-bind:refreshData="emittedNewHazardId" @map-hazards="updateMap"></hazard-list>
       </div>
       <div id="mapbox">
         <Map v-bind:filteredHazards="mapHazards" @drop-pin-hazard="emitHazardFromMap"/>
       </div>
     </div>
     <div class="report-hazard-container">
-      <new-report v-bind:propHazard="emittedMapHazard" />
+      <new-report v-bind:propHazard="emittedMapHazard" @new-hazard-id="refreshPlease"/>
     </div>
   </div>
 </template>
@@ -28,7 +28,8 @@ export default {
   data() {
     return {
       mapHazards: null,
-      emittedMapHazard: null
+      emittedMapHazard: null,
+      emittedNewHazardId: null
     };
   },
   methods: {
@@ -38,8 +39,8 @@ export default {
     emitHazardFromMap(hazard){
       this.emittedMapHazard = hazard;
     },
-    refreshPlease(){
-      //let hazardlist know to refresh ??????????????????? 
+    refreshPlease(hazardId){
+      this.emittedNewHazardId = hazardId;
     }
   },
 };

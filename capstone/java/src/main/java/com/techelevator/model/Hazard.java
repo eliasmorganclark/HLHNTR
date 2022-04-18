@@ -166,6 +166,11 @@ public abstract class Hazard implements Comparable<Hazard>{
     public String toString() {
         return "Hazard{" +
                 "hazardId=" + hazardId +
+                ", verified=" + verified +
+                ", address=" + address +
+                ", hazardType=" + hazardType +
+                ", repairStatus='" + repairStatus + '\'' +
+                ", reportingUser=" + reportingUser +
                 ", firstReportedTimestamp=" + firstReportedTimestamp +
                 ", inspectedTimestamp=" + inspectedTimestamp +
                 ", scheduledRepairTimestamp=" + scheduledRepairTimestamp +
