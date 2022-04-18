@@ -2,7 +2,7 @@
 <div id="body">
   <div id="login" class="text-center">
     <form class="form-signin" @submit.prevent="login">
-      <h1 class="h3 mb-3 font-weight-normal">Please Sign In</h1>
+      <h2 class="h3 mb-3 font-weight-normal">Please Sign In to HLHNTR:</h2>
       <div class="alert alert-danger" role="alert" v-if="invalidCredentials">
         Invalid username and password!
       </div>
@@ -13,27 +13,28 @@
       >
         Thank you for registering, please sign in.
       </div>
-      <label for="username" class="sr-only">username :</label>
+      <label for="username" class="sr-only">USERNAME :</label>
       <input
         type="text"
         id="username"
         class="form-control"
-        placeholder="Username"
+        placeholder="USERNAME"
         v-model="user.username"
         required
         autofocus
       />
-      <label for="password" class="sr-only">password :</label>
+      <label for="password" class="sr-only">PASSWORD :</label>
       <input
         type="password"
         id="password"
         class="form-control"
-        placeholder="Password"
+        placeholder="PASSWORD"
         v-model="user.password"
         required
       />
-      <router-link class="linking" :to="{ name: 'register' }">Need an account?</router-link>
-      <button type="submit">Sign in</button>
+      <br />
+      <router-link class="linking" :to="{ name: 'register' }"> ( Need an account? Click here! )</router-link>
+      <button class="submitty" type="submit">SIGN IN</button>
     </form>
   </div>
   </div>
@@ -80,6 +81,14 @@ export default {
 
 <style scoped>
 
+
+h2 {
+  font-family: 'Kanit', sans-serif;
+  letter-spacing: 2px;
+
+}
+
+
 #body {
     font-family: 'Kanit', sans-serif;
     
@@ -87,7 +96,9 @@ export default {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-color: #222;
+  background-image: url('../img/potholebg.jpg');
+  
+  background-color: black;
 }
 #login  {
   flex-grow: 1;
@@ -96,6 +107,7 @@ export default {
 }
 
 .form-signin {
+   font-family: 'Kanit', sans-serif;
   align-items: center;
   margin: 50px;
   padding: 20px;
@@ -107,24 +119,39 @@ export default {
 }
 
 .form-control {
+   font-family: 'Kanit', sans-serif;
+   letter-spacing: 1px;
   width: 300px;
   padding: 8px;
   margin: 8px;
-  border: 3px solid fuchsia;
-  color: fuschia;
+  border: 3px solid #888;
+  border-radius: 10px;
+  background-color: white;
+  color: fuchsia;
 
 }
 
 a {
   text-transform: uppercase;
-  color: #444;
+  color: FUCHSIA;
   text-decoration: none;
 
 
 }
 
-button {
-   color: #444;
+.submitty {
+  letter-spacing: 3px;
+   font-family: 'Kanit', sans-serif;
+  font-size: 30px;
+  text-transform: uppercase;
+  border: 0;
+  box-shadow: none;
+  background-color: black;
+   color: fuchsia;
+   padding: 5px;
+   margin: 20px;
+   width: 200px;
+   border-radius: 10px;
 }
 
 
