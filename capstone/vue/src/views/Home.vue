@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="report-hazard-container">
-      <new-report @drop-pin="enableDropPin"/>
+      <new-report/>
     </div>
   </div>
 </template>

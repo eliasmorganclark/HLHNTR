@@ -2,18 +2,20 @@
   <div>
     <GmapMap
       :center="initialMapCenter"
-      :zoom="20"
+      :zoom="10"
       :options="{
         zoomControl: true,
         mapTypeControl: true,
-        scaleControl: false,
+        scaleControl: true,
         streetViewControl: false,
         rotateControl: false,
         fullscreenControl: true,
         disableDefaultUi: false,
+        gestureHandling: 'greedy',
+        disableDoubleClickZoom: true
       }"
       @center_changed="updateCenter"
-      @dblclick="showDropPin = true"
+      @dblclick="dropPin"
       style="width:100%;  height: 800px;"
     >
       <gmap-info-window
@@ -31,15 +33,15 @@
         :clickable="true"
         @click="showMarkerInfoWindow(hazard, hazard.hazardId)"
       />
-      <div class = "dropped-pin-container" v-if="showDropPin">
+      <div class = "drop-pin-container" v-if="showDropPin">
         <GmapMarker
-          :position="currentMapCenter"
+          :position="droppedPinLoc"
           :clickable="true"
           :draggable="true"
           @mouseover="updateDropPinLocation"
-          @dragstart="droppedPinMarkerInfoWindow(false)"
+          @dragstart="dropPinMarkerInfoWindow(false)"
           @dragend="updateDropPinLocation"
-          @click="droppedPinMarkerInfoWindow(true)"
+          @click="dropPinMarkerInfoWindow(true)"
         />
       </div>
       
@@ -76,7 +78,7 @@ export default {
   },
   props: {
     filteredHazards: Object,
-    dropPin: Boolean
+    // dropPin: Boolean
   },
   computed: {
     hazardsToDisplay() {
@@ -87,7 +89,10 @@ export default {
       }
     },
   },
-  created(){window.emitDropPinPothole =this.emitDropPinPothole;},
+  created(){
+    window.getAddressAtPin=this.getAddressAtPin;
+    window.dropPin=this.dropPin;
+    },
   mounted() {
     this.geolocate();
     this.displayAllHazards();
@@ -114,9 +119,6 @@ export default {
             lng: latLng.lng()
         }
       }
-    },
-    updateDropPinLocation(event){
-      this.droppedPinLoc = event.latLng.toJSON();
     },
     showMarkerInfoWindow(hazard, id) {
       this.markerInfoWindowPos = hazard.address.coordinates;
@@ -153,11 +155,28 @@ export default {
         this.currentMarkerId = id;
       }
     },
-    droppedPinMarkerInfoWindow(show) {
+    dropPin(event){
+      if(this.showDropPin){
+        this.showDropPin = false;
+      }
+      else{
+        this.droppedPinLoc = {
+              lat: event.latLng.lat(),
+              lng: event.latLng.lng()
+              };
+        this.showDropPin = true;
+      }
+    },
+    updateDropPinLocation(event){
+      this.droppedPinLoc = event.latLng.toJSON();
+    },
+    dropPinMarkerInfoWindow(show) {
       if(show){
         this.markerInfoWindowPos = this.droppedPinLoc;
-        const potholeReportButton = '<input type="button" value="Report a Pothole Here" onclick="emitDropPinPothole()"/>'
-        const drainReportButton = '<input type="button" value="Report a Drain Here" onclick="emitDropPinDrain()"/>'
+        const potholeReportButton = '<input type="button" value="Report a Pothole Here" onclick="getAddressAtPin()"/>'
+        const drainReportButton = '<input type="button" value="Report a Drain Here" onclick="getAddressAtPin()"/>'
+        // const cancelReportButton = '<input type="button" value="Cancel" onclick="dropPin()"/>'
+
         const infoWindowText = potholeReportButton + '<br>' + drainReportButton;
         this.markerInfoOptions.content = infoWindowText;
         this.markerInfoWinOpen = true;
@@ -166,15 +185,20 @@ export default {
         this.markerInfoWinOpen = false;
       }
     },
+    getAddressAtPin(){
+      this.droppedPinAddress = null;
+      geocodingService.reverseGeocode(this.droppedPinLoc).then(response=>{
+        this.droppedPinAddress = response.data.results[0].formatted_address;
+        alert(this.droppedPinAddress);
+      }).catch((error) =>{
+        console.log(error);
+        alert('no address found');
+      })
+    },
     makeDatePretty(timestamp) {
       const date = timestamp.substring(0, 10);
       const time = timestamp.substring(11, 16);
       return date + " at " + time;
-    },
-    emitDropPinPothole(){
-      this.droppedPinAddress = geocodingService.getFormattedAddress(this.droppedPinLoc);
-      console.log(this.droppedPinAddress);
-      // this.$emit("dropped-pin-hazard",this.droppedPinHazard);
     }
   },
   
