@@ -13,11 +13,15 @@ public abstract class Hazard implements Comparable<Hazard>{
     private String repairStatus;
     private Long reportingUser;
 
+    private Timestamp firstReportedTimestamp;
+    private Timestamp inspectedTimestamp;
+    private Timestamp scheduledRepairTimestamp;
+    private Timestamp repairedTimestamp;
 
-    private DateAndTime  firstReportedTimestamp;
-    private DateAndTime inspectedTimestamp;
-    private DateAndTime scheduledRepairTimestamp;
-    private DateAndTime repairedTimestamp;
+    private DateAndTime firstReportedDT;
+    private DateAndTime inspectedDT;
+    private DateAndTime scheduledRepairDT;
+    private DateAndTime repairedDT;
 
     public Hazard () {}
 
@@ -81,36 +85,75 @@ public abstract class Hazard implements Comparable<Hazard>{
         this.reportingUser = reportingUser;
     }
 
-    public DateAndTime getFirstReportedTimestamp() {
+    public Timestamp getFirstReportedTimestamp() {
         return firstReportedTimestamp;
     }
 
-    public void setFirstReportedTimestamp(DateAndTime firstReportedTimestamp) {
+    public void setFirstReportedTimestamp(Timestamp firstReportedTimestamp) {
         this.firstReportedTimestamp = firstReportedTimestamp;
     }
 
-    public DateAndTime getInspectedTimestamp() {
+    public Timestamp getInspectedTimestamp() {
         return inspectedTimestamp;
     }
 
-    public void setInspectedTimestamp(DateAndTime inspectedTimestamp) {
+    public void setInspectedTimestamp(Timestamp inspectedTimestamp) {
         this.inspectedTimestamp = inspectedTimestamp;
     }
 
-    public DateAndTime getScheduledRepairTimestamp() {
+    public Timestamp getScheduledRepairTimestamp() {
         return scheduledRepairTimestamp;
     }
 
-    public void setScheduledRepairTimestamp(DateAndTime scheduledRepairTimestamp) {
+    public void setScheduledRepairTimestamp(Timestamp scheduledRepairTimestamp) {
         this.scheduledRepairTimestamp = scheduledRepairTimestamp;
     }
 
-    public DateAndTime getRepairedTimestamp() {
+    public Timestamp getRepairedTimestamp() {
         return repairedTimestamp;
     }
 
-    public void setRepairedTimestamp(DateAndTime repairedTimestamp) {
+    public void setRepairedTimestamp(Timestamp repairedTimestamp) {
         this.repairedTimestamp = repairedTimestamp;
+    }
+
+    public DateAndTime getFirstReportedDT() {
+        return firstReportedDT;
+    }
+
+    public void setFirstReportedDT(DateAndTime firstReportedDT) {
+        this.firstReportedDT = firstReportedDT;
+    }
+
+    public DateAndTime getInspectedDT() {
+        return inspectedDT;
+    }
+
+    public void setInspectedDT(DateAndTime inspectedDT) {
+        this.inspectedDT = inspectedDT;
+    }
+
+    public DateAndTime getScheduledRepairDT() {
+        return scheduledRepairDT;
+    }
+
+    public void setScheduledRepairDT(DateAndTime scheduledRepairDT) {
+        this.scheduledRepairDT = scheduledRepairDT;
+    }
+
+    public DateAndTime getRepairedDT() {
+        return repairedDT;
+    }
+
+    public void setRepairedDT(DateAndTime repairedDT) {
+        this.repairedDT = repairedDT;
+    }
+
+    public void convertDTtoTimestamp(){
+         firstReportedTimestamp = firstReportedDT.getTimestamp();
+         inspectedTimestamp = inspectedDT.getTimestamp();
+         scheduledRepairTimestamp = scheduledRepairDT.getTimestamp();
+         repairedTimestamp = repairedDT.getTimestamp();
     }
 
     @Override

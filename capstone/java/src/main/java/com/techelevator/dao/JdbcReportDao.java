@@ -258,7 +258,7 @@ public class JdbcReportDao implements ReportDao {
 
     @Override
     public Drain updateDrain(Drain drain) {
-
+        drain.convertDTtoTimestamp();
         String sql = "UPDATE drain SET house_number = ?, street_name = ?, city = ?, state = ?, zip = ?, latitude = ?, longitude = ?, verified = ?, " +
                 "repair_status = ?, is_clogged =?, first_reported_timestamp = ?, inspected_timestamp = ?, scheduled_repair_timestamp = ?, repaired_timestamp = ? WHERE hazard_id = ?;";
         int rowsUpdated = jdbcTemplate.update(sql, drain.getAddress().getHouseNumber(),
@@ -277,6 +277,7 @@ public class JdbcReportDao implements ReportDao {
 
     @Override
     public Pothole updatePothole(Pothole pothole) {
+        pothole.convertDTtoTimestamp();
         String sql = "UPDATE pothole SET house_number = ?, street_name = ?, city = ?, state = ?, zip = ?, latitude = ?, longitude = ?, verified = ?, " +
                 "repair_status = ?, severity = ?, first_reported_timestamp = ?, inspected_timestamp = ?, scheduled_repair_timestamp = ?, repaired_timestamp = ? WHERE hazard_id = ?;";
         int rowsUpdated = jdbcTemplate.update(sql, pothole.getAddress().getHouseNumber(),
