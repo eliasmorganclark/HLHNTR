@@ -2,7 +2,6 @@ package com.techelevator.model;
 
 import javax.validation.Valid;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 public abstract class Hazard implements Comparable<Hazard>{
     private Long hazardId;
@@ -150,10 +149,10 @@ public abstract class Hazard implements Comparable<Hazard>{
     }
 
     public void convertDTtoTimestamp(){
-         firstReportedTimestamp = firstReportedDT.getTimestamp();
-         inspectedTimestamp = inspectedDT.getTimestamp();
-         scheduledRepairTimestamp = scheduledRepairDT.getTimestamp();
-         repairedTimestamp = repairedDT.getTimestamp();
+         firstReportedTimestamp = firstReportedDT.getNestedTimestamp();
+         inspectedTimestamp = inspectedDT.getNestedTimestamp();
+         scheduledRepairTimestamp = scheduledRepairDT.getNestedTimestamp();
+         repairedTimestamp = repairedDT.getNestedTimestamp();
     }
 
     public void convertTimestampToDT(){
@@ -166,7 +165,8 @@ public abstract class Hazard implements Comparable<Hazard>{
     @Override
     public String toString() {
         return "Hazard{" +
-                "firstReportedTimestamp=" + firstReportedTimestamp +
+                "hazardId=" + hazardId +
+                ", firstReportedTimestamp=" + firstReportedTimestamp +
                 ", inspectedTimestamp=" + inspectedTimestamp +
                 ", scheduledRepairTimestamp=" + scheduledRepairTimestamp +
                 ", repairedTimestamp=" + repairedTimestamp +

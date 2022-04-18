@@ -1,18 +1,22 @@
 package com.techelevator.model;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
 public class DateAndTime {
-   private String fullDate = null;
-   //yyyy-mm-dd
+    private String fullDate = null;
+    //yyyy-mm-dd
 
-   private String fullTime = null;
-   //hh:mm
+    private String fullTime = null;
+    //hh:mm
 
-   private Timestamp timestamp;
+    private Timestamp nestedTimestamp;
 
-    public DateAndTime(Timestamp timestamp) {
-        this.timestamp = timestamp;
+    public DateAndTime() {
+    }
+
+    public DateAndTime(Timestamp nestedTimestamp) {
+        this.nestedTimestamp = nestedTimestamp;
         translateToStrings();
     }
 
@@ -32,32 +36,32 @@ public class DateAndTime {
         this.fullTime = fullTime;
     }
 
-    public Timestamp getTimestamp() {
+    public Timestamp getNestedTimestamp() {
         translateToTimestamp();
-        return timestamp;
+        return nestedTimestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
+    public void setNestedTimestamp(Timestamp nestedTimestamp) {
+        this.nestedTimestamp = nestedTimestamp;
     }
 
     public void translateToStrings() {
-        if (timestamp!=null) {
-            String timestampString = timestamp.toString();
-            System.out.println(timestampString);
+        if (nestedTimestamp != null) {
+            String timestampString = nestedTimestamp.toString();
             fullDate = timestampString.substring(0, 10);
             fullTime = timestampString.substring(11, 19);
 
         }
-
-//        2022-04-16T14:29:42.371+00:00
-//        2022-04-16 10:12:02.043883
     }
 
-    public void translateToTimestamp(){
-        //yyyy-[m]m-[d]d hh:mm:ss
-        if((fullDate != null) && (fullTime != null)) {
-            timestamp = Timestamp.valueOf(fullDate + " " + fullTime + ":00");
+    public void translateToTimestamp() {
+        if ((fullDate != null) && (fullTime != null)) {
+            if(fullTime.length()==8){
+                nestedTimestamp = Timestamp.valueOf(fullDate + " " + fullTime);
+            }
+            else{
+                nestedTimestamp = Timestamp.valueOf(fullDate + " " + fullTime + ":00");
+            }
         }
     }
 
@@ -66,7 +70,7 @@ public class DateAndTime {
         return "DateAndTime{" +
                 "fullDate='" + fullDate + '\'' +
                 ", fullTime='" + fullTime + '\'' +
-                ", timestamp=" + timestamp +
+                ", timestamp=" + nestedTimestamp +
                 '}';
     }
 }

@@ -40,29 +40,30 @@
       repair "2022-04-16T14:29:42.371+00:00" "TimestampDate + T + TimestampTime + :00+00:00" -->
       
         <label for="inspected-timestamp">Time Inspected</label>
-        <input type="date" id="inspectedTimestamp" name="inspectedTimestamp" />
-        <input type="time" id="inspectedTimestampTime" name="inspectedTimestampTime" />
+        <input type="date" id="inspectedTimestamp" name="inspectedTimestamp" v-model="updatedHazard.inspectedDT.fullDate"/>
+        <input type="time" id="inspectedTimestampTime" name="inspectedTimestampTime" v-model="updatedHazard.inspectedDT.fullTime"/>
       
 
       
         <label for="scheduled-repair-timestamp">Scheduled Repair Time</label>
-        <input type="date" id="scheduledRepairTimestamp" name="scheduledRepairTimestamp" />
-        <input type="time" id="scheduledRepairTimestampTime" name="scheduledRepairTimestampTime" />
+        <input type="date" id="scheduledRepairTimestamp" name="scheduledRepairTimestamp"  v-model="updatedHazard.scheduledRepairDT.fullDate"/>
+        <input type="time" id="scheduledRepairTimestampTime" name="scheduledRepairTimestampTime" v-model="updatedHazard.scheduledRepairDT.fullTime"/>
       
 
       
         <label for="repaired-timestamp">Repaired Time</label>
-        <input type="date" id="repairedTimestamp" name="repairedTimestamp" />
-        <input type="time" id="repairedTimestampTime" name="repairedTimestampTime" />
+        <input type="date" id="repairedTimestamp" name="repairedTimestamp"  v-model="updatedHazard.repairedDT.fullDate"/>
+        <input type="time" id="repairedTimestampTime" name="repairedTimestampTime" v-model="updatedHazard.repairedDT.fullTime"/>
       
 
-      <input type="Button" value="Update Report" />
+      <input type="Button" value="Update Report" v-on:click="sendUpdatedHazard"/>
       
     </form>
   </div>
 </template>
 
 <script>
+import dataService from "@/services/DataService.js";
 export default {
   // TODO import edit data service
   name: "ManageHazard",
@@ -72,6 +73,7 @@ export default {
 //new service to hit endpoint put request /hazardput
   data() {
     return {
+      isDrain:Boolean,
       updatedHazard: {
         hazardId: "",
         verified: "",
@@ -99,8 +101,15 @@ export default {
   },
   methods: {
     updateHazard() {
+      
 
 this.updatedHazard = this.propHazard;
+if(this.updatedHazard.hazardType == "DRAIN"){
+  this.isDrain = true;
+}
+else{
+  this.isDrain = false;
+}
 
 
       this.updatedHazard.hazardType = this.propHazard.hazardType;
@@ -122,110 +131,42 @@ if (this.propHazard.severity) {
       // this.updatedHazard.inspectedTimestamp += "T" + this.inspectedTimestampTime + ":00";
       // this.updatedHazard.scheduledRepairTimestamp += "T" + this.scheduledRepairTimestampTime + ":00";
       // this.updatedHazard.repairedTimestamp += "T" + this.repairedTimestampTime + ":00";
-  }
+  },
+    sendUpdatedHazard(){
+      if(this.updatedHazard.hazardType == "POTHOLE"){
+        dataService.updatePothole(this.updatedHazard).then(() => {
+
+            alert(
+              "Pothole updated"
+            );
+
+          
+        })
+        .catch(() => {
+          alert("Error updating pothole");
+        });
+        }
+      else if(this.updatedHazard.hazardType == "DRAIN"){
+        dataService.updateDrain(this.updatedHazard).then(() => {
+
+            alert(
+              "Drain updated"
+            );
+
+          
+        })
+        .catch(() => {
+          alert("Error updating drain");
+        });
+      }
+    },
   },
   created() {
     this.updateHazard();
   }
-  //created??
+
   //AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
-  // methods: {
-  //   updateReport() {
-  //     switch (this.hazardType) {
-  //       case "":
-  //         alert("Hazard Type required in dropdown menu");
-  //         break;
-  //       case "POTHOLE":
-  //         this.saveNewPotholeReport();
-  //         break;
-  //       case "DRAIN":
-  //         this.saveNewDrainReport();
-  //         break;
-  //     }
-  //   },
-  //   saveNewPotholeReport() {
-  //     this.hazard.address.streetName += " " + this.streetType;
-  //     console.log(this.hazard);
-  //     const config = {
-  //       headers: { Authorization: `Bearer ${this.$store.state.token}` },
-  //     };
-  //     if (this.$store.user) {
-  //       this.hazard.reportingUser = this.$store.state.user.id;
-  //     }
-  //     reportingService
-  //       .addNewPotholeReport(this.hazard, config)
-  //       .then((response) => {
-  //         if (response.status == 201) {
-  //           alert(
-  //             "Pothole number: " +
-  //               response.data.pothole.hazardId +
-  //               " successfully entered. Thanks for reporting a pothole."
-  //           );
-
-  //           if (!this.$store.user) {
-  //             this.$router.push({ name: "home" });
-  //           } else {
-  //             alert(
-  //               "Ask anonymous user to register or allow to report another pothole"
-  //             );
-  //           }
-  //           this.clearForm();
-  //         }
-  //       })
-  //       .catch(() => {
-  //         alert("Invalid address, please try again.");
-  //       });
-  //   },
-  //   saveNewDrainReport() {
-  //     this.hazard.address.streetName += " " + this.streetType;
-  //     const config = {
-  //       headers: { Authorization: `Bearer ${this.$store.state.token}` },
-  //     };
-  //     if (this.$store.user) {
-  //       this.hazard.reportingUser = this.$store.state.user.id;
-  //     }
-  //     reportingService
-  //       .addNewDrainReport(this.hazard, config)
-  //       .then((response) => {
-  //         if (response.status == 201) {
-  //           alert(
-  //             "Drain number: " +
-  //               response.data.drain.hazardId +
-  //               " successfully entered. Thanks for reporting a drain."
-  //           );
-
-  //           if (!this.$store.user) {
-  //             this.$router.push({ name: "home" });
-  //           } else {
-  //             alert(
-  //               "Ask anonymous user to register or allow to report another drain"
-  //             );
-  //           }
-  //           this.clearForm();
-  //         }
-  //       })
-  //       .catch(() => {
-  //         alert("Invalid address, please try again.");
-  //       });
-  //   },
-  //   clearForm() {
-  //     this.hazard.address = {};
-  //   },
-  // },
-  // computed: {
-  //   isAddressFilledIn() {
-  //     Object.values(this.hazard.address).forEach((element) => {
-  //       console.log(element);
-  //       if (element == "") {
-  //         return false;
-  //       }
-  //     });
-  //     return true;
-  //   },
-  // },
-  // created() {
-  //   this.streetTypes = require("street-types");
-  // },
+  
 };
 
 </script>

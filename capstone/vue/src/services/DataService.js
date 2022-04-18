@@ -36,4 +36,13 @@ export default {
   getDrain(hazardId) {
     return http.get(`/drain/${hazardId}`);
   },
+  
+  updateDrain(hazard){
+    return http.put("/drain/",hazard)
+  },
+
+  updatePothole(hazard){
+    return http.put("/drain/",hazard)
+  }
+
 };

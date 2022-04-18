@@ -149,7 +149,7 @@ public class JdbcReportDao implements ReportDao {
                 report.setPothole(mapRowToPothole(potholeResults));
             }
             reports.add(report);
-                System.out.println(report);
+
         } else {
                 report = mapRowToReportDrain(results);
                 sql = "SELECT hazard_id, house_number, street_name, city, state, zip, latitude, longitude, verified, " +
@@ -160,7 +160,6 @@ public class JdbcReportDao implements ReportDao {
                     report.setDrain(mapRowToDrain(drainResults));
                 }
                 reports.add(report);
-                System.out.println(report);
             }
 
             }
@@ -270,6 +269,7 @@ public class JdbcReportDao implements ReportDao {
                 drain.getInspectedTimestamp(), drain.getScheduledRepairTimestamp(), drain.getRepairedTimestamp(),
                 drain.getHazardId());
         if(rowsUpdated == 1){
+            drain.convertDTtoTimestamp();
             return drain;
         }
         else{
@@ -289,6 +289,7 @@ public class JdbcReportDao implements ReportDao {
                 pothole.getInspectedTimestamp(), pothole.getScheduledRepairTimestamp(), pothole.getRepairedTimestamp(),
                 pothole.getHazardId());
         if(rowsUpdated == 1){
+            pothole.convertDTtoTimestamp();
             return pothole;
         }
         else{
