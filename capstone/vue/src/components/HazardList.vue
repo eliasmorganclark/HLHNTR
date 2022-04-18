@@ -14,14 +14,18 @@
       <option value="DRAIN">Drains</option>
     </select>
     <ul>
+      
     <li
       class="hazard-list"
       v-for="hazard in filteredHazards"
       :key="hazard.hazardId"
     >
+    <router-link v-bind:to=" {name : 'details' , params: { hazardId : hazard.hazardId }}">
       <strong>{{ hazard.hazardType }}</strong> - {{ hazard.address.houseNumber }} {{hazard.address.streetName }},<em> {{hazard.address.city}} , 
       {{hazard.address.state}}</em> - {{hazard.address.zip}}
+      </router-link>
     </li>
+    
     </ul>
   </div>
 </template>
@@ -189,4 +193,13 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+
+li > a { 
+  color: #444;
+  text-decoration: none;
+}
+
+
+
+</style>

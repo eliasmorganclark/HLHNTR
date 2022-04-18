@@ -133,6 +133,7 @@ import reportingService from "@/services/ReportingService.js";
 
 export default {
   name: "new-report",
+ 
   props: {
     propHazard: {}
   },

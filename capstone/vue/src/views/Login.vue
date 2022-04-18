@@ -1,4 +1,5 @@
 <template>
+<div id="body">
   <div id="login" class="text-center">
     <form class="form-signin" @submit.prevent="login">
       <h1 class="h3 mb-3 font-weight-normal">Please Sign In</h1>
@@ -12,7 +13,7 @@
       >
         Thank you for registering, please sign in.
       </div>
-      <label for="username" class="sr-only">Username</label>
+      <label for="username" class="sr-only">username :</label>
       <input
         type="text"
         id="username"
@@ -22,7 +23,7 @@
         required
         autofocus
       />
-      <label for="password" class="sr-only">Password</label>
+      <label for="password" class="sr-only">password :</label>
       <input
         type="password"
         id="password"
@@ -31,9 +32,10 @@
         v-model="user.password"
         required
       />
-      <router-link :to="{ name: 'register' }">Need an account?</router-link>
+      <router-link class="linking" :to="{ name: 'register' }">Need an account?</router-link>
       <button type="submit">Sign in</button>
     </form>
+  </div>
   </div>
 </template>
 
@@ -74,3 +76,57 @@ export default {
   },
 };
 </script>
+
+
+<style scoped>
+
+#body {
+    font-family: 'Kanit', sans-serif;
+    
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #222;
+}
+#login  {
+  flex-grow: 1;
+  min-height: 80vh;
+  margin: 0;
+}
+
+.form-signin {
+  align-items: center;
+  margin: 50px;
+  padding: 20px;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.form-control {
+  width: 300px;
+  padding: 8px;
+  margin: 8px;
+  border: 3px solid fuchsia;
+  color: fuschia;
+
+}
+
+a {
+  text-transform: uppercase;
+  color: #444;
+  text-decoration: none;
+
+
+}
+
+button {
+   color: #444;
+}
+
+
+
+</style>
