@@ -1,7 +1,7 @@
 <template>
   <div class="new-report-container">
     <div class="new-report-title-container">
-      <h1 class="new-report-title-text">Report a Hazard</h1>
+      <h1 class="new-report-title-text">REPORT A HAZARD</h1>
       <h2 class="new-report-title-text">
         Please enter the address of the hazard below:
       </h2>
@@ -117,8 +117,9 @@
         <label for="zip-code">Zip Code</label>
         <input v-model.trim="hazard.address.zip" id="zip-code" type="text" />
 
-        <input type="submit" value="Submit Report" />
+        <input class="submitty" type="submit" value="Submit Report" />
         <input
+        class="submitty"
           type="button"
           v-on:click.prevent="clearForm"
           value="Clear Form"
@@ -268,4 +269,84 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+
+
+h2 {
+  font-family: 'Kanit', sans-serif;
+  letter-spacing: 2px;
+
+}
+
+
+#body {
+    font-family: 'Kanit', sans-serif;
+    
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-image: url('../img/potholebg.jpg');
+  
+  background-color: black;
+}
+#login  {
+  flex-grow: 1;
+  min-height: 80vh;
+  margin: 0;
+}
+
+.new-report-container {
+   font-family: 'Kanit', sans-serif;
+  align-items: center;
+  margin: 50px;
+  padding: 20px;
+  width: 700px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 10px;
+}
+
+input {
+   font-family: 'Kanit', sans-serif;
+   letter-spacing: 1px;
+  width: 300px;
+  padding: 8px;
+  margin: 8px;
+  border: 3px solid #888;
+  border-radius: 10px;
+  background-color: white;
+  color: fuchsia;
+
+}
+
+a {
+  text-transform: uppercase;
+  color: FUCHSIA;
+  text-decoration: none;
+
+
+}
+
+.submitty {
+  letter-spacing: 3px;
+   font-family: 'Kanit', sans-serif;
+  font-size: 20px;
+  text-transform: uppercase;
+  border: 0;
+  box-shadow: none;
+  background-color: black;
+   color: fuchsia;
+   padding: 5px;
+   margin: 20px;
+   width: 200px;
+   border-radius: 10px;
+}
+
+
+
+
+
+
+</style>
