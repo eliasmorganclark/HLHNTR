@@ -13,13 +13,16 @@
       <option value="POTHOLE">Potholes</option>
       <option value="DRAIN">Drains</option>
     </select>
-    <div
+    <ul>
+    <li
       class="hazard-list"
       v-for="hazard in filteredHazards"
       :key="hazard.hazardId"
     >
-      {{ hazard }}
-    </div>
+      <strong>{{ hazard.hazardType }}</strong> - {{ hazard.address.houseNumber }} {{hazard.address.streetName }},<em> {{hazard.address.city}} , 
+      {{hazard.address.state}}</em> - {{hazard.address.zip}}
+    </li>
+    </ul>
   </div>
 </template>
 

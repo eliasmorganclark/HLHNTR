@@ -44,11 +44,12 @@
         <label for="street-type">Street Type</label>
         <select v-model="streetType" name="street-type" id="street-type">
           <option
-            v-for="streetType in streetTypes"
-            :key="streetType.standardAbbr"
-            value="streetType.standardAbbr"
+            v-for="type in streetTypes"
+            :key="type.suffix"
+            v-bind:streetType="streetType"
+            
           >
-            {{ streetType.standardAbbr }}
+            {{ type.standardAbbr }}
           </option>
           <!-- <option value="">---</option>
           <option value="AVE">AVE</option>
@@ -143,7 +144,7 @@ export default {
   },
   data() {
     return {
-      streetTypes: {},
+      streetTypes: [],
       hazardType: "",
       streetType: "",
       hazard: {
