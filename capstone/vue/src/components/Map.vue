@@ -55,7 +55,7 @@ import dataService from "@/services/DataService.js";
 import geocodingService from "@/services/GeocodingService.js";
 export default {
   name: "Map",
-  emits: ["dropped-pin-hazard"],
+  emits: ["drop-pin-hazard"],
   data() {
     return {
       hazards: [],
@@ -77,7 +77,7 @@ export default {
     };
   },
   props: {
-    filteredHazards: Object,
+    filteredHazards: Array,
     // dropPin: Boolean
   },
   computed: {
@@ -173,10 +173,12 @@ export default {
     dropPinMarkerInfoWindow(show) {
       if(show){
         this.markerInfoWindowPos = this.droppedPinLoc;
-        const potholeReportButton = '<input type="button" value="Report a Pothole Here" onclick="getAddressAtPin()"/>'
-        const drainReportButton = '<input type="button" value="Report a Drain Here" onclick="getAddressAtPin()"/>'
-        // const cancelReportButton = '<input type="button" value="Cancel" onclick="dropPin()"/>'
 
+        const potholeReportFunction = "getAddressAtPin('POTHOLE')";
+        const drainReportFunction = "getAddressAtPin('DRAIN')";
+
+        const potholeReportButton = `<input type="button" value="Report a Pothole Here" onclick="${potholeReportFunction}"/>`
+        const drainReportButton = `<input type="button" value="Report a Drain Here" onclick="${drainReportFunction}"/>`
         const infoWindowText = potholeReportButton + '<br>' + drainReportButton;
         this.markerInfoOptions.content = infoWindowText;
         this.markerInfoWinOpen = true;
@@ -185,15 +187,34 @@ export default {
         this.markerInfoWinOpen = false;
       }
     },
-    getAddressAtPin(){
+    getAddressAtPin(hazardType){
       this.droppedPinAddress = null;
       geocodingService.reverseGeocode(this.droppedPinLoc).then(response=>{
         this.droppedPinAddress = response.data.results[0].formatted_address;
-        alert(this.droppedPinAddress);
+
+        const splitAddress = this.droppedPinAddress.split(',');
+        const number = splitAddress[0].split(" ",1)[0];
+        const street = splitAddress[0].replace(number,'').trim();
+        const city = splitAddress[1].trim();
+        const state = splitAddress[2].trim().split(" ")[0];
+        const zip = splitAddress[2].trim().split(" ")[1]
+
+        const emitOutput = {
+          hazardType:hazardType,
+          address:{
+            houseNumber: number,
+            streetName: street,
+            city: city,
+            state: state,
+            zip: zip,
+          }
+        }
+        this.$emit('drop-pin-hazard',emitOutput);
       }).catch((error) =>{
         console.log(error);
         alert('no address found');
       })
+
     },
     makeDatePretty(timestamp) {
       const date = timestamp.substring(0, 10);
@@ -206,3 +227,19 @@ export default {
 </script>
 
 <style></style>
+
+// hazardType: "",
+//       streetType: "",
+//       hazard: {
+//         verified: false,
+//         address: {
+//           houseNumber: "",
+//           streetName: "",
+//           city: "",
+//           state: "",
+//           zip: "",
+//         },
+//         repairStatus: "pending",
+//         reportingUser: 1,
+//         severity: "",
+//       },

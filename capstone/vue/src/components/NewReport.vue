@@ -125,20 +125,22 @@
       </form>
     </div>
   </div>
-
-  <!-- <address-form v-model="report.pothole.address"></address-form> -->
 </template>
 
 <script>
 import reportingService from "@/services/ReportingService.js";
-// import AddressForm from "./AddressForm.vue";
 
 export default {
   name: "new-report",
-  // prop goes here for communication with AddressForm???
-  // components: {
-  //   AddressForm,
-  // },
+  props: {
+    propHazard: {}
+  },
+  watch:{
+    // eslint-disable-next-line no-unused-vars
+    propHazard(newHazard, oldHazard){
+      this.setDataFromProp();
+    }
+  },
   data() {
     return {
       streetTypes: {},
@@ -241,6 +243,11 @@ export default {
     clearForm() {
       this.hazard.address = {};
     },
+    setDataFromProp(){
+      console.table(this.propHazard);
+      this.hazardType = this.propHazard.hazardType;
+      this.hazard.address = this.propHazard.address;
+    }
   },
   computed: {
     isAddressFilledIn() {

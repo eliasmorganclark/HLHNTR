@@ -8,11 +8,11 @@
         <hazard-list @map-hazards="updateMap"></hazard-list>
       </div>
       <div id="mapbox">
-        <Map v-bind:filteredHazards="mapHazards" v-bind:dropPin="dropPin" />
+        <Map v-bind:filteredHazards="mapHazards" @drop-pin-hazard="emitHazardFromMap"/>
       </div>
     </div>
     <div class="report-hazard-container">
-      <new-report/>
+      <new-report v-bind:propHazard="emittedMapHazard"/>
     </div>
   </div>
 </template>
@@ -28,15 +28,15 @@ export default {
   data() {
     return {
       mapHazards: null,
-      dropPin: false
+      emittedMapHazard: null
     };
   },
   methods: {
     updateMap(hazards) {
       this.mapHazards = hazards;
     },
-    enableDropPin(flag){
-      this.dropPin = flag;
+    emitHazardFromMap(hazard){
+      this.emittedMapHazard = hazard;
     }
   },
 };
