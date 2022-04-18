@@ -156,13 +156,24 @@ public abstract class Hazard implements Comparable<Hazard>{
          repairedTimestamp = repairedDT.getTimestamp();
     }
 
+    public void convertTimestampToDT(){
+        firstReportedDT = new DateAndTime(firstReportedTimestamp);
+        inspectedDT = new DateAndTime(inspectedTimestamp);
+        scheduledRepairDT = new DateAndTime(scheduledRepairTimestamp);
+        repairedDT = new DateAndTime(repairedTimestamp);
+    }
+
     @Override
     public String toString() {
         return "Hazard{" +
-                "hazardId=" + hazardId +
-                ", verified=" + verified +
-                ", address=" + address +
-                ", hazardType=" + hazardType +
+                "firstReportedTimestamp=" + firstReportedTimestamp +
+                ", inspectedTimestamp=" + inspectedTimestamp +
+                ", scheduledRepairTimestamp=" + scheduledRepairTimestamp +
+                ", repairedTimestamp=" + repairedTimestamp +
+                ", firstReportedDT=" + firstReportedDT +
+                ", inspectedDT=" + inspectedDT +
+                ", scheduledRepairDT=" + scheduledRepairDT +
+                ", repairedDT=" + repairedDT +
                 '}';
     }
 }

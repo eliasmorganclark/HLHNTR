@@ -42,11 +42,16 @@ public class DateAndTime {
     }
 
     public void translateToStrings() {
-        String timestampString = timestamp.toString();
-        fullDate = timestampString.substring(0,10);
-        fullTime = timestampString.substring(11,19);
+        if (timestamp!=null) {
+            String timestampString = timestamp.toString();
+            System.out.println(timestampString);
+            fullDate = timestampString.substring(0, 10);
+            fullTime = timestampString.substring(11, 19);
+
+        }
 
 //        2022-04-16T14:29:42.371+00:00
+//        2022-04-16 10:12:02.043883
     }
 
     public void translateToTimestamp(){
@@ -54,5 +59,14 @@ public class DateAndTime {
         if((fullDate != null) && (fullTime != null)) {
             timestamp = Timestamp.valueOf(fullDate + " " + fullTime + ":00");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "DateAndTime{" +
+                "fullDate='" + fullDate + '\'' +
+                ", fullTime='" + fullTime + '\'' +
+                ", timestamp=" + timestamp +
+                '}';
     }
 }
