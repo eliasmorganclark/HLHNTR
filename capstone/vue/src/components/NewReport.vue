@@ -137,6 +137,7 @@ export default {
   props: {
     propHazard: {}
   },
+  emits: ["new-hazard-id"],
   watch:{
     // eslint-disable-next-line no-unused-vars
     propHazard(newHazard, oldHazard){
@@ -195,7 +196,7 @@ export default {
                 response.data.pothole.hazardId +
                 " successfully entered. Thanks for reporting a pothole."
             );
-
+            this.emitNewHazard(response.data.pothole.hazardId);
             if (!this.$store.user) {
               this.$router.push({ name: "home" });
             } else {
@@ -227,7 +228,7 @@ export default {
                 response.data.drain.hazardId +
                 " successfully entered. Thanks for reporting a drain."
             );
-
+            this.emitNewHazard(response.data.pothole.hazardId);
             if (!this.$store.user) {
               this.$router.push({ name: "home" });
             } else {
@@ -249,6 +250,9 @@ export default {
       console.table(this.propHazard);
       this.hazardType = this.propHazard.hazardType;
       this.hazard.address = this.propHazard.address;
+    },
+    emitNewHazard(hazardId){
+      this.$emit('new-hazard-id',hazardId);
     }
   },
   computed: {

@@ -46,7 +46,7 @@ export default {
   },
 
   updatePothole(hazard){
-    return http.put("/drain/",hazard)
+    return http.put("/pothole/",hazard)
   }
 
 };
