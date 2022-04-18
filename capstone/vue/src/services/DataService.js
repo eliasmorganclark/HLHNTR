@@ -21,6 +21,10 @@ export default {
     return http.get("/hazard/all");
   },
 
+  getHazard(hazardId) {
+    return http.get(`/hazard/${hazardId}`);
+  },
+
   getAllPotholes() {
     return http.get("/pothole/all");
   },
@@ -36,4 +40,13 @@ export default {
   getDrain(hazardId) {
     return http.get(`/drain/${hazardId}`);
   },
+  
+  updateDrain(hazard){
+    return http.put("/drain/",hazard)
+  },
+
+  updatePothole(hazard){
+    return http.put("/drain/",hazard)
+  }
+
 };

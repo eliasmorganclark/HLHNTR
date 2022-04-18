@@ -149,6 +149,7 @@ public class JdbcReportDao implements ReportDao {
                 report.setPothole(mapRowToPothole(potholeResults));
             }
             reports.add(report);
+
         } else {
                 report = mapRowToReportDrain(results);
                 sql = "SELECT hazard_id, house_number, street_name, city, state, zip, latitude, longitude, verified, " +
@@ -258,7 +259,7 @@ public class JdbcReportDao implements ReportDao {
 
     @Override
     public Drain updateDrain(Drain drain) {
-
+        drain.convertDTtoTimestamp();
         String sql = "UPDATE drain SET house_number = ?, street_name = ?, city = ?, state = ?, zip = ?, latitude = ?, longitude = ?, verified = ?, " +
                 "repair_status = ?, is_clogged =?, first_reported_timestamp = ?, inspected_timestamp = ?, scheduled_repair_timestamp = ?, repaired_timestamp = ? WHERE hazard_id = ?;";
         int rowsUpdated = jdbcTemplate.update(sql, drain.getAddress().getHouseNumber(),
@@ -268,6 +269,7 @@ public class JdbcReportDao implements ReportDao {
                 drain.getInspectedTimestamp(), drain.getScheduledRepairTimestamp(), drain.getRepairedTimestamp(),
                 drain.getHazardId());
         if(rowsUpdated == 1){
+            drain.convertDTtoTimestamp();
             return drain;
         }
         else{
@@ -277,6 +279,7 @@ public class JdbcReportDao implements ReportDao {
 
     @Override
     public Pothole updatePothole(Pothole pothole) {
+        pothole.convertDTtoTimestamp();
         String sql = "UPDATE pothole SET house_number = ?, street_name = ?, city = ?, state = ?, zip = ?, latitude = ?, longitude = ?, verified = ?, " +
                 "repair_status = ?, severity = ?, first_reported_timestamp = ?, inspected_timestamp = ?, scheduled_repair_timestamp = ?, repaired_timestamp = ? WHERE hazard_id = ?;";
         int rowsUpdated = jdbcTemplate.update(sql, pothole.getAddress().getHouseNumber(),
@@ -286,6 +289,7 @@ public class JdbcReportDao implements ReportDao {
                 pothole.getInspectedTimestamp(), pothole.getScheduledRepairTimestamp(), pothole.getRepairedTimestamp(),
                 pothole.getHazardId());
         if(rowsUpdated == 1){
+            pothole.convertDTtoTimestamp();
             return pothole;
         }
         else{
@@ -355,6 +359,7 @@ public class JdbcReportDao implements ReportDao {
         pothole.setInspectedTimestamp(rowSet.getTimestamp("inspected_timestamp"));
         pothole.setScheduledRepairTimestamp(rowSet.getTimestamp("scheduled_repair_timestamp"));
         pothole.setRepairedTimestamp(rowSet.getTimestamp("repaired_timestamp"));
+        pothole.convertTimestampToDT();
         return pothole;
     }
     private Drain mapRowToDrain(SqlRowSet rowSet){
@@ -370,7 +375,7 @@ public class JdbcReportDao implements ReportDao {
         drain.setInspectedTimestamp(rowSet.getTimestamp("inspected_timestamp"));
         drain.setScheduledRepairTimestamp(rowSet.getTimestamp("scheduled_repair_timestamp"));
         drain.setRepairedTimestamp(rowSet.getTimestamp("repaired_timestamp"));
-
+        drain.convertTimestampToDT();
         return drain;
     }
 

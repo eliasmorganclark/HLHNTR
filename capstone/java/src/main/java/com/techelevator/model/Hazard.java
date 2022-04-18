@@ -2,7 +2,6 @@ package com.techelevator.model;
 
 import javax.validation.Valid;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 public abstract class Hazard implements Comparable<Hazard>{
     private Long hazardId;
@@ -14,10 +13,14 @@ public abstract class Hazard implements Comparable<Hazard>{
     private Long reportingUser;
 
     private Timestamp firstReportedTimestamp;
-
     private Timestamp inspectedTimestamp;
     private Timestamp scheduledRepairTimestamp;
     private Timestamp repairedTimestamp;
+
+    private DateAndTime firstReportedDT;
+    private DateAndTime inspectedDT;
+    private DateAndTime scheduledRepairDT;
+    private DateAndTime repairedDT;
 
     public Hazard () {}
 
@@ -113,13 +116,64 @@ public abstract class Hazard implements Comparable<Hazard>{
         this.repairedTimestamp = repairedTimestamp;
     }
 
+    public DateAndTime getFirstReportedDT() {
+        return firstReportedDT;
+    }
+
+    public void setFirstReportedDT(DateAndTime firstReportedDT) {
+        this.firstReportedDT = firstReportedDT;
+    }
+
+    public DateAndTime getInspectedDT() {
+        return inspectedDT;
+    }
+
+    public void setInspectedDT(DateAndTime inspectedDT) {
+        this.inspectedDT = inspectedDT;
+    }
+
+    public DateAndTime getScheduledRepairDT() {
+        return scheduledRepairDT;
+    }
+
+    public void setScheduledRepairDT(DateAndTime scheduledRepairDT) {
+        this.scheduledRepairDT = scheduledRepairDT;
+    }
+
+    public DateAndTime getRepairedDT() {
+        return repairedDT;
+    }
+
+    public void setRepairedDT(DateAndTime repairedDT) {
+        this.repairedDT = repairedDT;
+    }
+
+    public void convertDTtoTimestamp(){
+         firstReportedTimestamp = firstReportedDT.getNestedTimestamp();
+         inspectedTimestamp = inspectedDT.getNestedTimestamp();
+         scheduledRepairTimestamp = scheduledRepairDT.getNestedTimestamp();
+         repairedTimestamp = repairedDT.getNestedTimestamp();
+    }
+
+    public void convertTimestampToDT(){
+        firstReportedDT = new DateAndTime(firstReportedTimestamp);
+        inspectedDT = new DateAndTime(inspectedTimestamp);
+        scheduledRepairDT = new DateAndTime(scheduledRepairTimestamp);
+        repairedDT = new DateAndTime(repairedTimestamp);
+    }
+
     @Override
     public String toString() {
         return "Hazard{" +
                 "hazardId=" + hazardId +
-                ", verified=" + verified +
-                ", address=" + address +
-                ", hazardType=" + hazardType +
+                ", firstReportedTimestamp=" + firstReportedTimestamp +
+                ", inspectedTimestamp=" + inspectedTimestamp +
+                ", scheduledRepairTimestamp=" + scheduledRepairTimestamp +
+                ", repairedTimestamp=" + repairedTimestamp +
+                ", firstReportedDT=" + firstReportedDT +
+                ", inspectedDT=" + inspectedDT +
+                ", scheduledRepairDT=" + scheduledRepairDT +
+                ", repairedDT=" + repairedDT +
                 '}';
     }
 }
