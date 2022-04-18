@@ -1,7 +1,9 @@
 <template>
   <div class="manage-hazard-container">
+    <div class="update-hazard-form-container">
      <h1 class="update-report-title-text">Update Hazard</h1>
     <form class="new-report-form" v-on:submit.prevent="saveNewReport">
+      <div class="form-dropdown-options">
       <label for="verified">Verified</label>
       <select id="verified" name="verified" v-model="updatedHazard.verified">
         <option value="true">Yes</option>
@@ -20,21 +22,22 @@
         <option value="repaired">Repaired</option>
       </select>
 
-<div v-if="!isDrain">
-      <label for="severity">Severity</label>
-      <select id="severity" name="severity" v-model="updatedHazard.severity">
-        <option value="low">Low: Quarter Sized (25mm or less)</option>
-        <option value="moderate">Moderate: Lime Sized (25mm - 50mm)</option>
-        <option value="high">High: Bigger Than A Lime (50mm or more)</option>
-      </select>
-</div>
+      <span v-if="!isDrain">
+            <label for="severity">Severity</label>
+            <select id="severity" name="severity" v-model="updatedHazard.severity">
+              <option value="low">Low: Quarter Sized (25mm or less)</option>
+              <option value="moderate">Moderate: Lime Sized (25mm - 50mm)</option>
+              <option value="high">High: Bigger Than A Lime (50mm or more)</option>
+            </select>
+      </span>
 
-<div v-if="isDrain">
-      <label for="clogged">Clogged</label>
-      <select id="clogged" name="clogged" v-model="updatedHazard.clogged">
-        <option value="true">Yes</option>
-        <option value="false">No</option>
-      </select>
+      <span v-if="isDrain">
+            <label for="clogged">Clogged</label>
+            <select id="clogged" name="clogged" v-model="updatedHazard.clogged">
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+      </span>
       </div>
        <!-- TODO combine date and time and format properly for inspect, schedule and
       repair "2022-04-16T14:29:42.371+00:00" "TimestampDate + T + TimestampTime + :00+00:00" -->
@@ -58,7 +61,8 @@
 
       <input type="Button" value="Update Report" v-on:click="sendUpdatedHazard"/>
       
-    </form>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -172,6 +176,10 @@ if (this.propHazard.severity) {
 </script>
 
 <style>
+.manage-hazard-container{
+  display: flex;
+  justify-content: center;
+}
 </style>
 
 // Schedule for Inspection and repair - trello card

@@ -63,7 +63,7 @@ const router = new Router({
       },
     },
     {
-    path: "/details",
+    path: "/details/:hazardId",
     name: "details",
     component: details,
     meta: {

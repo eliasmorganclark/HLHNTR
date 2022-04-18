@@ -1,7 +1,7 @@
 <template>
 <div>
-  <hazard-details v-if='dataLoaded' v-bind:hazard="this.$store.getters.getAllHazards[1]" /> 
-  <manage-hazard v-if='dataLoaded' v-bind:propHazard="this.$store.getters.getAllHazards[1]" />
+  <hazard-details v-if='dataLoaded' v-bind:hazard="currentHazard" /> 
+  <manage-hazard v-if='dataLoaded' v-bind:propHazard="currentHazard" />
 </div>
 </template>
 
@@ -14,25 +14,22 @@ export default {
   components: { HazardDetails, ManageHazard },
   data(){
     return{
-        dataLoaded: false
+        dataLoaded: false,
+        currentHazard: {}
     }
     },
   mounted() {
-    this.reloadData();
+    this.loadData();
   },
   methods:{
-    reloadData(){
-        dataService.getAllReports().then((response) => {
-          this.$store.commit("LOAD_REPORTS", response.data);
-          dataService.getAllPotholes().then((response)=> {
-            this.$store.commit("LOAD_POTHOLES", response.data);
-            dataService.getAllDrains().then((response)=> {
-              this.$store.commit("LOAD_DRAINS", response.data);
-              this.dataLoaded = true;
-            });
-          });
-        });  
-    },
+    loadData(){
+      dataService.getHazard(this.$route.params.hazardId).then((response) => {
+        this.currentHazard = response.data;
+        this.dataLoaded=true;
+        });
+      
+    }
+    
    },
 }
 </script>

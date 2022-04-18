@@ -21,6 +21,10 @@ export default {
     return http.get("/hazard/all");
   },
 
+  getHazard(hazardId) {
+    return http.get(`/hazard/${hazardId}`);
+  },
+
   getAllPotholes() {
     return http.get("/pothole/all");
   },
