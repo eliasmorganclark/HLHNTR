@@ -6,7 +6,7 @@ const http = axios.create({
 
 export default {
   getAllReports() {
-    return http.get("/getAllReports");
+    return http.get("/report/all");
   },
 
   getReport(reportId) {
@@ -14,15 +14,15 @@ export default {
   },
 
   getReportsForHazard(hazardId) {
-    return http.get(`/getAllReports/${hazardId}`);
+    return http.get(`/report/all/${hazardId}`);
   },
 
   getAllHazards() {
-    return http.get("/getAllHazards");
+    return http.get("/hazard/all");
   },
 
   getAllPotholes() {
-    return http.get("/getAllPotholes");
+    return http.get("/pothole/all");
   },
 
   getPothole(hazardId) {
@@ -30,7 +30,7 @@ export default {
   },
 
   getAllDrains() {
-    return http.get("/getAllDrains");
+    return http.get("/drain/all");
   },
 
   getDrain(hazardId) {
