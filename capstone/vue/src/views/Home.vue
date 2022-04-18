@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="report-hazard-container">
-      <new-report v-bind:propHazard="emittedMapHazard"/>
+      <new-report v-bind:propHazard="emittedMapHazard" />
     </div>
   </div>
 </template>
@@ -37,6 +37,9 @@ export default {
     },
     emitHazardFromMap(hazard){
       this.emittedMapHazard = hazard;
+    },
+    refreshPlease(){
+      //let hazardlist know to refresh ??????????????????? 
     }
   },
 };

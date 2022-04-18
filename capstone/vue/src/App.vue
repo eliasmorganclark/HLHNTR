@@ -9,6 +9,10 @@
         </router-link>
         <span class ="links">
      
+     <router-link 
+        v-bind:to="{ name: 'login' }" 
+        v-if="$store.state.token == ''"
+        >LOGIN</router-link>
       <router-link
         v-bind:to="{ name: 'logout' }"
         v-if="$store.state.token != ''"
