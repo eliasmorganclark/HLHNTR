@@ -13,11 +13,11 @@ public abstract class Hazard implements Comparable<Hazard>{
     private String repairStatus;
     private Long reportingUser;
 
-    private Timestamp firstReportedTimestamp;
 
-    private Timestamp inspectedTimestamp;
-    private Timestamp scheduledRepairTimestamp;
-    private Timestamp repairedTimestamp;
+    private DateAndTime  firstReportedTimestamp;
+    private DateAndTime inspectedTimestamp;
+    private DateAndTime scheduledRepairTimestamp;
+    private DateAndTime repairedTimestamp;
 
     public Hazard () {}
 
@@ -81,35 +81,35 @@ public abstract class Hazard implements Comparable<Hazard>{
         this.reportingUser = reportingUser;
     }
 
-    public Timestamp getFirstReportedTimestamp() {
+    public DateAndTime getFirstReportedTimestamp() {
         return firstReportedTimestamp;
     }
 
-    public void setFirstReportedTimestamp(Timestamp firstReportedTimestamp) {
+    public void setFirstReportedTimestamp(DateAndTime firstReportedTimestamp) {
         this.firstReportedTimestamp = firstReportedTimestamp;
     }
 
-    public Timestamp getInspectedTimestamp() {
+    public DateAndTime getInspectedTimestamp() {
         return inspectedTimestamp;
     }
 
-    public void setInspectedTimestamp(Timestamp inspectedTimestamp) {
+    public void setInspectedTimestamp(DateAndTime inspectedTimestamp) {
         this.inspectedTimestamp = inspectedTimestamp;
     }
 
-    public Timestamp getScheduledRepairTimestamp() {
+    public DateAndTime getScheduledRepairTimestamp() {
         return scheduledRepairTimestamp;
     }
 
-    public void setScheduledRepairTimestamp(Timestamp scheduledRepairTimestamp) {
+    public void setScheduledRepairTimestamp(DateAndTime scheduledRepairTimestamp) {
         this.scheduledRepairTimestamp = scheduledRepairTimestamp;
     }
 
-    public Timestamp getRepairedTimestamp() {
+    public DateAndTime getRepairedTimestamp() {
         return repairedTimestamp;
     }
 
-    public void setRepairedTimestamp(Timestamp repairedTimestamp) {
+    public void setRepairedTimestamp(DateAndTime repairedTimestamp) {
         this.repairedTimestamp = repairedTimestamp;
     }
 

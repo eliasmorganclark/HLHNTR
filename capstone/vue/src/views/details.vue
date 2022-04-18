@@ -1,14 +1,17 @@
 <template>
 <div>
   <hazard-details v-if='dataLoaded' v-bind:hazard="this.$store.getters.getAllHazards[1]" /> 
+  <manage-hazard v-if='dataLoaded' v-bind:propHazard="this.$store.getters.getAllHazards[1]" />
 </div>
 </template>
 
 <script>
 import HazardDetails from '../components/HazardDetails.vue'
 import dataService from "@/services/DataService.js"
+import ManageHazard from '../components/ManageHazard.vue'
+
 export default {
-  components: { HazardDetails },
+  components: { HazardDetails, ManageHazard },
   data(){
     return{
         dataLoaded: false
