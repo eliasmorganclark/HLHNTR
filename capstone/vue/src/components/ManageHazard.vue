@@ -107,10 +107,11 @@
           v-if="this.$store.state.user.authorities[0].name == 'ROLE_ADMIN'"
           class="delete-hazard-container"
         >
-          <form v-on:submit="deleteHazard(hazardToDelete)">
+          <!-- Currently passes in propHazardId, hazard of current page -->
+          <form v-on:submit="deleteHazard(propHazard.hazardId)">
             <label for="delete-hazard">Delete Hazard</label>
             <input v-model="hazardIdToDelete" id="delete-hazard" type="text" />
-            <input type="submit" value="Delete" />
+            <input type="submit" value="Delete Current Hazard" />
           </form>
         </div>
       </form>
@@ -129,7 +130,7 @@ export default {
   //new service to hit endpoint put request /hazardput
   data() {
     return {
-      hazardIdToDelete: "",
+      hazardIdToDelete: this.propHazard.hazardId,
       isDrain: Boolean,
       updatedHazard: {
         hazardId: "",
@@ -157,6 +158,11 @@ export default {
     };
   },
   methods: {
+    deleteHazard(hazardId) {
+      // Add code to delete hazard by id here
+      hazardId; // This is so code still compiles
+      // Route back to home page
+    },
     updateHazard() {
       this.updatedHazard = this.propHazard;
       if (this.updatedHazard.hazardType == "DRAIN") {
