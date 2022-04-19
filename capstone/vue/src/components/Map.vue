@@ -122,7 +122,18 @@ export default {
     },
     showMarkerInfoWindow(hazard, id) {
       this.markerInfoWindowPos = hazard.address.coordinates;
-
+      let imageExists;
+      let imgSrc = "";
+      try {
+        console.log('@/img/uploads/'+ id + ".jpeg");
+         imgSrc = require('@/img/uploads/'+ id + ".jpeg");
+         console.log('here');
+         imageExists = true;
+        // do something
+      } catch (e) {
+        // eslint-disable-next-line no-unused-vars
+        imageExists = false;
+      }
       const infoWindowHazardText =
         hazard.hazardType +
         " at " +
@@ -134,8 +145,7 @@ export default {
       const infoWindowTimestampText =
         "First reported on " +
         this.makeDatePretty(hazard.firstReportedTimestamp);
-      // const infoWindowLink = '<a href="/newreport">See more details</a>';
-      const imgSrc = require('@/img/uploads/123456.jpeg')
+      
       const infoWindowLink = `<img style = "max-width:200px" src="${imgSrc}" />`;
       const infoWindowText =
         "<p>" +
