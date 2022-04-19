@@ -24,6 +24,7 @@ public class FilesController {
             System.out.println(fileExtension);
             storageService.save(file, hazardId + fileExtension);
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
+            //trigger spring to reload resource folder
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         } catch (Exception e) {
             message = "Could not upload the file: " + file.getOriginalFilename() + "!";

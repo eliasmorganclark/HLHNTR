@@ -134,7 +134,9 @@ export default {
       const infoWindowTimestampText =
         "First reported on " +
         this.makeDatePretty(hazard.firstReportedTimestamp);
-      const infoWindowLink = '<a href="/newreport">See more details</a>';
+      // const infoWindowLink = '<a href="/newreport">See more details</a>';
+      //const infoWindowLink = '<img style = "max-width:200px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Poster-sized_portrait_of_Barack_Obama.jpg/1200px-Poster-sized_portrait_of_Barack_Obama.jpg" />';
+      const infoWindowLink = '<img style = "max-width:200px" src="C:\Users\Student\workspace\java-final-capstone-team-3\capstone\java\src\main\resources\public\uploads\123456.jpeg" />';
       const infoWindowText =
         "<p>" +
         infoWindowHazardText +
