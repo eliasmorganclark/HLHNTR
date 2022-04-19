@@ -7,6 +7,7 @@ import Register from "../views/Register.vue";
 import store from "../store/index";
 import NewReportView from "@/views/NewReportView.vue";
 import details from "@/views/details.vue";
+import ImageUpload from "@/components/ImageUpload.vue";
 Vue.use(Router);
 
 /**
@@ -66,6 +67,14 @@ const router = new Router({
     path: "/details/:hazardId",
     name: "details",
     component: details,
+    meta: {
+      requiresAuth: false,
+    }
+    },
+    {
+    path: "/upload",
+    name: "upload",
+    component:  ImageUpload,
     meta: {
       requiresAuth: false,
     }
