@@ -47,7 +47,6 @@
             v-for="type in streetTypes"
             :key="type.suffix"
             v-bind:streetType="streetType"
-            
           >
             {{ type.standardAbbr }}
           </option>
@@ -119,7 +118,7 @@
 
         <input class="submitty" type="submit" value="Submit Report" />
         <input
-        class="submitty"
+          class="submitty"
           type="button"
           v-on:click.prevent="clearForm"
           value="Clear Form"
@@ -134,16 +133,16 @@ import reportingService from "@/services/ReportingService.js";
 
 export default {
   name: "new-report",
- 
+
   props: {
-    propHazard: {}
+    propHazard: {},
   },
   emits: ["new-hazard-id"],
-  watch:{
+  watch: {
     // eslint-disable-next-line no-unused-vars
-    propHazard(newHazard, oldHazard){
+    propHazard(newHazard, oldHazard) {
       this.setDataFromProp();
-    }
+    },
   },
   data() {
     return {
@@ -185,7 +184,7 @@ export default {
       const config = {
         headers: { Authorization: `Bearer ${this.$store.state.token}` },
       };
-      if (this.$store.user) {
+      if (this.$store.state.user) {
         this.hazard.reportingUser = this.$store.state.user.id;
       }
       reportingService
@@ -217,7 +216,7 @@ export default {
       const config = {
         headers: { Authorization: `Bearer ${this.$store.state.token}` },
       };
-      if (this.$store.user) {
+      if (this.$store.state.user) {
         this.hazard.reportingUser = this.$store.state.user.id;
       }
       reportingService
@@ -247,14 +246,14 @@ export default {
     clearForm() {
       this.hazard.address = {};
     },
-    setDataFromProp(){
+    setDataFromProp() {
       console.table(this.propHazard);
       this.hazardType = this.propHazard.hazardType;
       this.hazard.address = this.propHazard.address;
     },
-    emitNewHazard(hazardId){
-      this.$emit('new-hazard-id',hazardId);
-    }
+    emitNewHazard(hazardId) {
+      this.$emit("new-hazard-id", hazardId);
+    },
   },
   computed: {
     isAddressFilledIn() {
@@ -274,34 +273,30 @@ export default {
 </script>
 
 <style>
-
-
 h2 {
-  font-family: 'Kanit', sans-serif;
+  font-family: "Kanit", sans-serif;
   letter-spacing: 2px;
-
 }
 
-
 #body {
-    font-family: 'Kanit', sans-serif;
-    
+  font-family: "Kanit", sans-serif;
+
   display: flex;
   /* align-items: center; */
   justify-content: center;
   flex-direction: column;
-  background-image: url('../img/potholebg.jpg');
-  
+  background-image: url("../img/potholebg.jpg");
+
   background-color: black;
 }
-#login  {
+#login {
   flex-grow: 1;
   min-height: 80vh;
   margin: 0;
 }
 
 .new-report-container {
-   font-family: 'Kanit', sans-serif;
+  font-family: "Kanit", sans-serif;
   align-items: center;
   margin: 50px;
   padding: 20px;
@@ -313,8 +308,8 @@ h2 {
 }
 
 input {
-   font-family: 'Kanit', sans-serif;
-   letter-spacing: 1px;
+  font-family: "Kanit", sans-serif;
+  letter-spacing: 1px;
   width: 300px;
   padding: 8px;
   margin: 8px;
@@ -322,35 +317,26 @@ input {
   border-radius: 10px;
   background-color: white;
   color: fuchsia;
-
 }
 
 a {
   text-transform: uppercase;
   color: FUCHSIA;
   text-decoration: none;
-
-
 }
 
 .submitty {
   letter-spacing: 3px;
-   font-family: 'Kanit', sans-serif;
+  font-family: "Kanit", sans-serif;
   font-size: 20px;
   text-transform: uppercase;
   border: 0;
   box-shadow: none;
   background-color: black;
-   color: fuchsia;
-   padding: 5px;
-   margin: 20px;
-   width: 200px;
-   border-radius: 10px;
+  color: fuchsia;
+  padding: 5px;
+  margin: 20px;
+  width: 200px;
+  border-radius: 10px;
 }
-
-
-
-
-
-
 </style>
