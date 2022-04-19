@@ -20,10 +20,9 @@ data(){
     }
 },
 methods:{
-    uploadFile() {
-        this.image = this.$refs.file.files[0];
-      },
+ 
     submitFile() {
+        this.image = this.$refs.file.files[0];
         const formData = new FormData();
         formData.append('file', this.image);
         formData.append('hazardId', this.hazardId);
