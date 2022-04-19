@@ -134,7 +134,9 @@ export default {
       const infoWindowTimestampText =
         "First reported on " +
         this.makeDatePretty(hazard.firstReportedTimestamp);
-      const infoWindowLink = '<a href="/newreport">See more details</a>';
+      // const infoWindowLink = '<a href="/newreport">See more details</a>';
+      const imgSrc = require('@/img/uploads/123456.jpeg')
+      const infoWindowLink = `<img style = "max-width:200px" src="${imgSrc}" />`;
       const infoWindowText =
         "<p>" +
         infoWindowHazardText +

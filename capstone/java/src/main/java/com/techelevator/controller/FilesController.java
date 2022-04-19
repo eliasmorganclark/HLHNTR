@@ -24,6 +24,7 @@ public class FilesController {
             System.out.println(fileExtension);
             storageService.save(file, hazardId + fileExtension);
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
+            //trigger spring to reload resource folder
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         } catch (Exception e) {
             message = "Could not upload the file: " + file.getOriginalFilename() + "!";
@@ -32,3 +33,16 @@ public class FilesController {
     }
 
 }
+
+//    Path temp = Files.move
+//            (Paths.get("C:\\Users\\Mayank\\Desktop\\44.txt"),
+//                    Paths.get("C:\\Users\\Mayank\\Desktop\\dest\\445.txt"));
+//
+//        if(temp != null)
+//                {
+//                System.out.println("File renamed and moved successfully");
+//                }
+//                else
+//                {
+//                System.out.println("Failed to move the file");
+//                }
