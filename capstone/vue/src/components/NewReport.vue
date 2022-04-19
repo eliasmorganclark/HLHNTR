@@ -287,7 +287,7 @@ h2 {
     font-family: 'Kanit', sans-serif;
     
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
   flex-direction: column;
   background-image: url('../img/potholebg.jpg');
