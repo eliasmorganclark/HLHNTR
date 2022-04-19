@@ -50,7 +50,8 @@ export default {
           if(this.hazard.hazardType=='DRAIN'){
             this.isDrain = true;
           }
-        })
+        }),
+        this.getImage()
     },
     methods:{
       makeDatePretty(timestamp){
