@@ -28,7 +28,7 @@ const router = new Router({
       name: "home",
       component: Home,
       meta: {
-        requiresAuth: true,
+        requiresAuth: false,
       },
     },
     {
@@ -64,20 +64,20 @@ const router = new Router({
       },
     },
     {
-    path: "/details/:hazardId",
-    name: "details",
-    component: details,
-    meta: {
-      requiresAuth: false,
-    }
+      path: "/details/:hazardId",
+      name: "details",
+      component: details,
+      meta: {
+        requiresAuth: false,
+      },
     },
     {
-    path: "/upload",
-    name: "upload",
-    component:  ImageUpload,
-    meta: {
-      requiresAuth: false,
-    }
+      path: "/upload",
+      name: "upload",
+      component: ImageUpload,
+      meta: {
+        requiresAuth: false,
+      },
     },
   ],
 });
