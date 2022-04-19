@@ -33,3 +33,16 @@ public class FilesController {
     }
 
 }
+
+//    Path temp = Files.move
+//            (Paths.get("C:\\Users\\Mayank\\Desktop\\44.txt"),
+//                    Paths.get("C:\\Users\\Mayank\\Desktop\\dest\\445.txt"));
+//
+//        if(temp != null)
+//                {
+//                System.out.println("File renamed and moved successfully");
+//                }
+//                else
+//                {
+//                System.out.println("Failed to move the file");
+//                }

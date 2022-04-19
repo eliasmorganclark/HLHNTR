@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FilesStorageServiceImpl implements FilesStorageService {
-    private final Path root = Paths.get("src/main/resources/static");
+//    private final Path root = Paths.get("src/main/resources/static");
+    private final Path root = Paths.get("C:\\Users\\Student\\workspace\\java-final-capstone-team-3\\capstone\\vue\\src\\img\\uploads");
 
     @Override
     public void save(MultipartFile file,String newFilename) {
@@ -20,3 +21,17 @@ public class FilesStorageServiceImpl implements FilesStorageService {
     }
 
 }
+
+
+//    Path temp = Files.move
+//            (Paths.get("C:\\Users\\Mayank\\Desktop\\44.txt"),
+//                    Paths.get("C:\\Users\\Mayank\\Desktop\\dest\\445.txt"));
+//
+//        if(temp != null)
+//                {
+//                System.out.println("File renamed and moved successfully");
+//                }
+//                else
+//                {
+//                System.out.println("Failed to move the file");
+//                }
