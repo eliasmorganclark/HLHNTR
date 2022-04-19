@@ -122,17 +122,14 @@ export default {
     },
     showMarkerInfoWindow(hazard, id) {
       this.markerInfoWindowPos = hazard.address.coordinates;
-      let imageExists;
       let imgSrc = "";
       try {
         console.log('@/img/uploads/'+ id + ".jpeg");
          imgSrc = require('@/img/uploads/'+ id + ".jpeg");
          console.log('here');
-         imageExists = true;
         // do something
       } catch (e) {
-        // eslint-disable-next-line no-unused-vars
-        imageExists = false;
+        console.log("no image for this hazard")
       }
       const infoWindowHazardText =
         hazard.hazardType +
