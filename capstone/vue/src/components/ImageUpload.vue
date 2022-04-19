@@ -2,7 +2,6 @@
   <div>
     <div>
         <input type="file" @change="uploadFile" ref="file">
-        <input type="number" @change="updateId" ref="hazardId">
         <button @click="submitFile">Upload!</button>
     </div>
   </div>
@@ -14,20 +13,16 @@ import fileUploadService from "@/services/FileUploadService.js";
 export default {
 name: "image-upload"
 ,
+props:["hazardId"],
 data(){
     return{
-        image:null,
-        hazardId: null
+        image:null
     }
 },
 methods:{
-    uploadFile() {
-        this.image = this.$refs.file.files[0];
-      },
-    updateId() {
-        this.hazardId = this.$refs.hazardId.value;
-    },
+ 
     submitFile() {
+        this.image = this.$refs.file.files[0];
         const formData = new FormData();
         formData.append('file', this.image);
         formData.append('hazardId', this.hazardId);

@@ -22,6 +22,9 @@
     <h2 class='timeFirstReported'>Scheduled for repair: {{makeDatePretty(hazard.scheduledRepairTimestamp)}}</h2>
     <h2 class='timeFirstReported'>Repair completed: {{makeDatePretty(hazard.repairedTimestamp)}}</h2>
   </div>
+  <div class="details-image-container" v-if="imageExists">
+    <img :src="imgSrc" />
+  </div>
 </div>
 </template>
 
@@ -35,7 +38,9 @@ export default {
       return{
         reports:[], 
         doneLoading: false,
-        isDrain: false
+        isDrain: false,
+        imgSrc: '',
+        imageExists:false
       }
     },
     created(){
@@ -45,7 +50,8 @@ export default {
           if(this.hazard.hazardType=='DRAIN'){
             this.isDrain = true;
           }
-        })
+        }),
+        this.getImage()
     },
     methods:{
       makeDatePretty(timestamp){
@@ -57,6 +63,16 @@ export default {
         else{
           return "";
         }
+    },
+    getImage(){
+      try {
+        console.log('@/img/uploads/'+ this.hazard.hazardId + ".jpeg");
+         this.imgSrc = require('@/img/uploads/'+ this.hazard.hazardId + ".jpeg");
+         this.imageExists = true;
+        // do something
+      } catch (e) {
+        console.log("no image for this hazard")
+      }
     }
 
 }
@@ -71,3 +87,11 @@ export default {
     justify-content: space-evenly;
   }
 </style>
+
+
+// try {
+//   this.storyToRead = require('../assets/data/stories/' + this.storyFileName)
+//   // do something
+// } catch (e) {
+//   // do something else
+// }

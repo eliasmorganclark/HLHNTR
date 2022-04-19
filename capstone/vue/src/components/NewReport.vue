@@ -115,7 +115,10 @@
 
         <label for="zip-code">Zip Code</label>
         <input v-model.trim="hazard.address.zip" id="zip-code" type="text" />
-
+        <div>
+          <label for="file">Upload a Picture</label>
+          <input type="file" @change="setImageFile" ref="file" accept="image/jpeg">
+        </div>
         <input class="submitty" type="submit" value="Submit Report" />
         <input
           class="submitty"
@@ -130,6 +133,7 @@
 
 <script>
 import reportingService from "@/services/ReportingService.js";
+import fileUploadService from "@/services/FileUploadService.js";
 
 export default {
   name: "new-report",
@@ -146,6 +150,8 @@ export default {
   },
   data() {
     return {
+      image:null,
+      imageHazardId:"",
       streetTypes: [],
       hazardType: "",
       streetType: "",
@@ -191,11 +197,13 @@ export default {
         .addNewPotholeReport(this.hazard, config)
         .then((response) => {
           if (response.status == 201) {
+            this.imageHazardId = response.data.pothole.hazardId;
             alert(
               "Pothole number: " +
                 response.data.pothole.hazardId +
                 " successfully entered. Thanks for reporting a pothole."
             );
+            this.submitFile();
             this.emitNewHazard(response.data.pothole.hazardId);
             if (!this.$store.user) {
               this.$router.push({ name: "home" });
@@ -223,11 +231,13 @@ export default {
         .addNewDrainReport(this.hazard, config)
         .then((response) => {
           if (response.status == 201) {
+            this.imageHazardId = response.data.pothole.hazardId;
             alert(
               "Drain number: " +
                 response.data.drain.hazardId +
                 " successfully entered. Thanks for reporting a drain."
             );
+            this.submitFile();
             this.emitNewHazard(response.data.pothole.hazardId);
             if (!this.$store.user) {
               this.$router.push({ name: "home" });
@@ -243,8 +253,31 @@ export default {
           alert("Invalid address, please try again.");
         });
     },
+    setImageFile(){
+       this.image = this.$refs.file.files[0];
+       console.log(this.image);
+    },
+    submitFile() {
+      
+        if(this.image){
+          const formData = new FormData();
+          formData.append('file', this.image);
+          formData.append('hazardId', this.imageHazardId);
+          console.log(this.hazardId);
+          fileUploadService.uploadPhoto(formData).then((response) => {
+              console.log(response);
+              alert("Image uploaded successfully");
+              this.imageHazardId = "";
+              this.image = null;
+          }).catch((error) => {
+              console.log(error);
+              alert("There was a problem uploading your image");
+          })
+        }
+    },
     clearForm() {
       this.hazard.address = {};
+      this.image = null;
     },
     setDataFromProp() {
       console.table(this.propHazard);
@@ -265,6 +298,9 @@ export default {
       });
       return true;
     },
+    newReportMade(){
+      return this.newReportHazardId!="";
+    }
   },
   created() {
     this.streetTypes = require("street-types");
