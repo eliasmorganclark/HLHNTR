@@ -36,5 +36,7 @@ public interface ReportDao {
 
     Hazard getHazard(Long hazardId);
 
+    void delete(Long hazardId);
+
 //    long getUserIdByUsername(String username);
 }

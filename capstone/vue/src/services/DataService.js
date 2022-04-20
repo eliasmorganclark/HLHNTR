@@ -47,6 +47,10 @@ export default {
 
   updatePothole(hazard){
     return http.put("/pothole/",hazard)
+  },
+
+  deleteHazard(hazardId){
+    return http.delete(`/delete/${hazardId}`)
   }
 
 };
