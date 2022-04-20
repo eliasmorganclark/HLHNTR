@@ -165,7 +165,7 @@ export default {
         "First reported on " +
         this.makeDatePretty(hazard.firstReportedTimestamp);
       
-      const infoWindowLink = `<img style = "max-width:200px" src="${imgSrc}" />`;
+      const infoWindowLink = `<img style = "max-width:200px; height:auto" src="${imgSrc}" />`;
       const infoWindowText =
         "<p>" +
         infoWindowHazardText +
