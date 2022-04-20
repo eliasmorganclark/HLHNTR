@@ -158,9 +158,17 @@ export default {
     };
   },
   methods: {
-    deleteHazard(hazardId) {
+    deleteHazard() {
+      dataService
+          .deleteHazard(this.propHazard.hazardId)
+          .then(() => {
+            alert("Pothole deleted");
+            
+          })
+          this.$router.push({ name: "home" });
+          
       // Add code to delete hazard by id here
-      hazardId; // This is so code still compiles
+      // This is so code still compiles
       // Route back to home page
     },
     updateHazard() {
