@@ -1,16 +1,24 @@
 <template>
   <div class="new-report-container">
     <div class="new-report-title-container">
-      <h3 class="new-report-title-text"><img src="../img/logo.png" /> REPORT A NEW ROAD HAZARD</h3>
+      <h3 class="new-report-title-text">
+        <img src="../img/logo.png" /> REPORT A NEW ROAD HAZARD
+      </h3>
       <h2 class="new-report-title-text">
-        Thank you for helping to keep our streets safe! Please enter the address of the hazard you'd like to report below:
+        Thank you for helping to keep our streets safe! Please enter the address
+        of the hazard you'd like to report below:
       </h2>
     </div>
     <div class="new-report-form-container">
       <form class="new-report-form" v-on:submit.prevent="saveNewReport">
         <div class="hazard-type-container">
           <label for="hazard-type">Hazard Type</label>
-          <select v-model="hazardType" name="hazard-type" id="hazard-type" class="Selecty">
+          <select
+            v-model="hazardType"
+            name="hazard-type"
+            id="hazard-type"
+            class="Selecty"
+          >
             <option value="">PLEASE SELECT</option>
             <option value="POTHOLE">POTHOLE</option>
             <option value="DRAIN">STORM DRAIN</option>
@@ -19,7 +27,12 @@
 
         <div v-if="hazardType == 'POTHOLE'" class="severity-container">
           <label for="severity">Severity</label>
-          <select v-model="hazard.severity" name="severity" id="severity" class="Selecty">
+          <select
+            v-model="hazard.severity"
+            name="severity"
+            id="severity"
+            class="Selecty"
+          >
             <option value="">PLEASE SELECT</option>
             <option value="LOW">LOW</option>
             <option value="MODERATE">MODERATE</option>
@@ -27,105 +40,121 @@
           </select>
         </div>
 
-        <label for="house-number">House Number</label>
-        <input
-          v-model.trim="hazard.address.houseNumber"
-          id="houser-number"
-          type="text"
-        />
-
-        <label for="street-name">Street Name</label>
-        <input
-          v-model.trim="hazard.address.streetName"
-          id="street-name"
-          type="text"
-        />
-
-        <label for="street-type">Street Type</label>
-        <select v-model="streetType" name="street-type" id="street-type" class="Selecty">
-          <option
-            v-for="type in streetTypes"
-            :key="type.suffix"
-            v-bind:streetType="streetType"
+        <div class="street-info">
+          <label for="house-number">House Number</label>
+          <input
+            v-model.trim="hazard.address.houseNumber"
+            id="houser-number"
+            type="text"
+          />
+          <label for="street-name">Street Name</label>
+          <input
+            v-model.trim="hazard.address.streetName"
+            id="street-name"
+            type="text"
+          />
+          <label for="street-type">Street Type</label>
+          <select
+            v-model="streetType"
+            name="street-type"
+            id="street-type"
+            class="Selecty"
           >
-            {{ type.standardAbbr }}
-          </option>
-          <!-- <option value="">---</option>
-          <option value="AVE">AVE</option>
-          <option value="ST">ST</option>
-          <option value="BLVD">BLVD</option> -->
-        </select>
-
-        <label for="city">City</label>
-        <input v-model.trim="hazard.address.city" id="city" type="text" />
-
-        <label for="state">State</label>
-        <select id="state" name="state" v-model="hazard.address.state" class="Selecty">
-          <option value="OH">Ohio</option>
-          <option value="AL">Alabama</option>
-          <option value="AK">Alaska</option>
-          <option value="AZ">Arizona</option>
-          <option value="AR">Arkansas</option>
-          <option value="CA">California</option>
-          <option value="CO">Colorado</option>
-          <option value="CT">Connecticut</option>
-          <option value="DE">Delaware</option>
-          <option value="FL">Florida</option>
-          <option value="GA">Georgia</option>
-          <option value="HI">Hawaii</option>
-          <option value="ID">Idaho</option>
-          <option value="IL">Illinois</option>
-          <option value="IN">Indiana</option>
-          <option value="IA">Iowa</option>
-          <option value="KS">Kansas</option>
-          <option value="KY">Kentucky</option>
-          <option value="LA">Louisiana</option>
-          <option value="ME">Maine</option>
-          <option value="MD">Maryland</option>
-          <option value="MA">Massachusetts</option>
-          <option value="MI">Michigan</option>
-          <option value="MN">Minnesota</option>
-          <option value="MS">Mississippi</option>
-          <option value="MO">Missouri</option>
-          <option value="MT">Montana</option>
-          <option value="NE">Nebraska</option>
-          <option value="NV">Nevada</option>
-          <option value="NH">New Hampshire</option>
-          <option value="NJ">New Jersey</option>
-          <option value="NM">New Mexico</option>
-          <option value="NY">New York</option>
-          <option value="NC">North Carolina</option>
-          <option value="ND">North Dakota</option>
-          <option value="OK">Oklahoma</option>
-          <option value="OR">Oregon</option>
-          <option value="PA">Pennsylvania</option>
-          <option value="RI">Rhode Island</option>
-          <option value="SC">South Carolina</option>
-          <option value="SD">South Dakota</option>
-          <option value="TN">Tennessee</option>
-          <option value="TX">Texas</option>
-          <option value="UT">Utah</option>
-          <option value="VT">Vermont</option>
-          <option value="VA">Virginia</option>
-          <option value="WA">Washington</option>
-          <option value="WV">West Virginia</option>
-          <option value="WI">Wisconsin</option>
-          <option value="WY">Wyoming</option>
-        </select>
-
-        <label for="zip-code">Zip Code</label>
-        <input v-model.trim="hazard.address.zip" id="zip-code" type="text" />
-        <div>
-          <label for="file">Upload a Picture</label>
-          <input type="file" @change="setImageFile" ref="file" accept="image/jpeg">
+            <option
+              v-for="type in streetTypes"
+              :key="type.suffix"
+              v-bind:streetType="streetType"
+            >
+              {{ type.standardAbbr }}
+            </option>
+            <!-- <option value="">---</option>
+            <option value="AVE">AVE</option>
+            <option value="ST">ST</option>
+            <option value="BLVD">BLVD</option> -->
+          </select>
         </div>
-        <input class="submitty" type="submit" value="Submit Report" />
-        <input
-          class="submitty"
-          type="button"
-          v-on:click.prevent="clearForm"
-          value="Clear Form"
-        />
+        <div class="city-info">
+          <label for="city">City</label>
+          <input v-model.trim="hazard.address.city" id="city" type="text" />
+          <label for="state">State</label>
+          <select
+            id="state"
+            name="state"
+            v-model="hazard.address.state"
+            class="Selecty"
+          >
+            <option value="OH">Ohio</option>
+            <option value="AL">Alabama</option>
+            <option value="AK">Alaska</option>
+            <option value="AZ">Arizona</option>
+            <option value="AR">Arkansas</option>
+            <option value="CA">California</option>
+            <option value="CO">Colorado</option>
+            <option value="CT">Connecticut</option>
+            <option value="DE">Delaware</option>
+            <option value="FL">Florida</option>
+            <option value="GA">Georgia</option>
+            <option value="HI">Hawaii</option>
+            <option value="ID">Idaho</option>
+            <option value="IL">Illinois</option>
+            <option value="IN">Indiana</option>
+            <option value="IA">Iowa</option>
+            <option value="KS">Kansas</option>
+            <option value="KY">Kentucky</option>
+            <option value="LA">Louisiana</option>
+            <option value="ME">Maine</option>
+            <option value="MD">Maryland</option>
+            <option value="MA">Massachusetts</option>
+            <option value="MI">Michigan</option>
+            <option value="MN">Minnesota</option>
+            <option value="MS">Mississippi</option>
+            <option value="MO">Missouri</option>
+            <option value="MT">Montana</option>
+            <option value="NE">Nebraska</option>
+            <option value="NV">Nevada</option>
+            <option value="NH">New Hampshire</option>
+            <option value="NJ">New Jersey</option>
+            <option value="NM">New Mexico</option>
+            <option value="NY">New York</option>
+            <option value="NC">North Carolina</option>
+            <option value="ND">North Dakota</option>
+            <option value="OK">Oklahoma</option>
+            <option value="OR">Oregon</option>
+            <option value="PA">Pennsylvania</option>
+            <option value="RI">Rhode Island</option>
+            <option value="SC">South Carolina</option>
+            <option value="SD">South Dakota</option>
+            <option value="TN">Tennessee</option>
+            <option value="TX">Texas</option>
+            <option value="UT">Utah</option>
+            <option value="VT">Vermont</option>
+            <option value="VA">Virginia</option>
+            <option value="WA">Washington</option>
+            <option value="WV">West Virginia</option>
+            <option value="WI">Wisconsin</option>
+            <option value="WY">Wyoming</option>
+          </select>
+          <label for="zip-code">Zip Code</label>
+          <input v-model.trim="hazard.address.zip" id="zip-code" type="text" />
+        </div>
+        <div class="picture-submit-clear">
+          <div>
+            <label for="file">Upload a Picture</label>
+            <input
+              type="file"
+              @change="setImageFile"
+              ref="file"
+              accept="image/jpeg"
+            />
+          </div>
+          <input class="submitty" type="submit" value="Submit Report" />
+          <input
+            class="submitty"
+            type="button"
+            v-on:click.prevent="clearForm"
+            value="Clear Form"
+          />
+        </div>
       </form>
     </div>
   </div>
@@ -150,8 +179,8 @@ export default {
   },
   data() {
     return {
-      image:null,
-      imageHazardId:"",
+      image: null,
+      imageHazardId: "",
       streetTypes: [],
       hazardType: "",
       streetType: "",
@@ -253,27 +282,29 @@ export default {
           alert("Invalid address, please try again.");
         });
     },
-    setImageFile(){
-       this.image = this.$refs.file.files[0];
-       console.log(this.image);
+    setImageFile() {
+      this.image = this.$refs.file.files[0];
+      console.log(this.image);
     },
     submitFile() {
-      
-        if(this.image){
-          const formData = new FormData();
-          formData.append('file', this.image);
-          formData.append('hazardId', this.imageHazardId);
-          console.log(this.hazardId);
-          fileUploadService.uploadPhoto(formData).then((response) => {
-              console.log(response);
-              alert("Image uploaded successfully");
-              this.imageHazardId = "";
-              this.image = null;
-          }).catch((error) => {
-              console.log(error);
-              alert("There was a problem uploading your image");
+      if (this.image) {
+        const formData = new FormData();
+        formData.append("file", this.image);
+        formData.append("hazardId", this.imageHazardId);
+        console.log(this.hazardId);
+        fileUploadService
+          .uploadPhoto(formData)
+          .then((response) => {
+            console.log(response);
+            alert("Image uploaded successfully");
+            this.imageHazardId = "";
+            this.image = null;
           })
-        }
+          .catch((error) => {
+            console.log(error);
+            alert("There was a problem uploading your image");
+          });
+      }
     },
     clearForm() {
       this.hazard.address = {};
@@ -298,9 +329,9 @@ export default {
       });
       return true;
     },
-    newReportMade(){
-      return this.newReportHazardId!="";
-    }
+    newReportMade() {
+      return this.newReportHazardId != "";
+    },
   },
   created() {
     this.streetTypes = require("street-types");
@@ -316,53 +347,60 @@ h2 {
 
 #body {
   font-family: "Kanit", sans-serif;
-
-  display: flex;
-  /* align-items: center; */
-  justify-content: center;
-  flex-direction: column;
   background-image: url("../img/potholebg.jpg");
 
   background-color: black;
 }
 
+.hazard-type-container {
+  grid-area: hazard-type;
+}
+
+.new-report-form-container {
+  /* grid-area: form; */
+  /* display: flex; */
+  /* flex-direction: column; */
+}
 
 .new-report-container {
   font-family: "Kanit", sans-serif;
+  display: grid;
+  /* grid-template-columns: 1fr 1fr; */
+  grid-template-areas:
+    "title"
+    "picture-submit-clear   ";
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
+  /* justify-items: center; */
+
   margin: 10px;
   padding: 20px;
-  
-  display: flex;
-  flex-direction: column;
   background-color: #ccc;
   border-radius: 10px;
 }
 .new-report-title-container {
-  text-align: left;
-  margin: 0 0 0 -200px;
+  grid-area: title;
 }
+
 h3 {
-  text-align: left;
+  text-align: center;
   font-family: "Kanit", sans-serif;
   font-style: italic;
-   color: black;
+  color: black;
   text-shadow: 2px 2px fuchsia;
   letter-spacing: 3px;
   font-size: 35px;
   margin: 5px 0;
 }
 img {
- 
-margin: 3px 0 -17px 0;
+  margin: 3px 0 -17px 0;
   height: 60px;
   width: auto;
 }
-H2{
+h2 {
   margin: 0 30px;
   font-family: "Kanit", sans-serif;
-  font-weight:400;
+  font-weight: 400;
   font-size: 15px;
   color: #333;
   text-align: center;
@@ -390,7 +428,10 @@ input {
   border-radius: 10px;
   background-color: white;
   color: fuchsia;
+}
 
+.picture-submit-clear {
+  grid-area: picture-submit-clear;
 }
 
 a {
