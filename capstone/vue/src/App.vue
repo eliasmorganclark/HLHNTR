@@ -9,16 +9,15 @@
         </span>
       </router-link>
       <span class="links">
+        <span class="user-name" v-if="$store.state.token != ''">
+          Current user: {{ $store.state.user.username }} |
+        </span>
+        <a href="#bottom">Report Hazard |</a>
+
         <router-link
           v-bind:to="{ name: 'login' }"
           v-if="$store.state.token == ''"
           >LOGIN</router-link
-        >
-        <span class="user-name" v-if="$store.state.token != ''">
-          Current user: {{ $store.state.user.username }} |
-        </span>
-        <router-link v-bind:to="{ name: 'NewReportView' }"
-          >Report Hazard</router-link
         >
         <router-link
           v-bind:to="{ name: 'logout' }"
@@ -30,7 +29,7 @@
     <div id="body">
       <router-view />
     </div>
-    <footer>
+    <footer id="bottom">
       <p>
         PROUDLY SERVING NORTHEAST OHIO SINCE 2022, WITH A SPECIAL THANKS TO OUR
         FRIENDS AND MENTORS AT TECH ELEVATOR CLEVELAND COHORT 19!
