@@ -23,15 +23,17 @@
         :position="markerInfoWindowPos"
         :opened="markerInfoWinOpen"
         @closeclick="markerInfoWinOpen = false"
-      />
+      
 
-      <!-- :icon="hazard.iconPath" -->
+     
+      />
       <GmapMarker
         v-for="hazard in hazardsToDisplay"
         :key="hazard.hazardId"
         :position="hazard.address.coordinates"
         :clickable="true"
         @click="showMarkerInfoWindow(hazard, hazard.hazardId)"
+        :icon="{ url: require('../img/mapicontiny.png')} "
       />
       <div class = "drop-pin-container" v-if="showDropPin">
         <GmapMarker

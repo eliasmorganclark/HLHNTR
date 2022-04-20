@@ -1,26 +1,26 @@
 <template>
   <div class="new-report-container">
     <div class="new-report-title-container">
-      <h1 class="new-report-title-text">REPORT A HAZARD</h1>
+      <h3 class="new-report-title-text"><img src="../img/logo.png" /> REPORT A NEW ROAD HAZARD</h3>
       <h2 class="new-report-title-text">
-        Please enter the address of the hazard below:
+        Thank you for helping to keep our streets safe! Please enter the address of the hazard you'd like to report below:
       </h2>
     </div>
     <div class="new-report-form-container">
       <form class="new-report-form" v-on:submit.prevent="saveNewReport">
         <div class="hazard-type-container">
           <label for="hazard-type">Hazard Type</label>
-          <select v-model="hazardType" name="hazard-type" id="hazard-type">
-            <option value="">------</option>
-            <option value="POTHOLE">Pothole</option>
-            <option value="DRAIN">Drain</option>
+          <select v-model="hazardType" name="hazard-type" id="hazard-type" class="Selecty">
+            <option value="">PLEASE SELECT</option>
+            <option value="POTHOLE">POTHOLE</option>
+            <option value="DRAIN">STORM DRAIN</option>
           </select>
         </div>
 
         <div v-if="hazardType == 'POTHOLE'" class="severity-container">
           <label for="severity">Severity</label>
-          <select v-model="hazard.severity" name="severity" id="severity">
-            <option value="">---</option>
+          <select v-model="hazard.severity" name="severity" id="severity" class="Selecty">
+            <option value="">PLEASE SELECT</option>
             <option value="LOW">LOW</option>
             <option value="MODERATE">MODERATE</option>
             <option value="HIGH">HIGH</option>
@@ -42,7 +42,7 @@
         />
 
         <label for="street-type">Street Type</label>
-        <select v-model="streetType" name="street-type" id="street-type">
+        <select v-model="streetType" name="street-type" id="street-type" class="Selecty">
           <option
             v-for="type in streetTypes"
             :key="type.suffix"
@@ -60,7 +60,7 @@
         <input v-model.trim="hazard.address.city" id="city" type="text" />
 
         <label for="state">State</label>
-        <select id="state" name="state" v-model="hazard.address.state">
+        <select id="state" name="state" v-model="hazard.address.state" class="Selecty">
           <option value="OH">Ohio</option>
           <option value="AL">Alabama</option>
           <option value="AK">Alaska</option>
@@ -325,22 +325,47 @@ h2 {
 
   background-color: black;
 }
-#login {
-  flex-grow: 1;
-  min-height: 80vh;
-  margin: 0;
-}
+
 
 .new-report-container {
   font-family: "Kanit", sans-serif;
   align-items: center;
-  margin: 50px;
+  justify-content: center;
+  margin: 10px;
   padding: 20px;
-  width: 700px;
+  
   display: flex;
   flex-direction: column;
-  background-color: white;
+  background-color: #ccc;
   border-radius: 10px;
+}
+.new-report-title-container {
+  text-align: left;
+  margin: 0 0 0 -200px;
+}
+h3 {
+  text-align: left;
+  font-family: "Kanit", sans-serif;
+  font-style: italic;
+   color: black;
+  text-shadow: 2px 2px fuchsia;
+  letter-spacing: 3px;
+  font-size: 35px;
+  margin: 5px 0;
+}
+img {
+ 
+margin: 3px 0 -17px 0;
+  height: 60px;
+  width: auto;
+}
+H2{
+  margin: 0 30px;
+  font-family: "Kanit", sans-serif;
+  font-weight:400;
+  font-size: 15px;
+  color: #333;
+  text-align: center;
 }
 
 input {
@@ -349,10 +374,23 @@ input {
   width: 300px;
   padding: 8px;
   margin: 8px;
-  border: 3px solid #888;
+  border: 3px solid #ccc;
   border-radius: 10px;
   background-color: white;
   color: fuchsia;
+}
+
+.Selecty {
+  font-family: "Kanit", sans-serif;
+  letter-spacing: 1px;
+  width: 300px;
+  padding: 8px;
+  margin: 8px;
+  border: 3px solid #ccc;
+  border-radius: 10px;
+  background-color: white;
+  color: fuchsia;
+
 }
 
 a {
