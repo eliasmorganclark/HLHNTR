@@ -36,6 +36,8 @@ public interface ReportDao {
 
     Hazard getHazard(Long hazardId);
 
+    List<String> getAllCities();
+
     void delete(Long hazardId);
 
 //    long getUserIdByUsername(String username);

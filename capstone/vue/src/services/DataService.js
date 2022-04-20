@@ -40,17 +40,20 @@ export default {
   getDrain(hazardId) {
     return http.get(`/drain/${hazardId}`);
   },
-  
-  updateDrain(hazard){
-    return http.put("/drain/",hazard)
+
+  updateDrain(hazard) {
+    return http.put("/drain/", hazard);
   },
 
-  updatePothole(hazard){
-    return http.put("/pothole/",hazard)
+  updatePothole(hazard) {
+    return http.put("/pothole/", hazard);
   },
 
-  deleteHazard(hazardId){
-    return http.delete(`/delete/${hazardId}`)
-  }
+  deleteHazard(hazardId) {
+    return http.delete(`/delete/${hazardId}`);
+  },
 
+  getCities() {
+    return http.get(`/hazard/cities`);
+  },
 };

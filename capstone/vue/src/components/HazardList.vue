@@ -16,6 +16,17 @@
           <option value="POTHOLE">Potholes</option>
           <option value="DRAIN">Drains</option>
         </select>
+        <label for="hazard-filter" class="filterlabel">CITY : </label>
+        <select
+          v-model="filter.address.city"
+          name="hazard-filter-city"
+          id="hazard-filter-city"
+          @change="$emit('map-hazards', filteredHazards)"
+          class="filterbutton"
+        >
+          <option value="">All Cities</option>
+          <option v-for="city in filterCities" :key="city">{{ city }}</option>
+        </select>
       </div></span
     >
     <ul class="listcontainer">
@@ -56,6 +67,7 @@ export default {
   },
   data() {
     return {
+      filterCities: [],
       filter: {
         hazardId: "",
         verified: "",
@@ -206,6 +218,9 @@ export default {
       dataService
         .getAllHazards()
         .then((response) => (this.hazards = response.data));
+      dataService
+        .getCities()
+        .then((response) => (this.filterCities = response.data));
     },
     snapMap(latlon) {
       console.log(latlon);
@@ -222,7 +237,7 @@ export default {
   border-radius: 10px;
   padding: 30px;
   margin: 10px;
-  overflow: scroll;
+  /* overflow: scroll; */
 }
 .uhshoot {
   display: flex;

@@ -93,6 +93,11 @@ public class HoleHunterController {
         return reportDao.getHazard(hazardId);
     }
 
+        //Cities with hazards
+    @RequestMapping(path = "/hazard/cities", method = RequestMethod.GET)
+    public List<String> getCities() {
+            return reportDao.getAllCities();
+        }
 
     //PUT REQUESTS
         //Update drain

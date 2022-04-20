@@ -82,18 +82,23 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,400;0,900;1,100;1,400;1,900&display=swap");
 
 .home {
-  min-width: 100%;
+  /* max-height: 100vh; */
   display: grid;
-  grid-template-columns: 2fr 3fr;
+  /* align-content: center; */
+  /* justify-content: center; */
+  /* justify-items: center; */
+  /* align-items: center; */
+  grid-template-columns: 1fr 2fr;
+  /* grid-template-rows: 3fr 1fr; */
   grid-template-areas:
     "sidebar mapbox"
     "reportbox reportbox";
   gap: 10px;
 }
 
-.sidebar-map-container {
+/* .sidebar-map-container {
   font-family: "Kanit", sans-serif;
-}
+} */
 
 #instructions {
   background-color: #ccc;
@@ -122,6 +127,9 @@ export default {
   color: #000;
   grid-area: sidebar;
   border-radius: 0 0 20px 20px;
+  overflow: scroll;
+  overflow-x: hidden;
+  height: 450px;
 }
 #mapbox {
   grid-area: mapbox;
@@ -129,10 +137,13 @@ export default {
 
 .report-hazard-container {
   grid-area: reportbox;
+  /* column-span: 2; */
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
+  justify-self: center;
   margin: 20px 0 -30px 50px;
   width: 90%;
+  /* height: 100px; */
 }
 h2 {
   color: black;

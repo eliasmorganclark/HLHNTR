@@ -312,6 +312,18 @@ public class JdbcReportDao implements ReportDao {
     }
 
     @Override
+    public List<String> getAllCities() {
+        List<String> cities = new ArrayList<>();
+        String sql = "SELECT city from pothole UNION SELECT city from drain;";
+        SqlRowSet results =  jdbcTemplate.queryForRowSet(sql);
+        while (results.next()) {
+            cities.add(results.getString("city"));
+        }
+        Collections.sort(cities);
+        return cities;
+    }
+
+    @Override
     public void delete(Long hazardId) {
     String sql = "DELETE FROM report WHERE pothole_id = ?;\n" +
             "DELETE FROM pothole WHERE hazard_id = ?;\n" +

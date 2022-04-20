@@ -61,14 +61,14 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,400;0,900;1,100;1,400;1,900&display=swap");
 
 #app {
-  min-height: 100vh;
+  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
 }
 
 #body {
-  min-width: 100vh;
-  flex-grow: 5;
+  /* height: 1fr; */
+  /* flex-grow: 5; */
 }
 
 #nav {
