@@ -10,9 +10,9 @@
       </router-link>
       <span class="links">
         <span class="user-name" v-if="$store.state.token != ''">
-          Current user: {{ $store.state.user.username }} |
+          HELLO, {{ $store.state.user.username }} !
         </span>
-        <a href="#bottom">Report Hazard |</a>
+        <a href="/newreport">Report Hazard </a> 
 
         <router-link
           v-bind:to="{ name: 'login' }"
@@ -22,7 +22,7 @@
         <router-link
           v-bind:to="{ name: 'logout' }"
           v-if="$store.state.token != ''"
-          >Logout</router-link
+          >LOGOUT</router-link
         >
       </span>
     </div>

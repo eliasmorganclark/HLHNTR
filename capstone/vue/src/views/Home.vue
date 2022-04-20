@@ -133,7 +133,9 @@ export default {
 }
 #mapbox {
   grid-area: mapbox;
+  
 }
+
 
 .report-hazard-container {
   grid-area: reportbox;
