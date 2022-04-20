@@ -16,7 +16,7 @@
       }"
       @center_changed="updateCenter"
       @dblclick="dropPin"
-      style="width:100%;  height: 480px;"
+      style="width:100%;  height: 800px;"
     >
       <gmap-info-window
         :options="markerInfoOptions"

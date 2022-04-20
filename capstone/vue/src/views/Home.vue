@@ -92,7 +92,7 @@ export default {
   /* grid-template-rows: 3fr 1fr; */
   grid-template-areas:
     "sidebar mapbox"
-    "reportbox reportbox";
+    "sidebar reportbox";
   gap: 10px;
 }
 
@@ -127,9 +127,9 @@ export default {
   color: #000;
   grid-area: sidebar;
   border-radius: 0 0 20px 20px;
-  overflow: scroll;
+  overflow: auto;
   overflow-x: hidden;
-  height: 450px;
+  /* height: 450px; */
 }
 #mapbox {
   grid-area: mapbox;
