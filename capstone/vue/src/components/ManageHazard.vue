@@ -1,7 +1,7 @@
 <template>
   <div class="manage-hazard-container">
     <div class="update-hazard-form-container">
-      <h1 class="update-report-title-text">Update Hazard</h1>
+      <h1 class="update-report-title-text">UPDATE HAZARD</h1>
       <form class="new-report-form" v-on:submit.prevent="saveNewReport">
         <div class="form-dropdown-options">
           <label for="verified">Verified</label>
@@ -67,7 +67,7 @@
           name="inspectedTimestampTime"
           v-model="updatedHazard.inspectedDT.fullTime"
         />
-
+<BR />
         <label for="scheduled-repair-timestamp">Scheduled Repair Time</label>
         <input
           type="date"
@@ -81,7 +81,7 @@
           name="scheduledRepairTimestampTime"
           v-model="updatedHazard.scheduledRepairDT.fullTime"
         />
-
+<BR />
         <label for="repaired-timestamp">Repaired Time</label>
         <input
           type="date"
@@ -95,7 +95,7 @@
           name="repairedTimestampTime"
           v-model="updatedHazard.repairedDT.fullTime"
         />
-
+<BR />
         <input
           type="Button"
           value="Update Report"
@@ -103,19 +103,20 @@
         />
 
         <!-- Show delete hazard if user-->
-        <div
+        
+      </form>
+    </div>
+    <div
           v-if="this.$store.state.user.authorities[0].name == 'ROLE_ADMIN'"
           class="delete-hazard-container"
         >
           <!-- Currently passes in propHazardId, hazard of current page -->
           <form v-on:submit="deleteHazard(propHazard.hazardId)">
-            <label for="delete-hazard">Delete Hazard</label>
-            <input v-model="hazardIdToDelete" id="delete-hazard" type="text" />
+            <label for="delete-hazard"><h1>DELETE HAZARD</h1></label>
+            <!-- <input v-model="hazardIdToDelete" id="delete-hazard" type="text" /> -->
             <input type="submit" value="Delete Current Hazard" />
           </form>
         </div>
-      </form>
-    </div>
   </div>
 </template>
 
@@ -229,9 +230,17 @@ export default {
 </script>
 
 <style>
+
+input {
+  width: 150px;
+}
 .manage-hazard-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-AROUND;
+  background-color: #ccc;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 10px;
 }
 </style>
 

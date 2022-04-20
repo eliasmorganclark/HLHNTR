@@ -47,6 +47,7 @@
             id="houser-number"
             type="text"
           />
+          <Br />
           <label for="street-name">Street Name</label>
           <input
             v-model.trim="hazard.address.streetName"
@@ -73,7 +74,8 @@
             <option value="BLVD">BLVD</option> -->
           </select>
         </div>
-        <div class="city-info">
+        
+          <br />
           <label for="city">City</label>
           <input v-model.trim="hazard.address.city" id="city" type="text" />
           <label for="state">State</label>
@@ -136,9 +138,9 @@
           </select>
           <label for="zip-code">Zip Code</label>
           <input v-model.trim="hazard.address.zip" id="zip-code" type="text" />
-        </div>
+       
         <div class="picture-submit-clear">
-          <div>
+          <div id = "center-this">
             <label for="file">Upload a Picture</label>
             <input
               type="file"
@@ -147,6 +149,7 @@
               accept="image/jpeg"
             />
           </div>
+          <div id="center-this">
           <input class="submitty" type="submit" value="Submit Report" />
           <input
             class="submitty"
@@ -154,6 +157,7 @@
             v-on:click.prevent="clearForm"
             value="Clear Form"
           />
+          </div>
         </div>
       </form>
     </div>
@@ -370,7 +374,7 @@ h2 {
     "title"
     "picture-submit-clear   ";
   align-items: center;
-  /* justify-content: center; */
+  justify-content: center;
   /* justify-items: center; */
 
   margin: 10px;
@@ -453,5 +457,9 @@ a {
   margin: 20px;
   width: 200px;
   border-radius: 10px;
+}
+
+#center-this {
+  text-align: center;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="dataLoaded">
+  <div v-if="dataLoaded" id="PLEASE">
     <hazard-details v-if="dataLoaded" v-bind:hazard="currentHazard" />
     <manage-hazard
       v-if="this.$store.state.user.authorities[0].name == 'ROLE_ADMIN'"
@@ -35,4 +35,6 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+
+  </style>

@@ -251,7 +251,7 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
 
 // hazardType: "", // streetType: "", // hazard: { // verified: false, //
 address: { // houseNumber: "", // streetName: "", // city: "", // state: "", //
