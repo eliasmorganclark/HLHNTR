@@ -23,7 +23,7 @@
     <h2 class='timeFirstReported'>Repair completed: {{makeDatePretty(hazard.repairedTimestamp)}}</h2>
   </div>
   <div class="details-image-container" v-if="imageExists">
-    <img :src="imgSrc" />
+    <img style="height:auto; width:auto" :src="imgSrc" />
   </div>
 </div>
 </template>
