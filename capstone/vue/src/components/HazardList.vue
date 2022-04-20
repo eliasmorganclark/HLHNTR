@@ -1,36 +1,40 @@
 <template>
   <div class="hazard-list-container">
     <!-- Control Buttons -->
-    <span class="uhshoot"><h2><em>CURRENT HAZARDS</em></h2>
-    <div id="filterfunction">
-    <label for="hazard-filter" class="filterlabel">FILTER : </label>
-    <select
-      v-model="filter.hazardType"
-      name="hazard-filter"
-      id="hazard-filter"
-      @change="$emit('map-hazards', filteredHazards)"
-      class="filterbutton"
+    <span class="uhshoot"
+      ><h2><em>CURRENT HAZARDS</em></h2>
+      <div id="filterfunction">
+        <label for="hazard-filter" class="filterlabel">FILTER : </label>
+        <select
+          v-model="filter.hazardType"
+          name="hazard-filter"
+          id="hazard-filter"
+          @change="$emit('map-hazards', filteredHazards)"
+          class="filterbutton"
+        >
+          <option value="">All</option>
+          <option value="POTHOLE">Potholes</option>
+          <option value="DRAIN">Drains</option>
+        </select>
+      </div></span
     >
-      <option value="">All</option>
-      <option value="POTHOLE">Potholes</option>
-      <option value="DRAIN">Drains</option>
-    </select>
-    </div></span>
     <ul class="listcontainer">
-      
-    <li
-      class="hazard-list"
-      v-for="hazard in filteredHazards"
-      :key="hazard.hazardId"
-      @mouseover="snapMap(hazard.address.coordinates)"
-      
-    >
-    <router-link v-bind:to=" {name : 'details' , params: { hazardId : hazard.hazardId }}" >
-      <strong>{{ hazard.hazardType }}</strong> - {{ hazard.address.houseNumber }} {{hazard.address.streetName }},<em> {{hazard.address.city}} , 
-      {{hazard.address.state}}</em> - {{hazard.address.zip}}
-      </router-link>
-    </li>
-    
+      <li
+        class="hazard-list"
+        v-for="hazard in filteredHazards"
+        :key="hazard.hazardId"
+        @mouseover="snapMap(hazard.address.coordinates)"
+      >
+        <router-link
+          v-bind:to="{ name: 'details', params: { hazardId: hazard.hazardId } }"
+        >
+          <strong>{{ hazard.hazardType }}</strong> -
+          {{ hazard.address.houseNumber }} {{ hazard.address.streetName }},<em>
+            {{ hazard.address.city }} , {{ hazard.address.state }}</em
+          >
+          - {{ hazard.address.zip }}
+        </router-link>
+      </li>
     </ul>
   </div>
 </template>
@@ -40,15 +44,15 @@ import dataService from "@/services/DataService.js";
 
 export default {
   name: "hazard-list",
-  emits: ["map-hazards","map-snap"],
-  props:{
-    refreshData:Number
+  emits: ["map-hazards", "map-snap"],
+  props: {
+    refreshData: Number,
   },
-  watch:{
+  watch: {
     // eslint-disable-next-line no-unused-vars
-    refreshData(oldNumber, newNumber){
+    refreshData(oldNumber, newNumber) {
       this.displayAllHazards();
-    }
+    },
   },
   data() {
     return {
@@ -203,30 +207,29 @@ export default {
         .getAllHazards()
         .then((response) => (this.hazards = response.data));
     },
-    snapMap(latlon){
+    snapMap(latlon) {
       console.log(latlon);
-      this.$emit('map-snap', latlon);
-    }
+      this.$emit("map-snap", latlon);
+    },
   },
 };
 </script>
 
 <style scoped>
-
 .listcontainer {
   background-color: #ccc;
   /* padding: 10px; */
   border-radius: 10px;
   padding: 30px;
   margin: 10px;
+  overflow: scroll;
 }
 .uhshoot {
-  display:flex;
+  display: flex;
   justify-content: space-between;
 }
 
-li > a { 
- 
+li > a {
   color: #444;
   text-decoration: none;
 }
@@ -234,12 +237,12 @@ li > a {
 li > a:hover {
   color: fuchsia;
 }
- H2 {
-   color:black;
+h2 {
+  color: black;
   text-shadow: 2px 2px fuchsia;
   font-size: 25px;
   margin: 5px 0;
- }
+}
 
 #filterfunction {
   margin: 15px 0 0 0;
@@ -249,14 +252,13 @@ li > a:hover {
   font-weight: 400px;
   color: #333;
 }
- .filterbutton {
-   margin: 1px;
-   padding: 1px;
-   box-shadow: none;
-   color: fuchsia;
-   font-weight: bold;
-   border: none;
-   border-radius: 4px;
- }
-
+.filterbutton {
+  margin: 1px;
+  padding: 1px;
+  box-shadow: none;
+  color: fuchsia;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+}
 </style>
