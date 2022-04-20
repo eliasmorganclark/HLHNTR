@@ -51,6 +51,10 @@ export default {
 
   deleteHazard(hazardId){
     return http.delete(`/delete/${hazardId}`)
+  },
+
+  getCities(){
+    return http.get(`/hazard/cities`);
   }
 
 };
