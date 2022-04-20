@@ -2,7 +2,7 @@
   <div>
     <GmapMap
       :center="initialMapCenter"
-      :zoom="10"
+      :zoom="mapZoom"
       :options="{
         zoomControl: true,
         mapTypeControl: true,
@@ -23,15 +23,17 @@
         :position="markerInfoWindowPos"
         :opened="markerInfoWinOpen"
         @closeclick="markerInfoWinOpen = false"
-      />
+      
 
-      <!-- :icon="hazard.iconPath" -->
+     
+      />
       <GmapMarker
         v-for="hazard in hazardsToDisplay"
         :key="hazard.hazardId"
         :position="hazard.address.coordinates"
         :clickable="true"
         @click="showMarkerInfoWindow(hazard, hazard.hazardId)"
+        :icon="{ url: require('../img/mapicontiny.png')} "
       />
       <div class = "drop-pin-container" v-if="showDropPin">
         <GmapMarker
@@ -59,6 +61,7 @@ export default {
   data() {
     return {
       hazards: [],
+      mapZoom: 10,
       initialMapCenter: { lat: 41.4993, lng: -81.6944 },
       currentMapCenter: { lat: 0, lng: 0},
       droppedPinLoc: {lat: 0, lng: 0},
@@ -78,7 +81,18 @@ export default {
   },
   props: {
     filteredHazards: Array,
-    // dropPin: Boolean
+    snapLatLon: {}
+  },
+  watch:{
+    snapLatLon(old, newLoc){
+      console.log({lat: newLoc.lat, lng: newLoc.lng})
+      this.updateCenter(newLoc,true);
+      this.mapZoom = 12;
+    },
+    currentMapCenter(old, newCenter){
+      console.log('old:' + old.lat);
+      console.log('new:' + newCenter.lat);
+    }
   },
   computed: {
     hazardsToDisplay() {
@@ -87,7 +101,7 @@ export default {
       } else {
         return this.filteredHazards;
       }
-    },
+    }
   },
   created(){
     window.getAddressAtPin=this.getAddressAtPin;
@@ -112,11 +126,19 @@ export default {
         };
       });
     },
-    updateCenter(latLng) {
+    updateCenter(latLng,prop = false) {
       if(!this.showDropPin){
-        this.currentMapCenter = {
-            lat: latLng.lat(),
-            lng: latLng.lng()
+        if(prop){
+          this.initialMapCenter = {
+              lat: latLng.lat,
+              lng: latLng.lng
+          }
+        }
+        else{
+          this.currentMapCenter = {
+              lat: latLng.lat(),
+              lng: latLng.lng()
+          }
         }
       }
     },

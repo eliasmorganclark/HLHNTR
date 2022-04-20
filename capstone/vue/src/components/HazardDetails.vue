@@ -83,6 +83,10 @@ export default {
 
 <style>
   .hazard-details-container{
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #ccc;
     display: flex;
     justify-content: space-evenly;
   }

@@ -108,6 +108,12 @@ public class HoleHunterController {
         return reportDao.updatePothole(pothole);
     }
 
+    //Delete pothole
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(path = "/delete/{hazardId}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable Long hazardId) {
+        reportDao.delete(hazardId);
+    }
 
 
     //TEST ENDPOINTS

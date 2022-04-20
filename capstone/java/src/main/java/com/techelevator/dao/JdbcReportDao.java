@@ -310,6 +310,15 @@ public class JdbcReportDao implements ReportDao {
         }
         return null;
     }
+
+    @Override
+    public void delete(Long hazardId) {
+    String sql = "DELETE FROM report WHERE pothole_id = ?;\n" +
+            "DELETE FROM pothole WHERE hazard_id = ?;\n" +
+            "DELETE FROM report WHERE drain_id = ?;\n" +
+            "DELETE FROM drain WHERE hazard_id = ?;";
+    jdbcTemplate.update(sql, hazardId, hazardId, hazardId, hazardId);
+    }
 //
 //    @Override
 //    public long getUserIdByUsername(String username) {
@@ -394,6 +403,7 @@ public class JdbcReportDao implements ReportDao {
         address.setCoordinates(coordinates);
         return address;
     }
+
 
 //    Java: LocalDateTime
 //    JDBC: java.sql.Timestamp
