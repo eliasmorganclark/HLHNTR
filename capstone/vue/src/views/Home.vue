@@ -16,6 +16,7 @@
       <hazard-list
         v-bind:refreshData="emittedNewHazardId"
         @map-hazards="updateMap"
+        @map-snap="snapMap"
       ></hazard-list>
       <div id="instructions">
         <p>To report a hazard, use the map to the right and double-click to select the location,
@@ -26,6 +27,7 @@
       <Map
         v-bind:filteredHazards="mapHazards"
         @drop-pin-hazard="emitHazardFromMap"
+        v-bind:snapLatLon="snapLatlon"
       />
     </div>
 
@@ -51,6 +53,7 @@ export default {
       mapHazards: null,
       emittedMapHazard: null,
       emittedNewHazardId: null,
+      snapLatlon:null
     };
   },
   methods: {
@@ -63,6 +66,10 @@ export default {
     refreshPlease(hazardId) {
       this.emittedNewHazardId = hazardId;
     },
+    snapMap(latlon){
+        console.log('snap');
+        this.snapLatlon = latlon;
+    }
   },
 };
 </script>

@@ -22,8 +22,10 @@
       class="hazard-list"
       v-for="hazard in filteredHazards"
       :key="hazard.hazardId"
+      @mouseover="snapMap(hazard.address.coordinates)"
+      
     >
-    <router-link v-bind:to=" {name : 'details' , params: { hazardId : hazard.hazardId }}">
+    <router-link v-bind:to=" {name : 'details' , params: { hazardId : hazard.hazardId }}" >
       <strong>{{ hazard.hazardType }}</strong> - {{ hazard.address.houseNumber }} {{hazard.address.streetName }},<em> {{hazard.address.city}} , 
       {{hazard.address.state}}</em> - {{hazard.address.zip}}
       </router-link>
@@ -38,7 +40,7 @@ import dataService from "@/services/DataService.js";
 
 export default {
   name: "hazard-list",
-  emits: ["map-hazards"],
+  emits: ["map-hazards","map-snap"],
   props:{
     refreshData:Number
   },
@@ -201,6 +203,10 @@ export default {
         .getAllHazards()
         .then((response) => (this.hazards = response.data));
     },
+    snapMap(latlon){
+      console.log(latlon);
+      this.$emit('map-snap', latlon);
+    }
   },
 };
 </script>
