@@ -19,9 +19,12 @@
         @map-snap="snapMap"
       ></hazard-list>
       <div id="instructions">
-        <p>To report a hazard, use the map to the right and double-click to select the location,
-         <strong>OR</strong>, if you know the address - use our form provided below! <br /> </p>
-         </div>
+        <p>
+          To report a hazard, use the map to the right and double-click to
+          select the location, <strong>OR</strong>, if you know the address -
+          use our form provided below! <br />
+        </p>
+      </div>
     </div>
     <div id="mapbox">
       <Map
@@ -31,7 +34,7 @@
       />
     </div>
 
-    <div class="report-hazard-container">
+    <div class="report-hazard-container" ref="report">
       <new-report
         v-bind:propHazard="emittedMapHazard"
         @new-hazard-id="refreshPlease"
@@ -53,7 +56,7 @@ export default {
       mapHazards: null,
       emittedMapHazard: null,
       emittedNewHazardId: null,
-      snapLatlon:null
+      snapLatlon: null,
     };
   },
   methods: {
@@ -61,15 +64,16 @@ export default {
       this.mapHazards = hazards;
     },
     emitHazardFromMap(hazard) {
+      this.$refs["report"].scrollIntoView();
       this.emittedMapHazard = hazard;
     },
     refreshPlease(hazardId) {
       this.emittedNewHazardId = hazardId;
     },
-    snapMap(latlon){
-        console.log('snap');
-        this.snapLatlon = latlon;
-    }
+    snapMap(latlon) {
+      console.log("snap");
+      this.snapLatlon = latlon;
+    },
   },
 };
 </script>
@@ -97,7 +101,7 @@ export default {
   color: #333;
   font-size: 13px;
   padding: 5px 20px;
-  margin:  10px;
+  margin: 10px;
   font-weight: 400;
 }
 
