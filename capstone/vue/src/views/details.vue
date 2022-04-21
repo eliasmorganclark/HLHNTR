@@ -2,7 +2,7 @@
   <div v-if="dataLoaded" id="PLEASE">
     <hazard-details v-if="dataLoaded" v-bind:hazard="currentHazard" />
     <manage-hazard
-      v-if="this.$store.state.user.authorities[0].name == 'ROLE_ADMIN'"
+      v-if="isAdmin"
       v-bind:propHazard="currentHazard"
     />
   </div>
@@ -21,6 +21,14 @@ export default {
       currentHazard: {},
     };
   },
+  computed:{
+    isAdmin(){
+      if(this.$store.state.user.authorities != null){
+        return this.$store.state.user.authorities[0].name == 'ROLE_ADMIN'
+      }
+      return false;
+    }
+  },
   mounted() {
     this.loadData();
   },
@@ -29,7 +37,7 @@ export default {
       dataService.getHazard(this.$route.params.hazardId).then((response) => {
         this.currentHazard = response.data;
         this.dataLoaded = true;
-      });
+      }).catch((e) => {console.log(e)});
     },
   },
 };
