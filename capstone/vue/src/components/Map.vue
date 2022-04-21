@@ -81,14 +81,14 @@ export default {
   },
   watch: {
     snapLatLon(old, newLoc) {
-      console.log({ lat: newLoc.lat, lng: newLoc.lng });
+      // console.log({ lat: newLoc.lat, lng: newLoc.lng });
       this.updateCenter(newLoc, true);
       this.mapZoom = 12;
     },
-    currentMapCenter(old, newCenter) {
-      console.log("old:" + old.lat);
-      console.log("new:" + newCenter.lat);
-    },
+    // currentMapCenter(old, newCenter) {
+    //   console.log("old:" + old.lat);
+    //   console.log("new:" + newCenter.lat);
+    // },
   },
   computed: {
     hazardsToDisplay() {
@@ -141,12 +141,12 @@ export default {
       this.markerInfoWindowPos = hazard.address.coordinates;
       let imgSrc = "";
       try {
-        console.log("@/img/uploads/" + id + ".jpeg");
+        // console.log("@/img/uploads/" + id + ".jpeg");
         imgSrc = require("@/img/uploads/" + id + ".jpeg");
-        console.log("here");
+        // console.log("here");
         // do something
       } catch (e) {
-        console.log("no image for this hazard");
+        // console.log("no image for this hazard");
       }
       const infoWindowHazardText =
         hazard.hazardType +

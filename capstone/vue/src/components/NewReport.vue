@@ -230,7 +230,8 @@ export default {
       const config = {
         headers: { Authorization: `Bearer ${this.$store.state.token}` },
       };
-      if (this.$store.state.user) {
+      if (this.$store.state.user.id != null) {
+        console.log('setting user id');
         this.hazard.reportingUser = this.$store.state.user.id;
       }
       reportingService
@@ -243,15 +244,10 @@ export default {
                 response.data.pothole.hazardId +
                 " successfully entered. Thanks for reporting a pothole."
             );
-            this.submitFile();
-            this.emitNewHazard(response.data.pothole.hazardId);
-            if (!this.$store.user) {
-              this.$router.push({ name: "home" });
-            } else {
-              alert(
-                "Ask anonymous user to register or allow to report another pothole"
-              );
+            if(this.image!=null){
+              this.submitFile();
             }
+            this.emitNewHazard(response.data.pothole.hazardId);
             this.clearForm();
             this.isLoading = false;
           }
@@ -280,15 +276,10 @@ export default {
                 response.data.drain.hazardId +
                 " successfully entered. Thanks for reporting a drain."
             );
-            this.submitFile();
-            this.emitNewHazard(response.data.pothole.hazardId);
-            if (!this.$store.user) {
-              this.$router.push({ name: "home" });
-            } else {
-              alert(
-                "Ask anonymous user to register or allow to report another drain"
-              );
+            if(this.image!=null){
+              this.submitFile();
             }
+            this.emitNewHazard(response.data.pothole.hazardId);
             this.clearForm();
             this.isLoading = false;
           }
@@ -303,11 +294,11 @@ export default {
       console.log(this.image);
     },
     submitFile() {
-      if (this.image) {
+      if (this.image!=null) {
         const formData = new FormData();
         formData.append("file", this.image);
         formData.append("hazardId", this.imageHazardId);
-        console.log(this.hazardId);
+        console.log('submitting image:' + this.hazardId);
         fileUploadService
           .uploadPhoto(formData)
           .then((response) => {

@@ -223,7 +223,7 @@ export default {
         .then((response) => (this.filterCities = response.data));
     },
     snapMap(latlon) {
-      console.log(latlon);
+      // console.log(latlon);
       this.$emit("map-snap", latlon);
     },
   },

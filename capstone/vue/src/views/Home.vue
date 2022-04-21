@@ -71,7 +71,6 @@ export default {
       this.emittedNewHazardId = hazardId;
     },
     snapMap(latlon) {
-      console.log("snap");
       this.snapLatlon = latlon;
     },
   },
