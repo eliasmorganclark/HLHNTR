@@ -40,6 +40,7 @@
           :position="droppedPinLoc"
           :clickable="true"
           :draggable="true"
+          :icon="{ url: require('../img/mapfuschiaicon.png')} "
           @mouseover="updateDropPinLocation"
           @dragstart="dropPinMarkerInfoWindow(false)"
           @dragend="updateDropPinLocation"
