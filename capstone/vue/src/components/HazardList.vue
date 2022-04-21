@@ -34,7 +34,7 @@
         class="hazard-list"
         v-for="hazard in filteredHazards"
         :key="hazard.hazardId"
-        @mouseover="snapMap(hazard.address.coordinates)"
+        @mouseover="snapMap(hazard)"
       >
         <router-link
           v-bind:to="{ name: 'details', params: { hazardId: hazard.hazardId } }"
@@ -222,9 +222,10 @@ export default {
         .getCities()
         .then((response) => (this.filterCities = response.data));
     },
-    snapMap(latlon) {
-      // console.log(latlon);
-      this.$emit("map-snap", latlon);
+    snapMap(hazard) {
+      console.log(hazard.address.city + " coords " + hazard.address.coordinates.lat);
+
+      this.$emit("map-snap", hazard.address.coordinates);
     },
   },
 };

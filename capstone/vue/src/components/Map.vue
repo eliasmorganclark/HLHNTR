@@ -58,7 +58,7 @@ export default {
     return {
       hazards: [],
       mapZoom: 10,
-      initialMapCenter: { lat: 41.4993, lng: -81.6944 },
+      initialMapCenter: { lat: 41.36907, lng: -81.643616 }, 
       currentMapCenter: { lat: 0, lng: 0 },
       droppedPinLoc: { lat: 0, lng: 0 },
       showDropPin: false,
@@ -80,8 +80,9 @@ export default {
     snapLatLon: {},
   },
   watch: {
-    snapLatLon(old, newLoc) {
+    snapLatLon(newLoc, old) {
       // console.log({ lat: newLoc.lat, lng: newLoc.lng });
+      old;
       this.updateCenter(newLoc, true);
       this.mapZoom = 12;
     },

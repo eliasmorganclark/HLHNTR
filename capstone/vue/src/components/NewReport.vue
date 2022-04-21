@@ -155,6 +155,7 @@
               class="submitty"
               type="submit"
               value="Submit Report"
+              ref="submitButt"
             />
             <input
               class="submitty"
@@ -211,6 +212,7 @@ export default {
   },
   methods: {
     saveNewReport() {
+      this.$refs.submitButt.value = "Submitting...";
       switch (this.hazardType) {
         case "":
           alert("Hazard Type required in dropdown menu");
@@ -250,11 +252,13 @@ export default {
             this.emitNewHazard(response.data.pothole.hazardId);
             this.clearForm();
             this.isLoading = false;
+            this.$refs.submitButt.value = "Submit Report";
           }
         })
         .catch(() => {
           alert("Invalid address, please try again.");
           this.isLoading = false;
+          this.$refs.submitButt.value = "Submit Report";
         });
     },
     saveNewDrainReport() {
@@ -270,23 +274,28 @@ export default {
         .addNewDrainReport(this.hazard, config)
         .then((response) => {
           if (response.status == 201) {
-            this.imageHazardId = response.data.pothole.hazardId;
+            this.imageHazardId = response.data.drain.hazardId;
             alert(
               "Drain number: " +
                 response.data.drain.hazardId +
                 " successfully entered. Thanks for reporting a drain."
             );
             if(this.image!=null){
+              console.log('submitting file:');
+              console.log(this.image);
               this.submitFile();
             }
-            this.emitNewHazard(response.data.pothole.hazardId);
+            this.emitNewHazard(response.data.drain.hazardId);
             this.clearForm();
             this.isLoading = false;
+            this.$refs.submitButt.value = "Submit Report";
           }
         })
-        .catch(() => {
+        .catch((e) => {
+          console.log(e);
           alert("Invalid address, please try again.");
           this.isLoading = false;
+          this.$refs.submitButt.value = "Submit Report";
         });
     },
     setImageFile() {
