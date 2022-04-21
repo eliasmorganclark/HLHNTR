@@ -5,7 +5,7 @@ import Login from "../views/Login.vue";
 import Logout from "../views/Logout.vue";
 import Register from "../views/Register.vue";
 import store from "../store/index";
-import NewReportView from "@/views/NewReportView.vue";
+// import NewReportView from "@/views/NewReportView.vue";
 import details from "@/views/details.vue";
 import ImageUpload from "@/components/ImageUpload.vue";
 Vue.use(Router);
@@ -55,14 +55,14 @@ const router = new Router({
         requiresAuth: false,
       },
     },
-    {
-      path: "/newreport",
-      name: "NewReportView",
-      component: NewReportView,
-      meta: {
-        requiresAuth: false,
-      },
-    },
+    // {
+    //   path: "/newreport",
+    //   name: "NewReportView",
+    //   component: NewReportView,
+    //   meta: {
+    //     requiresAuth: false,
+    //   },
+    // },
     {
       path: "/details/:hazardId",
       name: "details",
