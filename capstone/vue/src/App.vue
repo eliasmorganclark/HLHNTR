@@ -66,10 +66,9 @@ export default {
   flex-direction: column;
 }
 
-#body {
-  /* height: 1fr; */
-  /* flex-grow: 5; */
-}
+/* #body {
+
+} */
 
 #nav {
   font-family: "Kanit", sans-serif;
