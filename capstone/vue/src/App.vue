@@ -12,7 +12,7 @@
         <span class="user-name" v-if="$store.state.token != ''">
           HELLO, {{ $store.state.user.username }} !
         </span>
-        <a href="/newreport">Report Hazard </a> 
+        <a href="#bottom">Report Hazard </a>
 
         <router-link
           v-bind:to="{ name: 'login' }"
